@@ -1,15 +1,16 @@
 version: "3"
 services:
-  nginx:
+  tw-nginx:
     build: .docker/nginx
-    container_name: nginx
+    restart: unless-stopped
+    container_name: tw-nginx
     ports:
       - 8081:80
     networks:
-      # - web #- Used with Traefik
+      - web #- Used with Traefik
       - tripwire
     labels:
-      - "traefik.frontend.rule=Host:example.com" # Used with Traefik to set your host
+      - "traefik.frontend.rule=tripwire.phoenix-connection.space" # Used with Traefik to set your host
       - "traefik.docker.network=web"
       - "traefik.port=80"
       - "traefik.enable=true" # Traefik is not enabled on all services by default
@@ -18,17 +19,21 @@ services:
 
   php-fpm:
     build: .docker/php-fpm
+    restart: unless-stopped
     container_name: php-fpm
     networks:
       - tripwire
+
     volumes:
       - "./:/opt/app"
+
 
   mysql:
     # image: percona
     build:
       context: .
       dockerfile: .docker/mysql/Dockerfile
+    restart: unless-stopped
     networks:
       - tripwire
     volumes:
@@ -41,13 +46,14 @@ services:
     entrypoint: sh -c "/tmp/init.sh && echo 'starting mysql...' && /docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
 
   # Development only - For database administration
-  adminer:
-    container_name: adminer
-    networks:
-      - tripwire
-    image: adminer
-    ports:
-      - 9000:8080
+  # tw-adminer:
+   # container_name: tw-adminer
+   # networks:
+     # - tripwire
+     # - web
+   # image: adminer
+   # ports:
+     # - 9000:8080
 
 volumes:
   mysql-data:
@@ -55,5 +61,5 @@ volumes:
 networks:
   tripwire:
     external: true # Should not be exposed to the world
-  # web:
-  #   external: true # Used with Traefik to expose services to the web with SSL.
+  web:
+    external: true # Used with Traefik to expose services to the web with SSL.
