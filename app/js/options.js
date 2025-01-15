@@ -11,7 +11,7 @@ var options = new function() {
 	this.grid = {};
 	this.tracking = {active: "new", characterOptions: {}};
 	this.masks = {active: init.corporationID + ".2"};
-	this.chain = {gridlines: true, aura: true, lineWeight: 1.0, scrollWithoutCtrl: false, active: 0, tabs: [], "node-reference": "type", zoom: 1.0, sigNameLocation: 'name', routingLimit: 15, routeSecurity: 'shortest', routeIgnore: { enabled: false, systems: [ 'Tama', 'Rancer' ] }, renderer: 'radial', nodeSpacing: { x: 1.0, y: 1.0 } };
+	this.chain = {gridlines: true, aura: true, lineWeight: 1.0, scrollWithoutCtrl: false, active: 0, tabs: [], "node-reference": "id", zoom: 1.0, sigNameLocation: 'name', routingLimit: 15, routeSecurity: 'shortest', routeIgnore: { enabled: false, systems: [ 'Tama', 'Rancer' ] }, renderer: 'radial', nodeSpacing: { x: 1.0, y: 1.0 } };
 	this.signatures = {editType: "unknown", copySeparator: ",", pasteLife: 72, alignment: {sigID: "centerAlign", sigType: "centerAlign", sigAge: "centerAlign", leadsTo: "centerAlign", sigLife: "centerAlign", sigMass: "centerAlign"}};
 	this.buttons = {follow: false, chainWidget: {viewing: false, favorites: false}, signaturesWidget: {autoMapper: false}};
 

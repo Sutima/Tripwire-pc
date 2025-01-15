@@ -10,7 +10,7 @@ define('APP_NAME', 'Tripwire');
 define('CDN_DOMAIN', 'localhost');
 
 // EVE SDE table name
-define('EVE_DUMP', 'eve_carnyx');
+define('EVE_DUMP', 'eve_dump');
 
 // Enable Tripwire API?
 define('TRIPWIRE_API', false);
@@ -21,7 +21,7 @@ define('USER_AGENT', 'Tripwire Server - adminEmail@example.com');
 // EVE SSO info
 define('EVE_SSO_CLIENT', 'clientID');
 define('EVE_SSO_SECRET', 'secret');
-define('EVE_SSO_REDIRECT', 'http://localhost/index.php?mode=sso');
+define('EVE_SSO_REDIRECT', 'https://localhost/index.php?mode=sso');
 
 // As of 2022-07-12, searching via the ESI API uses an endpoint that requires an
 // authentication token. In order to use the new search functionality, you will
