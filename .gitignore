@@ -1,8 +1,0 @@
-config.php
-db.inc.php
-.idea
-node_modules
-tweetie/config.php
-analytics.inc.php
-docker-compose.yml
-donation_panel.inc
