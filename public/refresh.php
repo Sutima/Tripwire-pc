@@ -126,9 +126,10 @@ if (isset($_SESSION['oauth']) && isset($_SESSION['oauth']['tokenExpire'])) {
 */
 if (isset($_REQUEST['tracking'])) {
 	foreach ($_REQUEST['tracking'] as $track) {
+		if(!isset($track['systemID'])) { continue; }	// can't track if we didn't get location yet
+		
 		$track['characterID'] 		= isset($track['characterID']) ? $track['characterID'] : null;
 		$track['characterName'] 	= isset($track['characterName']) ? $track['characterName'] : null;
-		$track['systemID'] 			= isset($track['systemID']) ? $track['systemID'] : null;
 		$track['systemName'] 		= isset($track['systemName']) ? $track['systemName'] : null;
 		$track['stationID'] 		= isset($track['stationID']) && !empty($track['stationID']) ? $track['stationID'] : null;
 		$track['stationName'] 		= isset($track['stationName']) && !empty($track['stationName']) ? $track['stationName'] : null;

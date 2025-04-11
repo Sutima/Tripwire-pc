@@ -16,6 +16,11 @@ const ChainMapRendererOrgchartTop = function(owner) {
 		node.rad_centre = rad_centre;
 	}
 	
+	this.calcMinArc = function(node) {
+		const arcFromSize = 0.2 + node.requestedSize.width / (1.0 * GRID_SIZE.x * options.chain.nodeSpacing.x); // 0.2 to leave a gap between adjacent nodes
+		return Math.max(arcFromSize, 1);
+	}
+	
 	this.drawConnection = function(ctx, node) {
 		const endpoint_y = node.parent.position.y; // + 10 * (3 - Math.abs(node.rad_centre - node.parent.rad_centre));
 		const ave_y = 0.5 * (node.position.y + endpoint_y);

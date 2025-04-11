@@ -77,12 +77,14 @@ function openDeleteDialog(vm, successFunction) {
 				document.getElementById('deleteSigText').innerText = sigs.length == 1 ? 'The ' + sigs[0].type + ' signature ' + formatSignatureID(sigs[0].signatureID) 
 					: 'The signatures ' + sigs.map(s => formatSignatureID(s.signatureID)).join(', ');
 				document.getElementById('deleteSigSystem').innerHTML = systemRendering.renderSystem(systemAnalysis.analyse(sigs[0].systemID));
+				
+				$("#dialog-deleteSig").parent().find(".ui-dialog-buttonset button:eq(0)").focus();
 			},
 			close: function() {
 				$("#sigTable tr.selected").removeClass("selected");
 				//$("#sigTable .sigDelete").removeClass("invisible");
 			}
-		});
+		});		
 	} else if (!$("#dialog-deleteSig").dialog("isOpen")) {
 		$("#dialog-deleteSig").dialog("open");
 	}

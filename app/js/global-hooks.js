@@ -671,7 +671,6 @@ $("#signaturesWidget #sigTable thead").contextmenu({
 
 // Chain Map Context Menu
 $("#chainParent").contextmenu({
-	appendTo: "#chainParent",
 	delegate: ".nodeSystem a",
 	position: function(event, ui) {
         return {my: "left top-1", at: "right top", of: ui.target};
@@ -692,6 +691,12 @@ $("#chainParent").contextmenu({
 				break;
 			case "addWay":
 				tripwire.esi.setDestination(id, options.tracking.active, false);
+				break;
+			case "setDestAll":
+			case "addWayAll":
+				for(const characterId in tripwire.esi.characters) {
+					tripwire.esi.setDestination(id, characterId, ui.cmd == "setDestAll");
+				}
 				break;
 			case "showMap":
 				// CCPEVE.showMap(id);
@@ -715,6 +720,10 @@ $("#chainParent").contextmenu({
 				var toggle = options.chain.tabs[options.chain.active] ? ($.inArray(id, options.chain.tabs[options.chain.active].collapsed) == -1 ? true : false) : true;
 				chain.renderer.collapse(id, toggle);
 				break;
+			case "copySystemName": 
+				const systemName = tripwire.systems[id].name;
+				navigator.clipboard.writeText(systemName); 
+				break;
 			case "makeTab":
 				const existingTabIndex = Object.index(options.chain.tabs, 'systemID', '' + id, false);
 				if(undefined !== existingTabIndex) {
@@ -733,15 +742,20 @@ $("#chainParent").contextmenu({
 	beforeOpen: function(e, ui) {
 		var wormholeID = $(ui.target[0]).closest("[data-nodeid]").data("sigid") || null;
 		var systemID = $(ui.target[0]).closest("[data-nodeid]").data("nodeid");
+		const systemName = tripwire.systems[systemID].name;
 
 		// Add check for k-space
 		if (tripwire.systems[systemID].class || !tripwire.esi.characters[options.tracking.active]) {
 			$(this).contextmenu("enableEntry", "setDest", false);
 			$(this).contextmenu("enableEntry", "addWay", false);
+			$(this).contextmenu("enableEntry", "setDestAll", false);
+			$(this).contextmenu("enableEntry", "addWayAll", false);
 			$(this).contextmenu("enableEntry", "showMap", false);
 		} else {
 			$(this).contextmenu("enableEntry", "setDest", true);
 			$(this).contextmenu("enableEntry", "addWay", true);
+			$(this).contextmenu("enableEntry", "setDestAll", true);
+			$(this).contextmenu("enableEntry", "addWayAll", true);
 			$(this).contextmenu("enableEntry", "showMap", false);
 		}
 		
@@ -754,12 +768,15 @@ $("#chainParent").contextmenu({
 		
 		// Add check for tab validity
 		const existingTab = Object.find(options.chain.tabs, 'systemID', '' + systemID, false);
-		$('#makeTabMenuItem').text(existingTab ? 'View Tab' : 'Make Tab' );
+		$('#makeTabMenuItem').text((existingTab ? 'View Tab' : 'Make Tab') + ' for ' + systemName );
+		$('#copySystemNameMenuItem').text('Copy "' + systemName + '"');
 	},
 	create: function(e, ui) {
 		// Fix some bad CSS from jQuery Position
-		$(this).find(".ui-front").css("width", "10em");
-		$(this).find(".ui-front").css("position", "");
+		const menuElem = document.getElementById('chainMenu');
+		$(menuElem).css("width", "auto");
+		$(menuElem).find(".ui-front").css("width", "auto");
+		$(menuElem).find(".ui-front").css("position", "");
 
 		$.moogle.contextmenu.prototype.setFlare = function(systemID, flare, ui) {
 			var data = {"systemID": systemID, "flare": flare};

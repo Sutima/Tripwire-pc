@@ -1,21 +1,20 @@
-FROM percona:5.7
+FROM debian:bullseye
 
-USER root
-RUN yum update -y && \
-    yum install -y wget bzip2 && \
-    yum clean all
+WORKDIR /seed
 
-COPY ./.docker/mysql/my.cnf /etc/my.cnf
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        wget \
+        bzip2 \
+        curl \
+        mariadb-client \
+        ca-certificates \
+        tar && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY --chown=mysql:mysql ./.docker/mysql/docker-entrypoint.sh /docker-entrypoint.sh
-COPY --chown=mysql:mysql ./.docker/mysql/init.sh /tmp/init.sh
+COPY seed.sh .
+COPY tripwire.sql ./tripwire.sql
 
-RUN mkdir -p /docker-entrypoint-initdb.d/ && \
-    touch /docker-entrypoint-initdb.d/init.sql && \
-    chmod 777 /docker-entrypoint-initdb.d && \
-    chmod 777 /docker-entrypoint-initdb.d/init.sql && \
-    chmod +x /docker-entrypoint.sh && \
-    chmod +x /tmp/init.sh
+RUN chmod +x seed.sh
 
-USER mysql
-
+ENTRYPOINT ["/seed/seed.sh"]

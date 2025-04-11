@@ -112,13 +112,15 @@ var letterToNumbers = function(string) {
     return sum;
 };
 
-/** Find the relative position of one element within the hierarchy tree of another */
+/** Find the relative position of one element within the hierarchy tree of another.
+The client position should be in the coordinate space of the ancestor, i.e. top/left values for a position:absolute overlay */
 function positionRelativeTo(elem, ancestor) {
 	const elemPos = elem.getBoundingClientRect(),
-		ancestorPos = ancestor.getBoundingClientRect();
+		ancestorPos = ancestor.getBoundingClientRect(),
+		ancestorZoom = 1 * (window.getComputedStyle(ancestor).getPropertyValue('zoom') || '1');
 	return { 
-		left: elemPos.left - ancestorPos.left + ancestor.scrollLeft,
-		top: elemPos.top - ancestorPos.top + ancestor.scrollTop
+		left: (elemPos.left - ancestorPos.left + ancestor.scrollLeft) / ancestorZoom,
+		top: (elemPos.top - ancestorPos.top + ancestor.scrollTop) / ancestorZoom
 	};
 }
 

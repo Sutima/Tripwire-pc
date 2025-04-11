@@ -44,6 +44,9 @@ const ChainMapRendererBase = function(owner) {
 	E.g. for a circle, the 3rd ring is 3/4 the size of the 4th so arcFactor(3) should return 3/4.
 	By default, all levels are the same 'size' */
 	this.arcFactor = function(level) { return 1; }
+	
+	/** Calculate the minimum arc for this node, for example taking into account text size */
+	this.calcMinArc = function(node) { return 1; }
 
 	const _this = this;
 	const drawInner = function(map, lines, collapsed) {
@@ -77,6 +80,7 @@ const ChainMapRendererBase = function(owner) {
 			}
 			nodesById[id] = mapNode;
 			mapNode.markup = inNode.f;
+			mapNode.requestedSize = measureNode(mapNode.markup);
 		}
 
 		// Second pass - for each map, find the allocation of arc needed for each node
@@ -86,7 +90,10 @@ const ChainMapRendererBase = function(owner) {
 				for(var ni = 0; ni < map.circles[ci].nodes.length; ni++) {
 					const node = map.circles[ci].nodes[ni];
 					node.minArc *= _this.arcFactor(ci);
-					if(node.minArc < 1 || collapsed.indexOf(node.systemID * 1) >= 0) { node.minArc = 1; }
+					const minForNode = _this.calcMinArc(node);
+					if(node.minArc < minForNode || collapsed.indexOf(node.systemID * 1) >= 0) {
+						node.minArc = minForNode;
+					}
 					node.parent.minArc += node.minArc;
 					map.circles[ci].arc += node.minArc;
 				}
@@ -114,6 +121,9 @@ const ChainMapRendererBase = function(owner) {
 		}
 
 		// Fourth pass: update div and canvas bounds, and draw rings/links
+		// Remember the scroll on the outer container so we can reset it if the map didn't change a lot
+		const chainParent = document.getElementById('chainParent');
+		const previousScroll = { x: chainParent.scrollLeft, y: chainParent.scrollTop };
 		const CANVAS_SCALE = 1;
 		for(var mi = 0; mi < maps.length; mi++) {
 			const map = maps[mi];
@@ -137,7 +147,7 @@ const ChainMapRendererBase = function(owner) {
 				}
 			}			
 			if(centringOptions.y) {
-				const parentHeight = document.getElementById('chainParent').offsetHeight;
+				const parentHeight = chainParent.offsetHeight;
 				if(finalPositions.h < parentHeight) {
 					finalPositions.cy += 0.5 * (parentHeight - finalPositions.h);
 					finalPositions.h = parentHeight;
@@ -208,6 +218,10 @@ const ChainMapRendererBase = function(owner) {
 			if(div) { div.parentNode.removeChild(div); }
 			else { break; }
 		}
+		
+		// Set scroll back to where it was
+		chainParent.scrollLeft = previousScroll.x;
+		chainParent.scrollTop = previousScroll.y;
 	}
 	
 	function drawConnections(ctx, nodes, drawFunction) {
@@ -325,6 +339,20 @@ function propertyFromCssClass(className, property) {
 	  document.body.appendChild(elem);  // required in some browsers
 	  }
   const prop = getComputedStyle(elem).getPropertyValue(property);
-  //document.body.removeChild(tmp);
   return prop;
 }	
+
+/** https://stackoverflow.com/questions/118241
+Using the DOM approach because we have a fully styled node, not just text */
+function measureNode(markup) {
+	var elem = document.getElementById('temp-div-node-width');
+	if(!elem) {
+	  elem = document.createElement("div");
+	  elem.id = 'temp-div-node-width';
+	  elem.style.cssText = "position:fixed;left:-100px;top:-100px;";
+	  elem.className = 'node-wrapper';
+	  document.body.appendChild(elem);  // required in some browsers
+  }
+  elem.innerHTML = markup;
+  return elem.firstChild.getBoundingClientRect();
+}
