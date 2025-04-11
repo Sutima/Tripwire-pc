@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Rebuild the front end, and if anything changed, push a version update and build onto a deploy branch
 # The deploy branch will be [current branch name]-deploy
 # It will be overwritten from the current branch

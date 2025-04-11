@@ -73,6 +73,7 @@
     padding: 0;
     line-height: 1.5;
 	min-height: 0;
+	white-space: nowrap;
 }
 
 .ui-menu-item .ui-menu-item-wrapper {
