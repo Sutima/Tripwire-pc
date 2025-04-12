@@ -1,3 +1,3 @@
-docker compose up -d traefik php-fpm mysql
+docker compose up -d php-fpm mysql
 sleep 5
-docker compose up -d nginx adminer
+docker compose up -d tw-nginx
