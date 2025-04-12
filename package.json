@@ -7,12 +7,12 @@
     "url": "https://bitbucket.org/daimian/tripwire"
   },
   "dependencies": {
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-clean-css": "^3.9.3",
     "gulp-concat": "^2.6.1",
+    "gulp-mocha": "^8.0.0",
     "gulp-notify": "^3.2.0",
     "gulp-rename": "^1.2.2",
-    "gulp-mocha": "^8.0.0",
     "gulp-shell": "^0.6.5",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify-es": "^1.0.1",

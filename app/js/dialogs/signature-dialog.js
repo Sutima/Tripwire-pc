@@ -421,7 +421,7 @@ sigDialog.openSignatureDialog = function(e) {
 						$("#dialog-signature #durationPicker").val(signature.lifeLength).change();
 						
 						// Focus the sig ID, if it isn't set, otherwise the sig name
-						if(sigAlpha != '???') { $("#dialog-signature input[name='wormholeName']").select(); }
+						if(sigAlpha != '???') { $("#dialog-signature input[name='wormholeType']").select(); }
 						else { $("#dialog-signature input[name='signatureID_Alpha']").select(); }
 					} else {
 						$("#dialog-signature input[name='signatureID_Alpha']").val(signature.signatureID ? signature.signatureID.substr(0, 3) : "???");
