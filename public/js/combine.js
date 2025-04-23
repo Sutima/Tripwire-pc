@@ -67295,7 +67295,7 @@ var appData = {
             "jump": 1000000000
         },
         "Q003": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -67310,7 +67310,7 @@ var appData = {
             "jump": 5000000
         },
         "G008": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -67325,7 +67325,7 @@ var appData = {
             "jump": 5000000
         },
         "C008": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -67340,7 +67340,7 @@ var appData = {
             "jump": 5000000
         },
         "M001": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -67355,7 +67355,7 @@ var appData = {
             "jump": 5000000
         },
         "Z006": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -67370,7 +67370,7 @@ var appData = {
             "jump": 5000000
         },
         "L005": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -67385,7 +67385,7 @@ var appData = {
             "jump": 5000000
         },
         "E004": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
@@ -94170,3 +94170,4 @@ var appData = {
         }
     }
 }
+

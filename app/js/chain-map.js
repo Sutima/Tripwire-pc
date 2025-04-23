@@ -160,10 +160,10 @@ var chain = new function() {
 			if(!statics) { return ''; }
 			else if(statics.length > 4) { return '<span class="multi-static">+</span>'; }
 			
-			const shortCodeMap = { 'High-Sec': 'H', 'Low-Sec': 'L', 'Null-Sec': 'N', 'Triglavian':'▼',
+			const shortCodeMap = { 'High-Sec': 'H', 'Low-Sec': 'L', 'Null-Sec': 'N', 'Triglavian':'â–¼',
 				'Class-1': '1', 'Class-2': '2', 'Class-3': '3', 'Class-4': '4', 'Class-5' : 5, 'Class-6': 6
 			};
-			const classMap = { H: 'hisec', L: 'lowsec', N: 'nullsec', '▼': 'triglavian' };
+			const classMap = { H: 'hisec', L: 'lowsec', N: 'nullsec', 'â–¼': 'triglavian' };
 			return statics.map(function(s) {
 				const text = shortCodeMap[appData.wormholes[s].leadsTo];
 				const className = classMap[text] || 'class-' +  text;
@@ -303,6 +303,11 @@ var chain = new function() {
 						parent = sig2; child = sig1;
 						childType = sig2Type; parentType = sig1Type;
 					} else { continue; }
+					
+					if(!(sig1 && sig2)) {
+						console.warn('Bad wormhole - check sigs ' + wormhole.initialID + ' and ' + wormhole.secondaryID);
+						continue;
+					}
 					
 					var node = {};
 					node.id = wormhole.id;
@@ -630,3 +635,4 @@ var chain = new function() {
 	}
 
 }
+

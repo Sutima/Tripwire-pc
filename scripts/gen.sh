@@ -4,6 +4,10 @@
 cp db.inc.docker.example.php db.inc.php
 cp config.example.php config.php
 
+mkdir -p traefik-data
+touch traefik-data/acme.json
+chmod 600 traefik-data/acme.json
+
 # Ensure .env file exists
 if [ ! -f .env ]; then
   echo ".env file not found. Exiting."

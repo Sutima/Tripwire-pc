@@ -4,21 +4,23 @@ systemAnalysis.addMutator(invasions);
 function _Invasions() {
 	const _this = this;
 	const pathSymbolMap = {
-		stellar_reconnaissance: '◆',
+		stellar_reconnaissance: 'â—†',
 		
-		triglavian_minor_victory: '▽',
-		escalating_liminality: '▽',
-		final_liminality: '▼',
+		triglavian_minor_victory: 'â–½',
+		escalating_liminality: 'â–½', first_liminality: 'â–½', second_liminality: 'â–½',
+		final_liminality: 'â–¼',
 		
-		edencom_minor_victory: '△',
-		redoubt: '△', bulwark: '△',
-		fortress: '▲',
+		edencom_minor_victory: 'â–³',
+		redoubt: 'â–³', bulwark: 'â–³',
+		fortress: 'â–²',
 	};
 	const textMap = {
 		stellar_reconnaissance: 'Stellar Reconnaissance',
 		
 		triglavian_minor_victory: 'Triglavian Minor Victory',
 		escalating_liminality: 'Escalating Liminality',
+		first_liminality: 'First Liminality',
+		second_liminality: 'Second Liminality',
 		final_liminality: 'Final Liminality',
 		
 		edencom_minor_victory: 'EDENCOM Minor Victory',
@@ -42,3 +44,4 @@ function _Invasions() {
 		}
 	}
 }
+

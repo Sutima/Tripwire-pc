@@ -26,7 +26,7 @@ $("#admin").click(function(e) {
 
 					for (var i = 0, l = rows.length; i < l; i++) {
 						var $row = $("#dialog-admin .window .hasFocus tbody tr[data-id='"+ rows[i].id +"']");
-						ids.push(rows[i].id);
+						ids.push(rows[i].id.toString()); // we do a string compare lower down
 
 						if ($row.length) {
 							for (col in rows[i]) {
@@ -116,3 +116,4 @@ $("#admin").click(function(e) {
 		$("#dialog-admin").dialog("open");
 	}
 });
+
