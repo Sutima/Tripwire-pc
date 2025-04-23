@@ -111,7 +111,7 @@ tripwire.systemChange = function(systemID, mode) {
 			$('#infoStatics').append('<p><b>Gates</b>: ' + connections.map(c => {
 				const system = systemAnalysis.analyse(c.systemID);
 				return c.closed ? '<s>' + system.name + '</s> (closed)' : systemRendering.renderSystem(system); 
-			}).join(', ') + '</p>');
+			}).join(', ') + ' (<a href="javascript:tripwire.addGatesForCurrentSystem()">add all as connections</a>)</p>');
 		}
 		
 		// Route to favourites
