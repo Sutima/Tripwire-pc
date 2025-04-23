@@ -20,7 +20,7 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.email=your@email.com"
+      - "--certificatesresolvers.myresolver.acme.email=$ADM_EMAIL"
       - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
       - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
@@ -39,12 +39,12 @@ services:
       - "traefik.docker.network=tripwire_web"
 
       # Router rule for domain
-      - "traefik.http.routers.nginx.rule=Host(`your domain`)"
+      - "traefik.http.routers.nginx.rule=Host(`$TRDOMAIN`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=myresolver"
 
       # Fallback to plain HTTP -> redirect to HTTPS
-      - "traefik.http.routers.nginx_http.rule=Host(`your domain`)"
+      - "traefik.http.routers.nginx_http.rule=Host(`$TRDOMAIN`)"
       - "traefik.http.routers.nginx_http.entrypoints=web"
       - "traefik.http.routers.nginx_http.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
@@ -69,15 +69,15 @@ services:
   # OFFICIAL MYSQL 8.0.40 SERVICE
   #################################################################
   mysql:
-    image: mysql:8.0.40
+    image: percona/percona-server:8.0
     container_name: mysql
     networks:
       - tripwire
     environment:
-      - MYSQL_ROOT_PASSWORD=apasswordforroot # do not use quotes
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD # do not use quotes
       - MYSQL_DATABASE=tripwire_database
-      - MYSQL_USER=norootuser # do not use quotes
-      - MYSQL_PASSWORD=anonrootpassword # do not use quotes
+      - MYSQL_USER=$MYSQL_USER # do not use quotes
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD # do not use quotes
     volumes:
       - mysql-data:/var/lib/mysql
 
@@ -108,7 +108,7 @@ services:
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_ROOT_USER=root
-      - DB_ROOT_PASS=samerootpasswordasabove
+      - DB_ROOT_PASS=$MYSQL_ROOT_PASSWORD
       - TRIPWIRE_DB=tripwire_database
       - SDE_DB=eve_dump
     # No need for volumes or ports
@@ -120,3 +120,4 @@ volumes:
 networks:
   web:
   tripwire:
+
