@@ -13,6 +13,8 @@ $stmt = $mysql->prepare($query);
 $stmt->execute();
 $characterIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+// Ensure characterIDs are unique
+$characterIDs = array_unique($characterIDs);
 
 if ($characterIDs && count($characterIDs) > 0) {
     $affiliation = $esi->getAffilitation($characterIDs);
