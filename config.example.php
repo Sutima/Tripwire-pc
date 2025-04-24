@@ -15,6 +15,7 @@ define('EVE_DUMP', 'eve_dump');
 // Enable Tripwire API?
 define('TRIPWIRE_API', true);
 
+
 // EVE API userAgent
 define('USER_AGENT', 'Tripwire Server - adminEmail@example.com');
 
@@ -30,7 +31,11 @@ define('EVE_SSO_REDIRECT', 'https://yourdomain/index.php?mode=sso');
 // value can be changed from 'false' to 'true'.
 define('ENABLE_SEARCH_SCOPE', true);
 
-// Discord integration
+
+// Define the true server URL base if running behind a reverse proxy
+// define('TRIPWIRE_URL_BASE', 'https://yourdomain.com/');
+
+// Discord integration Uncomment and defineyour MaskID's and webhook URL for each one you want
 /*define('DISCORD_WEB_HOOK', array(
 	'maskID' => 'https://discord.com/api/webhooks/[discord web hook url]'
 ));*/
