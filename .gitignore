@@ -3,3 +3,6 @@ db.inc.php
 .idea
 node_modules
 tweetie/config.php
+.env
+backup.sql
+traefik-data/acme.json

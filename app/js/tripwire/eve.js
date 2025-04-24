@@ -18,7 +18,7 @@ tripwire.EVE = function(EVE, characterChange) {
         }
 
         // System follower
-        if (!characterChange && options.buttons.follow && (this.client.EVE && this.client.EVE.systemID != EVE.systemID) && $(".ui-dialog:visible").length == 0) {
+        if (!characterChange && options.buttons.follow && (this.client.EVE && this.client.EVE.systemID != EVE.systemID)) {
             tripwire.systemChange(EVE.systemID);
         }
 
@@ -64,3 +64,4 @@ tripwire.EVE = function(EVE, characterChange) {
         systemChange: systemChange
     };
 }
+

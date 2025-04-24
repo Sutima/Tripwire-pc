@@ -1,3 +1,3 @@
-docker compose up -d php-fpm mysql
+docker compose --env-file .env up -d traefik php-fpm mysql
 sleep 5
-docker compose up -d tw-nginx
+docker compose --env-file .env up -d nginx adminer
