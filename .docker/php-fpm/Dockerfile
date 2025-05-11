@@ -12,4 +12,3 @@ RUN mkdir -m 700 -p /var/lib/php/session \
 COPY php.ini /usr/local/etc/php/php.ini
 COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 
-RUN chown www-data:www-data /opt/app/cache/
