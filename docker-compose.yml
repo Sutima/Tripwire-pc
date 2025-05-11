@@ -1,21 +1,56 @@
 services:
   #################################################################
-  # NGINX SERVICE Requires a proxy like NPM or Traefik.
+  # TRAEFIK SERVICE
+  #################################################################
+  traefik:
+    image: traefik:v3.2.3
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik-data/acme.json:/acme.json
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.email=$ADM_EMAIL"
+      - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+
+  #################################################################
+  # NGINX SERVICE
   #################################################################
   nginx:
     build: .docker/nginx
-    restart: unless-stopped
     container_name: nginx
-    ports:
-      - 8081:80
     networks:
-      - web #- Used with Traefik
+      - web
       - tripwire
     labels:
-      - "traefik.http.routers.nginx.rule=Host(`$TRDOMAIN`)" # Used with Traefik to set your host
-      - "traefik.docker.network=web"
-      - "traefik.port=80"
-      - "traefik.enable=true" # Traefik is not enabled on all services by default
+      - "traefik.enable=true"
+      - "traefik.docker.network=tripwire_web"
+
+      # Router rule for domain
+      - "traefik.http.routers.nginx.rule=Host(`$TRDOMAIN`)"
+      - "traefik.http.routers.nginx.entrypoints=websecure"
+      - "traefik.http.routers.nginx.tls.certresolver=myresolver"
+
+      # Fallback to plain HTTP -> redirect to HTTPS
+      - "traefik.http.routers.nginx_http.rule=Host(`$TRDOMAIN`)"
+      - "traefik.http.routers.nginx_http.entrypoints=web"
+      - "traefik.http.routers.nginx_http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+      # Let Traefik know container listens on port 80 internally
+      - "traefik.http.services.nginx.loadbalancer.server.port=80"
     volumes:
       - "./:/opt/app"
 
@@ -34,7 +69,7 @@ services:
   # OFFICIAL MYSQL 8.0.40 SERVICE
   #################################################################
   mysql:
-    image: percona/percona-server:8.0.40
+    image: mysql:8.0.40
     container_name: mysql
     networks:
       - tripwire

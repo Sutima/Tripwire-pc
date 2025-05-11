@@ -34,7 +34,7 @@ services:
   # OFFICIAL MYSQL 8.0.40 SERVICE
   #################################################################
   mysql:
-    image: percona/percona-server:8.0.40
+    image: mysql:8.0.40
     container_name: mysql
     networks:
       - tripwire
