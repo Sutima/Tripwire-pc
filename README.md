@@ -45,6 +45,7 @@ Setup:
 
 
 ### Setup guide for Docker  
+There are 2 docker compose files one that has traefik included if and one that does not incase you're already have proxies setup, simply copy over the one you prefer. For traefik: `cp docker-compose-traefik.yaml docker-compose.yml` or for NGINX: `cp docker-compose-nginx.yml docker-compose.yml`
 
 - Install Docker for your environment: https://www.docker.com/
 - Setup Developer application on Eve developers
@@ -67,10 +68,17 @@ Setup:
 ```
  
 **QUICK SETUP**  
+Either use the `./scripts/gen.sh script` , it will do the setup based off your .env file, or make an .env file for you to fill in if there isn't one already.
+Then build build `docker compose build` and run `docker compose --env-file=.env up -d`. 
+
+
+You need to change perms for the cache so that TW can pull data from eve-scout `docker compose run php-fpm chown -R www-data:www-data /opt/app/cache`
+
 
 A setup script is provided `./scripts/setup.sh`  
 This script will request all needed information and modify settings, then offer the option to start the build  
 Once complete, your tripwire instance will be up and running.
+Don't forget to give perms to the cache
 
 **Manual Setup**
 
@@ -81,6 +89,23 @@ Once complete, your tripwire instance will be up and running.
 
 
 Required changes for setup:
+
+**.env**
+```
+# A Mail adress for cert's and headers
+ADM_EMAIL=
+# Your domain name for tripwire
+TRDOMAIN=
+# Mysql root pass word
+MYSQL_ROOT_PASSWORD=
+# A non-root mysql user
+MYSQL_USER=
+# Password for the non-root user
+MYSQL_PASSWORD=
+# EVE SSO Client and Secret's
+SSO_CLIENT=
+SSO_SECRET=
+```
 
 **docker-compose.yml**
 ```

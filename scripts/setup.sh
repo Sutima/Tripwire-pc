@@ -31,7 +31,16 @@ function getvars {
     echo "EVE SSO clientID: $SSO_CLIENT"
     echo "EVE SSO secretID: $SSO_SECRET"
     echo ""
-
+    read -p "Do you want to use Traek bundled with Tripwire? (yes/no) " yno
+    case $yno in
+      [Yy]*) cp ./docker-compose-traefik.yaml ./docker-compose.yml && echo "Using Traefik";;
+      [Nn]*) cp ./docker-compose-nginx.yml ./docker-compose.yml && echo "Using My own proxy";;
+          *) echo "Try again";;
+    esac
+    echo ""
+    echo "Please check this information carefully." 
+    echo ""
+    echo "Please check this information carefully." 
     read -p "Is this all correct? (yes/no/abort) " yno
     case $yno in
       [Yy]*) dosetup;;

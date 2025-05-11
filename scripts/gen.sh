@@ -57,3 +57,11 @@ sed -i -e "s/\(your domain\|yourdomain\)/$TRDOMAIN/g; s/adminEmail@example.com/$
 
 # Update crontab
 (crontab -l | grep -Fxvf crontab-tw.txt; cat crontab-tw.txt) | crontab -
+
+read -p "Do you want to use Traek bundled with Tripwire? (yes/no) " yno
+case $yno in
+  [Yy]*) cp ./docker-compose-traefik.yaml ./docker-compose.yml && echo "Using Traefik";;
+  [Nn]*) cp ./docker-compose-nginx.yml ./docker-compose.yml && echo "Using My own proxy";;
+      *) echo "Try again";;
+esac
+echo "Have fun"
