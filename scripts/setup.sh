@@ -63,11 +63,17 @@ function dosetup {
 
   #setup traefik
   mkdir -p traefik-data
+
+  if [ -d traefik-data/acme.json ]; then
+  echo "Error: traefik-data/acme.json exists as a directory. Removing it."
+  rm -rf traefik-data/acme.json
+fi
+
   touch traefik-data/acme.json
   chmod 600 traefik-data/acme.json
 
   #add crontab entries
-  crontab -l | cat - crontab-tw.txt >/tmp/crontab.txt && crontab /tmp/crontab.txt
+  (crontab -l | grep -Fxvf crontab-tw.txt; cat crontab-tw.txt) | crontab -
 
   while true;do
       read -p "Would you like to build now? (yes/no) " yno
