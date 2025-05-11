@@ -19,7 +19,10 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
 
         data.flareCount = chain.data.flares ? chain.data.flares.flares.length : 0;
         data.flareTime = chain.data.flares ? chain.data.flares.last_modified : 0;
-
+        //Added in the commentlist, works so far
+        data.commentlist = chain.data.commentlist ? chain.data.commentlist.commentlist.length : 0;
+        data.commentlist = chain.data.commentlist ? chain.data.commentlist.last_modified : 0;
+        
         data.commentCount = Object.keys(this.comments.data||{}).length;
         data.commentTime = maxTimeByProperty(this.comments.data, "modified");
 
@@ -29,7 +32,7 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
         $.extend(this, appData);
 
         this.aSigSystems = Object.assign(
-			// Using the index as a key here because numeric keys always come first and we want these before real systems
+			// Using the index as a key here because numeric keys always come first and we want these before real systems.
 			// see https://stackoverflow.com/questions/47881998/
 			appData.genericSystemTypes.reduce(function(o, s, i) { o[i] = systemAnalysis.analyse(s); o[i].name = s; return o; }, {} ),
 			this.systems);
@@ -93,10 +96,11 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
             if (data.comments) {
                 tripwire.comments.parse(data.comments);
             }
+            //Added in the commentlist, works so far
 
             if (data.wormholes || data.occupied || data.flares) {
-                tripwire.chainMap.parse({"map": data.wormholes || null, "occupied": data.occupied || null, "flares": data.flares || null});
-            } else if (chain.data.occupied && chain.data.occupied.length && !data.occupied) {
+                tripwire.chainMap.parse({"map": data.wormholes || null, "occupied": data.occupied || null, "flares": data.flares || null, "commentlist": data.commentlist || null});
+            } else if (chain.data.occupied && chain.data.occupied.length && !data.occupied && !data.wormholes) {
                 // send update to remove all occupied system indicators
                 tripwire.chainMap.parse({"occupied": []});
             }

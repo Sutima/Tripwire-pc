@@ -107,7 +107,28 @@ var chain = new function() {
 		return data;
 	}
 
+	this.commentlist = function(data) {
+		console.log("commentlist");
+		/* Function for coloring chain map nodes with comments */
+		// Remove all current comment node coloring
+		$("#chainMap div.node").removeClass("commentNode");
+
+		// Loop through passed data and add the comment class by system.
+		if (data) {
+			for (var x in data.commentlist) {
+				var systemID = data.commentlist[x].systemID;
+				console.log("Comment node: " + systemID);
+
+				// Add the commentNode class to the node, Hoplefully -.-
+				$("#chainMap [data-nodeid=" + systemID + "]").addClass("commentNode");
+			}
+		}
+
+		return data;
+	}
+
 	this.flares = function(data) {
+		console.log("flares");
 		/*	function for coloring chain map nodes via flares  */
 		//var data = typeof(data) !== "undefined" ? data : this.data.flares;
 
@@ -122,9 +143,7 @@ var chain = new function() {
 			for (var x in data.flares) {
 				var systemID = data.flares[x].systemID;
 				var flare = data.flares[x].flare;
-
 				var row = ($("#chainMap [data-nodeid="+systemID+"]").addClass(flare+"Node").parent().index() - 1) / 3 * 2;
-
 				if (row > 0) {
 					$("#chainGrid tr:eq("+row+")").addClass(flare).next().addClass(flare);
 				}
@@ -600,6 +619,9 @@ var chain = new function() {
 		} else if (data.map) {
 			chain.activity(this.data.activity);
 		}
+		if (data.commentlist) { // Call the comments function
+        this.data.commentlist = this.commentlist(data.commentlist);
+    	}
 
 		if (data.occupied) { // 3ms
 			this.data.occupied = this.occupied(data.occupied);
@@ -625,6 +647,8 @@ var chain = new function() {
 
 		chain.activity(chain.data.activity);
 
+		chain.commentlist(chain.data.commentlist);
+		
 		chain.occupied(chain.data.occupied);
 
 		chain.flares(chain.data.flares);
