@@ -677,6 +677,29 @@ BEGIN
 END;;
 DELIMITER ;
 
+DROP EVENT IF EXISTS `UpdateGateLife`;
+DELIMITER ;;
+CREATE EVENT `UpdateGateLife`
+ON SCHEDULE EVERY 1 HOUR
+STARTS '2017-01-27 04:24:28'
+ON COMPLETION NOT PRESERVE
+ENABLE
+DO
+BEGIN
+  UPDATE signatures s
+  JOIN (
+    SELECT initialID AS id FROM wormholes WHERE type = 'GATE'
+    UNION
+    SELECT secondaryID AS id FROM wormholes WHERE type = 'GATE'
+  ) w ON s.id = w.id
+  SET
+    s.lifeTime = CURRENT_TIMESTAMP,
+    s.lifeLeft = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 259200 SECOND),
+    s.modifiedByName = 'Tripwire',
+    s.modifiedTime = CURRENT_TIMESTAMP;
+END
+;;
+DELIMITER ;
 --
 -- Cleanup
 --
