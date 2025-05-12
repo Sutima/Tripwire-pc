@@ -108,7 +108,6 @@ var chain = new function() {
 	}
 
 	this.commentlist = function(data) {
-		console.log("commentlist");
 		/* Function for coloring chain map nodes with comments */
 		// Remove all current comment node coloring
 		$("#chainMap div.node").removeClass("commentNode");
@@ -117,8 +116,7 @@ var chain = new function() {
 		if (data) {
 			for (var x in data.commentlist) {
 				var systemID = data.commentlist[x].systemID;
-				console.log("Comment node: " + systemID);
-
+				
 				// Add the commentNode class to the node, Hoplefully -.-
 				$("#chainMap [data-nodeid=" + systemID + "]").addClass("commentNode");
 			}
@@ -128,10 +126,8 @@ var chain = new function() {
 	}
 
 	this.flares = function(data) {
-		console.log("flares");
 		/*	function for coloring chain map nodes via flares  */
-		//var data = typeof(data) !== "undefined" ? data : this.data.flares;
-
+		//var data = typeof(data) !== "undefined" ? data : this.data.flare
 		// Remove all current node coloring instead of checking each one
 		$("#chainMap div.node").removeClass("redNode yellowNode greenNode");
 
