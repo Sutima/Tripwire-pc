@@ -33,7 +33,7 @@ define('ENABLE_SEARCH_SCOPE', true);
 
 
 // Define the true server URL base if running behind a reverse proxy
-// define('TRIPWIRE_URL_BASE', 'https://yourdomain.com/');
+define('TRIPWIRE_URL_BASE', 'https://yourdomain.com/');
 
 // Discord integration Uncomment and defineyour MaskID's and webhook URL for each one you want
 /*define('DISCORD_WEB_HOOK', array(
