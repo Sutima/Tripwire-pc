@@ -1,0 +1,126 @@
+
+    #killTable {
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+
+    }
+
+    #killTable th, #killTable td {
+        
+        padding: 8px;
+    }
+
+    #killTable th {
+        background-color:rgba(70, 69, 69, 0.25);
+        font-weight: bold;
+    }
+
+    #killTable .attacker-header {
+        background-color:rgba(240, 182, 182, 0.33);
+        color: #900;
+        font-size: 1.1em;
+		vertical-align: right;
+        border-right: 2px solid #ddd;
+    }
+   
+    #killTable .time-isk {
+        background-color:rgba(126, 180, 238, 0.45);
+        color:rgb(12, 24, 194);
+        font-size: 1.1em;
+        border-right: 2px solid #ddd;
+		vertical-align: left;
+    }
+    #killTable .victim-header {
+        background-color:rgba(126, 180, 238, 0.45);
+        color:rgb(12, 24, 194);
+        font-size: 1.1em;
+        border-left: 2px solid #ddd;
+		vertical-align: left;
+    }
+
+    #killTable tbody tr:nth-child(even) {
+        background-color:rgba(48, 47, 47, 0.42);
+    }
+	.image-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.attacker-image,
+	.attacker-portrait,
+	.victim-portrait,
+	.victim-image {
+		position: relative;
+		width: 100%;
+		height: 100%;
+
+		overflow: hidden;
+
+	}
+
+	.attacker-portrait,
+	.victim-portrait {
+		position: relative;
+		max-width: 32px;
+		max-width: 32px;
+	}
+	.attacker-image,
+	.victim-image {
+		position: relative;	
+		max-width: 64px; 
+		max-width: 64px; 
+        object-fit: cover;
+	}
+
+	.attacker-image img,
+	.attacker-portrait img,
+	.victim-portrait img,
+	.victim-image img {
+
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+
+	/* Red X overlay */
+	.victim-portrait::after,
+	.victim-image::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: url('/images/xo.png') no-repeat center center;
+		background-size: contain;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	#killTime {
+		font-size: 1em;
+		font-weight: bold;
+		color: #aaa;
+        font-family: Verdana, 'Helvetica Neue', Arial, sans-serif;
+	}
+	#killDate {
+		font-size: 0.9em;
+		font-weight: bold;
+		color: #aaa;
+        font-family: Verdana, 'Helvetica Neue', Arial, sans-serif;
+	}
+	
+	#killValue {
+		font-weight: bold;
+		color: #4CAF50;
+		font-size: 1em;
+        font-family: Verdana, 'Helvetica Neue', Arial, sans-serif;		
+	}	
+

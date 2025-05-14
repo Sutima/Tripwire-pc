@@ -12,7 +12,9 @@ tripwire.systemChange = function(systemID, mode) {
 
         // Reset activity
         activity.refresh(true);
-
+        clearKillboard();
+       
+        
         // Reset signatures
         $("#sigTable span[data-age]").countdown("destroy");
         $("#sigTable tbody").empty();
@@ -29,13 +31,14 @@ tripwire.systemChange = function(systemID, mode) {
 
         // Change the URL & history
         history.replaceState(null, null, "?system="+viewingSystem);
-
+        window.loadKillboard(systemID);
         tripwire.refresh("change");
+        
     }
 
     // Change the title
     document.title = system.name + " - " + app_name;
-
+    document.getElementsByTagName("meta")["systemID"].content =systemID;
     $("#infoSystem").text(system.name);
 
     // Current system favorite

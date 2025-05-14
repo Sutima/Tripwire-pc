@@ -402,13 +402,13 @@ $output['flares']['last_modified'] = date('m/d/Y H:i:s e', $result ? strtotime($
 
 
 // comment list 
-$query = 'SELECT systemID from comments WHERE maskID = :maskID';
+$query = 'SELECT systemID, modified from comments WHERE maskID = :maskID';
 $stmt = $mysql->prepare($query);
 $stmt->bindValue(':maskID', $maskID);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_CLASS);
 $output['commentlist']['commentlist'] = $result;
-$output['commentlist']['last_modified'] = date('m/d/Y H:i:s e', $result ? strtotime($result[0]->time) : time());
+$output['commentlist']['last_modified'] = date('m/d/Y H:i:s e', $result ? strtotime($result[0]->modified) : time());
 
 $output['proccessTime'] = sprintf('%.4f', microtime(true) - $startTime);
 

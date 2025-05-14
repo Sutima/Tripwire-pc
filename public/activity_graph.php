@@ -41,7 +41,15 @@ $stmt = $mysql->prepare($query);
 $stmt->bindValue(':systemID', $systemID);
 $stmt->bindValue(':limit', $length, PDO::PARAM_INT); // MySQL LIMIT requies this to have an int type sent
 $stmt->execute();
+$rowCount = $stmt->rowCount();
 
+if ($rowCount === 0) {
+    // No data found, return an appropriate response
+    $output['systemData'] = False;
+}
+else{
+	$output['systemData'] = True;
+}
 $output['cols'][] = Array('type' => 'string');
 $output['cols'][] = Array('type' => 'number');
 $output['cols'][] = Array('type' => 'number');

@@ -20,6 +20,7 @@ $system = $_REQUEST['system'];
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="system" content="<?= $system ?>">
+	<meta name="systemID" content="">
 	<meta name="server" content="<?= CDN_DOMAIN ?>">
 	<meta name="app_name" content="<?= APP_NAME ?>">
 	<meta name="version" content="<?= VERSION ?>">
@@ -145,6 +146,7 @@ $system = $_REQUEST['system'];
 		<ul>
 			<li id="infoWidget" class="gridWidget" data-row="1" data-col="1" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="4" style="width: 410px; height: 350px;">
 				<div class="controls">
+					<button style="color: #fff;" id="toggleButton">Toggle Killboard/Graph</button>
 					<div style="float: right;">
 						<span id="favorite-control-wrapper"><!-- for tutorial -->
 							<i id="system-favorite" data-icon="star-empty" data-tooltip="Add/Remove favorite"></i>
@@ -155,14 +157,15 @@ $system = $_REQUEST['system'];
 							<div id='favorite-panel-wrapper'>
 								<p>Favorites loading ...</p>
 							</div>
-						</div>
+						</div><div class="controls"></div>
 						<span>|</span>
 						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
 					</div>
 				</div>
 				<div class="content">
 					<div id="infoGeneral" style="float: left; width: 50%; text-align: left;">
-						<h1 class="pointer" style="color: #CCC;"><span id="infoSystem"><?=$system?></span><a class="copy" href="#" title="Copy system name"></a></h1>
+					
+						<h1 class="pointer" style="color: #CCC;"><span id="infoSystem"><?=$system?></span><a class="copy" href="#" title="Copy system name"></a> </h1>
 						<h4 id="infoSecurity" class="pointer">&nbsp;</h4>
 						<h4 id="infoRegion" class="pointer">&nbsp;</h4>
 						<h4 id="infoFaction" class="pointer">&nbsp;</h4>
@@ -170,14 +173,31 @@ $system = $_REQUEST['system'];
 					<div id="infoExtra" style="float: right; width: 50%; text-align: right;">
 					</div>
 					<br clear="all"/>
-					<div id="activityGraph"></div>
-					<div id="activityGraphControls" style="text-align: center;"><a href="javascript: activity.time(168);">Week</a> - <a href="javascript: activity.time(48);">48Hour</a> - <a href="javascript: activity.time(24);">24Hour</a></div>
+					<div style="margin-bottom: 1em;">
+
+									<div id="graphBoard" style="display: block;">
+										<div id="activityGraph"></div>
+										<div id="activityGraphControls" style="text-align: center;">
+											<a href="javascript: activity.time(168);">Week</a> - 
+											<a href="javascript: activity.time(48);">48Hour</a> - 
+											<a href="javascript: activity.time(24);">24Hour</a>
+										</div>
+									</div>
 					<div id="infoLinks" style="text-align: center;">
 						<a class="infoLink" data-href="http://anoik.is/systems/$systemName" href="" target="_blank">Anoik.is</a> - 
 						<a class="infoLink" data-href="https://evemaps.dotlan.net/search?q=$systemName" href="" target="_blank">dotlan</a> - 
 						<a class="infoLink" data-href='https://zkillboard.com/system/$systemID/' href="" target="_blank">zKillboard</a>
 					</div>
+					
 					<div id="infoStatics" class="pointer"></div>
+							<div id="killBoard" style="display: none;" width="100%">
+								<!-- Killboard content -->
+							<table id="killTable">
+
+									<tbody></tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</li>
 			<li id="signaturesWidget" class="gridWidget" data-row="1" data-col="8" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
@@ -1224,7 +1244,20 @@ $system = $_REQUEST['system'];
 		})();
 
 	</script>
+<script>
+    document.getElementById("toggleButton").addEventListener("click", function () {
+        const killBoard = document.getElementById("killBoard");
+        const graphBoard = document.getElementById("graphBoard");
 
+        if (killBoard.style.display === "none") {
+            killBoard.style.display = "block";
+            graphBoard.style.display = "none";
+        } else {
+            killBoard.style.display = "none";
+            graphBoard.style.display = "block";
+        }
+    });
+</script>
 	<!-- JS Includes -->
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-ui-1.12.1.min.js"></script>

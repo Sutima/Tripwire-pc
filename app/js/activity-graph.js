@@ -30,13 +30,25 @@ var activity = new function() {
 			dataType: "JSON",
 			cache: cache
 		}).done(function(json) {
-			if (json) {
+			if (json && json.systemData === true) {
 				json.rows.reverse();
 				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
 				activity.view.setColumns(activity.columns);
 				activity.graph.draw(activity.view, activity.options);
-			}
-		});
+			$('#graphBoard').css('display', 'block');
+            $('#killBoard').css('display', 'none');
+			}else {
+            // Hide graph board, show kill board
+            $('#graphBoard').css('display', 'none');
+            $('#killBoard').css('display', 'block');
+        }
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("AJAX request failed: " + textStatus, errorThrown);
+
+      //hide graph board, show kill board on error
+        $('#graphBoard').css('display', 'none');
+        $('#killBoard').css('display', 'block');
+    });
 	};
 
 	this.selectHandler = function() {

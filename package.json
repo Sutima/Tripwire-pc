@@ -15,9 +15,12 @@
     "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.6.5",
     "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify-es": "^1.0.1",
+    "gulp-uglify-es": "^3.0.0",
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "pump": "^1.0.3"
+  },
+  "devDependencies": {
+    "del": "^8.0.0"
   }
 }
