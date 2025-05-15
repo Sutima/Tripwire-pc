@@ -4,7 +4,7 @@ services:
   #################################################################
   nginx:
     build: .docker/nginx
-    restart: unless-stopped
+    restart: always
     container_name: nginx
     ports:
       - 8081:80
@@ -25,6 +25,7 @@ services:
   php-fpm:
     build: .docker/php-fpm
     container_name: php-fpm
+    restart: always
     networks:
       - tripwire
     volumes:
@@ -36,6 +37,7 @@ services:
   mysql:
     image: mysql:8.0.40
     container_name: mysql
+    restart: always
     networks:
       - tripwire
     environment:
@@ -51,11 +53,32 @@ services:
   #################################################################
   adminer:
     container_name: adminer
+    restart: unless-stopped
     image: adminer
     networks:
       - tripwire
     ports:
       - 9000:8080
+  #################################################################
+  # Killboard SERVICE
+  #################################################################
+  killboard:
+    build:
+      context: ./docker/python
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysql  # Assuming you have a MySQL service
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=tripwire_database
+      - DB_USER=$MYSQL_USER
+      - DB_PASSWORD=$MYSQL_PASSWORD
+      - REDISQ_QUEUE_ID=$REDIS_QUEUE_ID
+    volumes:
+      - .docker/python:/app
+
+
 
   #################################################################
   # DB-SEED SERVICE
