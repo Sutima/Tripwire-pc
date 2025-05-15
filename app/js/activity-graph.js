@@ -35,17 +35,22 @@ var activity = new function() {
 				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
 				activity.view.setColumns(activity.columns);
 				activity.graph.draw(activity.view, activity.options);
-			$('#graphBoard').css('display', 'block');
-            $('#killBoard').css('display', 'none');
+				// Hide Kill board, show Graph board
+				$('#graphBoard').css('display', 'block');
+          	 	$('#killBoard').css('display', 'none');
 			}else {
-            // Hide graph board, show kill board
-            $('#graphBoard').css('display', 'none');
-            $('#killBoard').css('display', 'block');
+				json.rows.reverse();
+				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
+				activity.view.setColumns(activity.columns);
+				activity.graph.draw(activity.view, activity.options);	
+            	// Hide graph board, show kill board
+          		$('#graphBoard').css('display', 'none');
+          		 $('#killBoard').css('display', 'block');
         }
 		}).fail(function(jqXHR, textStatus, errorThrown) {
         console.error("AJAX request failed: " + textStatus, errorThrown);
 
-      //hide graph board, show kill board on error
+      	//hide graph board, show kill board on error
         $('#graphBoard').css('display', 'none');
         $('#killBoard').css('display', 'block');
     });

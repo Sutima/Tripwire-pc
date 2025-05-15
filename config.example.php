@@ -16,6 +16,7 @@ define('EVE_DUMP', 'eve_dump');
 define('TRIPWIRE_API', true);
 
 
+
 // EVE API userAgent
 define('USER_AGENT', 'Tripwire Server - adminEmail@example.com');
 

@@ -21,7 +21,8 @@ function getvars {
     echo ""
     read -p "What is the EVE SSE clientID?: " SSO_CLIENT
     read -p "What is the EVE SSE secretID?: " SSO_SECRET
-
+    echo ""
+    read -p "What is the RedisQ queue ID, IE your corpname with a number after?: " REDISQ_QUEUE_ID
     echo -e "\n\nHere is what you have entered:"
     echo "Traefik email   : $ADM_EMAIL"
     echo "Tripwire domain : $TRDOMAIN"
@@ -30,6 +31,7 @@ function getvars {
     echo "mysql user pass : $MYSQL_PASSWORD"
     echo "EVE SSO clientID: $SSO_CLIENT"
     echo "EVE SSO secretID: $SSO_SECRET"
+    echo "RedisQ queue ID : $REDISQ_QUEUE_ID"
     echo ""
     read -p "Do you want to use Traek bundled with Tripwire? (yes/no) " yno
     case $yno in
@@ -65,6 +67,7 @@ function dosetup {
   echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
   echo "SSO_CLIENT=$SSO_CLIENT" >> .env
   echo "SSO_SECRET=$SSO_SECRET" >> .env
+  echo "REDISQ_QUEUE_ID=$REDISQ_QUEUE_ID" >> .env
 
   #set up config
   sed -i -e "s/usernamefromdockercompose/$MYSQL_USER/g; s/userpasswordfromdockercompose/$MYSQL_PASSWORD/g" ./db.inc.php
