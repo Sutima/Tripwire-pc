@@ -1,98 +1,30 @@
-window.loadKillboard = async function(systemID, containerSelector = '#killTable tbody', maxKills = 10) {
+let loadedKills = 0;
+let allKills = [];
+let systemID;
+window.loadKillboard = async function(newSystemID, containerSelector = '#killTable tbody', killsToLoad = 10) {
+ 
+  if (newSystemID) {
+    systemID = newSystemID;
+    loadedKills = 0;
+    allKills = [];
+  }
+
   if (!systemID) {
     console.error('System ID is required to load the killboard.');
     return;
   } 
   
-  // Clear the killboard before loading new data
-  clearKillboard(containerSelector);
 
-  // Load the killboard data
-
-
-  async function getZkillData(systemID) {
-    try {
-      const res = await fetch(`/killboard.php?systemID=${systemID}`);
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      return data;
-    } catch (error) {
-      console.error('Error fetching killboard data:', error);
-      return [];
-    }
+  if (loadedKills === 0) {
+    // Clear the killboard only when loading initial set
+    clearKillboard(containerSelector);
+    allKills = await getZkillData(systemID);
   }
 
-  function createImageCell(url, link = null, className = null) {
-    const td = document.createElement('td');
-    const container = document.createElement('div');
-    container.classList.add('image-container');
-
-    if (className) {
-      container.classList.add(className);
-    }
-
-    const img = document.createElement('img');
-    img.src = url;
-
- 
-    if (link) {
-      const a = document.createElement('a');
-      a.href = link;
-      a.target = '_blank'; 
-      a.appendChild(img);
-      container.appendChild(a);
-    } else {
-      container.appendChild(img);
-    }
-
-    td.appendChild(container);
-    return td;
-  }
-
-  function createStackedImageCell(urlsAndLinks) {
-    const td = document.createElement('td');
-    const container = document.createElement('div');
-    container.classList.add('image-container');
-    container.style.display = 'flex';
-    container.style.flexDirection = 'column';
-    container.style.alignItems = 'center';
-
-    urlsAndLinks.forEach(({ url, link, className }) => {
-      const imgContainer = document.createElement('div');
-      imgContainer.classList.add('image-container');
-      if (className) {
-        imgContainer.classList.add(className);
-      }
-
-      const img = document.createElement('img');
-      img.src = url;
-
-      if (link) {
-        const a = document.createElement('a');
-        a.href = link;
-        a.target = '_blank'; 
-        a.appendChild(img);
-        imgContainer.appendChild(a);
-      } else {
-        imgContainer.appendChild(img);
-      }
-
-      container.appendChild(imgContainer);
-    });
-
-    td.appendChild(container);
-    return td;
-  }
-  const kills = await getZkillData(systemID);
   const tableBody = document.querySelector(containerSelector);
-  const limitedKills = kills.kills.slice(0, maxKills);
+  const killsToShow = allKills.kills.slice(loadedKills, loadedKills + killsToLoad);
 
-  for (const kill of limitedKills) {
+  for (const kill of killsToShow) {
     try {
       const row = document.createElement('tr');
 
@@ -183,24 +115,120 @@ window.loadKillboard = async function(systemID, containerSelector = '#killTable 
 
       row.appendChild(createStackedImageCell(attackerImageUrls));
 
-
-
-    tableBody.appendChild(row);
-  } catch (err) {
-    console.warn(`Failed to fetch killmail ${killmail_id}:`, err);
+      tableBody.appendChild(row);
+    } catch (err) {
+      console.warn(`Failed to process killmail:`, err);
+    }
   }
-}
+
+  loadedKills += killsToShow.length;
+
+  // Hide "Load More" button if all kills have been loaded
+  const loadMoreButton = document.getElementById('loadMoreKills');
+  if (loadMoreButton) {
+    loadMoreButton.style.display = loadedKills >= allKills.kills.length ? 'none' : 'block';
+  }
 };
 
+async function getZkillData(systemID) {
+  try {
+    const res = await fetch(`/killboard.php?systemID=${systemID}`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (data.error) {
+      throw new Error(data.error);
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching killboard data:', error);
+    return [];
+  }
+}
+
+function createImageCell(url, link = null, className = null) {
+  const td = document.createElement('td');
+  const container = document.createElement('div');
+  container.classList.add('image-container');
+
+  if (className) {
+    container.classList.add(className);
+  }
+
+  const img = document.createElement('img');
+  img.src = url;
+
+ 
+  if (link) {
+    const a = document.createElement('a');
+    a.href = link;
+    a.target = '_blank'; 
+    a.appendChild(img);
+    container.appendChild(a);
+  } else {
+    container.appendChild(img);
+  }
+
+  td.appendChild(container);
+  return td;
+}
+
+function createStackedImageCell(urlsAndLinks) {
+  const td = document.createElement('td');
+  const container = document.createElement('div');
+  container.classList.add('image-container');
+  container.style.display = 'flex';
+  container.style.flexDirection = 'column';
+  container.style.alignItems = 'center';
+
+  urlsAndLinks.forEach(({ url, link, className }) => {
+    const imgContainer = document.createElement('div');
+    imgContainer.classList.add('image-container');
+    if (className) {
+      imgContainer.classList.add(className);
+    }
+
+    const img = document.createElement('img');
+    img.src = url;
+
+    if (link) {
+      const a = document.createElement('a');
+      a.href = link;
+      a.target = '_blank'; 
+      a.appendChild(img);
+      imgContainer.appendChild(a);
+    } else {
+      imgContainer.appendChild(img);
+    }
+
+    container.appendChild(imgContainer);
+  });
+
+  td.appendChild(container);
+  return td;
+}
 
 window.clearKillboard = function(containerSelector = '#killTable tbody') {
   const tableBody = document.querySelector(containerSelector);
   if (tableBody) tableBody.innerHTML = '';
+  loadedKills = 0;
+  allKills = [];
 };
-
-
-
-// initialize the killboard 
+// Modify the DOMContentLoaded event listener
 window.addEventListener('DOMContentLoaded', () => {
-  loadKillboard();
+  const loadMoreButton = document.getElementById('loadMoreKills');
+  if (loadMoreButton) {
+    loadMoreButton.addEventListener('click', () => {
+      loadKillboard(null, '#killTable tbody', 10);
+    });
+  }
 });
+
+// Add a function to initialize the killboard with a system ID
+window.initializeKillboard = function(initialSystemID) {
+  systemID = initialSystemID;
+  loadedKills = 0;
+  allKills = [];
+  loadKillboard(systemID);
+};

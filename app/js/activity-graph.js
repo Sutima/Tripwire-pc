@@ -12,6 +12,14 @@ var activity = new function() {
 		//{id: "annotationLabel", label: "Test", role: "annotation", type: "string", sourceColumn: 5, title: "Test"},
 		//{id: "annotationText", label: "Test", role: "annotationText", type: "string", sourceColumn: 6, title: "Test"}
 	];
+	this.columns2 = [
+		{id: "time", label: "Time", role: "domain", type: "string", calc: function(d, r) { return d.getValue(r, 0) + "h"; }},
+		{id: "podkills", label: "Pod Kills", role: "data", type: "number", sourceColumn: 2, column: 2, title: "Pod Kills"},
+		{id: "shipkills", label: "Ship Kills", role: "data", type: "number", sourceColumn: 3, column: 3, title: "Ship Kills"},
+		{id: "npckills", label: "Kills By NPC's", role: "data", type: "number", sourceColumn: 4, column: 4, title: "NPC Kills"},
+		//{id: "annotationLabel", label: "Test", role: "annotation", type: "string", sourceColumn: 5, title: "Test"},
+		//{id: "annotationText", label: "Test", role: "annotationText", type: "string", sourceColumn: 6, title: "Test"}
+	];
 
 	this.getData = function(span, cache) {
 		var span = typeof(span) !== "undefined" ? span : this.span;
@@ -36,24 +44,29 @@ var activity = new function() {
 				activity.view.setColumns(activity.columns);
 				activity.graph.draw(activity.view, activity.options);
 				// Hide Kill board, show Graph board
-				$('#graphBoard').css('display', 'block');
-          	 	$('#killBoard').css('display', 'none');
-			}else {
+				// $('#graphBoard').css('display', 'block');
+          	 	// $('#killBoard').css('display', 'none');
+		} else {
+			return $.ajax({
+				url: "activity_graph2.php",
+				data: {systemID: viewingSystemID, time: span},
+				type: "GET",
+				dataType: "JSON",
+				cache: cache
+			}).done(function(json){
+				// Show graph based on saved kills
 				json.rows.reverse();
 				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
-				activity.view.setColumns(activity.columns);
-				activity.graph.draw(activity.view, activity.options);	
-            	// Hide graph board, show kill board
-          		$('#graphBoard').css('display', 'none');
-          		 $('#killBoard').css('display', 'block');
-        }
-		}).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX request failed: " + textStatus, errorThrown);
+				activity.view.setColumns(activity.columns2);
+				activity.graph.draw(activity.view, activity.options);
+				// $('#graphBoard').css('display', 'none');
+				// $('#killBoard').css('display', 'block');
+			});
+		}
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.error("AJAX request failed: " + textStatus, errorThrown);
 
-      	//hide graph board, show kill board on error
-        $('#graphBoard').css('display', 'none');
-        $('#killBoard').css('display', 'block');
-    });
+	});
 	};
 
 	this.selectHandler = function() {

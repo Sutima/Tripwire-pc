@@ -144,9 +144,31 @@ $system = $_REQUEST['system'];
 
 	<div class="gridster">
 		<ul>
+			 
+			<li id="killboardWidget" class="gridWidget" data-row="1" data-col="22" data-sizex="10" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
+				<div class="controls">
+<button id="loadMoreKills">Load More</button>
+					<div style="float: right;">
+						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
+					</div>
+				</div>
+				<div class="content">
+					<div id="killBoard" style="display: block;" width="100%" height="50%">
+								<div class="content">
+								<!-- Killboard content -->
+								<table id="killTable">
+								<tbody></tbody>
+								</table>
+								
+						</div>
+						</div>
+				</div>
+			</li>
+			
+
 			<li id="infoWidget" class="gridWidget" data-row="1" data-col="1" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="4" style="width: 410px; height: 350px;">
 				<div class="controls">
-					<button style="color: #fff;" id="toggleButton">Toggle Killboard/Graph</button>
+					<!-- <button style="color: #fff;" id="toggleButton">Toggle Killboard/Graph</button> -->
 					<div style="float: right;">
 						<span id="favorite-control-wrapper"><!-- for tutorial -->
 							<i id="system-favorite" data-icon="star-empty" data-tooltip="Add/Remove favorite"></i>
@@ -183,20 +205,14 @@ $system = $_REQUEST['system'];
 											<a href="javascript: activity.time(24);">24Hour</a>
 										</div>
 									</div>
-					<div id="infoLinks" style="text-align: center;">
+					<div id="infoLinks"  style="text-align: center;">
 						<a class="infoLink" data-href="http://anoik.is/systems/$systemName" href="" target="_blank">Anoik.is</a> - 
 						<a class="infoLink" data-href="https://evemaps.dotlan.net/search?q=$systemName" href="" target="_blank">dotlan</a> - 
 						<a class="infoLink" data-href='https://zkillboard.com/system/$systemID/' href="" target="_blank">zKillboard</a>
 					</div>
 					
 					<div id="infoStatics" class="pointer"></div>
-							<div id="killBoard" style="display: none;" width="100%">
-								<!-- Killboard content -->
-							<table id="killTable">
 
-									<tbody></tbody>
-							</table>
-						</div>
 					</div>
 				</div>
 			</li>
@@ -1244,20 +1260,7 @@ $system = $_REQUEST['system'];
 		})();
 
 	</script>
-<script>
-    document.getElementById("toggleButton").addEventListener("click", function () {
-        const killBoard = document.getElementById("killBoard");
-        const graphBoard = document.getElementById("graphBoard");
 
-        if (killBoard.style.display === "none") {
-            killBoard.style.display = "block";
-            graphBoard.style.display = "none";
-        } else {
-            killBoard.style.display = "none";
-            graphBoard.style.display = "block";
-        }
-    });
-</script>
 	<!-- JS Includes -->
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-ui-1.12.1.min.js"></script>
