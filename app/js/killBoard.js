@@ -68,12 +68,23 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
       );
 
       // Add a label for total attackers
-
+      if (kill.npc === 1) {
+        const label = document.createElement('div');
+        label.className = 'attacker-count npc';
+        label.textContent = 'NPC';
+        attackerShipCell.querySelector('.image-container').appendChild(label);
+      }
+      else if (kill.total_attackers == 1) {
+        const label = document.createElement('div');
+        label.className = 'attacker-count solo';
+        label.textContent = 'Solo';
+        attackerShipCell.querySelector('.image-container').appendChild(label);
+      } else {
         const label = document.createElement('div');
         label.className = 'attacker-count';
         label.textContent = kill.total_attackers;
         attackerShipCell.querySelector('.image-container').appendChild(label);
-      
+      }
 
       row.appendChild(attackerShipCell);
 
@@ -140,7 +151,8 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
   // Hide "Load More" button if all kills have been loaded
   const loadMoreButton = document.getElementById('loadMoreKills');
   if (loadMoreButton) {
-    loadMoreButton.style.display = loadedKills >= allKills.kills.length ? 'none' : 'block';
+    loadMoreButton.textContent = loadedKills >= allKills.kills.length ?'All Kill Loaded!' :  'Load More!' ;
+    // loadMoreButton.style.display = loadedKills >= allKills.kills.length ? 'none' : 'block';
   }
 };
 

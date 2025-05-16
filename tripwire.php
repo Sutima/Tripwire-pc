@@ -146,8 +146,8 @@ $system = $_REQUEST['system'];
 		<ul>
 			 
 			<li id="killboardWidget" class="gridWidget" data-row="1" data-col="22" data-sizex="10" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
-				<div class="controls">
-<button id="loadMoreKills">Load More</button>
+				<div class="controls"><button  style="color: #ccc; width:25%; border-color: grey; " id="loadMoreKills">Load More</button>
+				 <span></span> <span style="text-align: center; color: #CCC;"> All kills in system for the past 24 hours</span>
 					<div style="float: right;">
 						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
 					</div>
@@ -164,6 +164,7 @@ $system = $_REQUEST['system'];
 						</div>
 				</div>
 			</li>
+			
 			
 
 			<li id="infoWidget" class="gridWidget" data-row="1" data-col="1" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="4" style="width: 410px; height: 350px;">

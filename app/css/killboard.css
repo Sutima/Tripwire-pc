@@ -117,6 +117,13 @@
 		font-size: 12px;
 		border-radius: 0 3px 0 0;
 		}
+	.npc {
+		color: #999 !important;
+		font-style: italic;
+	}
+	.solo {
+		color: gold !important; 
+	}
 	#timeValue{
 		text-align: left;
 		overflow: hide;
