@@ -2,7 +2,6 @@ let loadedKills = 0;
 let allKills = [];
 let systemID;
 window.loadKillboard = async function(newSystemID, containerSelector = '#killTable tbody', killsToLoad = 10) {
- 
   if (newSystemID) {
     systemID = newSystemID;
     loadedKills = 0;
@@ -13,16 +12,20 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
     console.error('System ID is required to load the killboard.');
     return;
   } 
-  
 
   if (loadedKills === 0) {
-    // Clear the killboard only when loading initial set
     clearKillboard(containerSelector);
     allKills = await getZkillData(systemID);
   }
 
   const tableBody = document.querySelector(containerSelector);
-  const killsToShow = allKills.kills.slice(loadedKills, loadedKills + killsToLoad);
+  const ignoreNPCKills = document.getElementById('ignoreNPCKills').checked;
+
+  let killsToShow = allKills.kills.slice(loadedKills);
+  if (ignoreNPCKills) {
+    killsToShow = killsToShow.filter(kill => kill.npc !== 1);
+  }
+  killsToShow = killsToShow.slice(0, killsToLoad);
 
   for (const kill of killsToShow) {
     try {
@@ -117,7 +120,7 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 
 
       
-      // Process time and value
+      // Add kill tiem and value 
       const killTime = new Date(kill.killmail_time);
       const formattedTime = killTime.toLocaleString('en-GB', {
         hour: '2-digit',
@@ -148,11 +151,15 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 
   loadedKills += killsToShow.length;
 
-  // Hide "Load More" button if all kills have been loaded
+  // Update the "load more" button when all kills have been loaded
   const loadMoreButton = document.getElementById('loadMoreKills');
   if (loadMoreButton) {
-    loadMoreButton.textContent = loadedKills >= allKills.kills.length ?'All Kill Loaded!' :  'Load More!' ;
-    // loadMoreButton.style.display = loadedKills >= allKills.kills.length ? 'none' : 'block';
+    const remainingKills = ignoreNPCKills 
+      ? allKills.kills.filter(kill => kill.npc !== 1).length - loadedKills
+      : allKills.kills.length - loadedKills;
+
+    loadMoreButton.textContent = remainingKills <= 0 ? 'All Kills Loaded!' : 'Load More!';
+    loadMoreButton.disabled = remainingKills <= 0;
   }
 };
 
@@ -172,7 +179,7 @@ async function getZkillData(systemID) {
     return [];
   }
 }
-
+//single cell
 function createImageCell(url, link = null, classNames = null) {
   const td = document.createElement('td');
   const container = document.createElement('div');
@@ -200,7 +207,7 @@ function createImageCell(url, link = null, classNames = null) {
   td.appendChild(container);
   return td;
 }
-
+// Corp and alliance logo stacking
 function createStackedImageCell(urlsAndLinks) {
   const td = document.createElement('td');
   const container = document.createElement('div');
@@ -250,9 +257,17 @@ window.addEventListener('DOMContentLoaded', () => {
       loadKillboard(null, '#killTable tbody', 10);
     });
   }
+
+  const ignoreNPCKillsCheckbox = document.getElementById('ignoreNPCKills');
+  if (ignoreNPCKillsCheckbox) {
+    ignoreNPCKillsCheckbox.addEventListener('change', () => {
+      loadedKills = 0; 
+      loadKillboard(systemID);
+    });
+  }
 });
 
-// Add a function to initialize the killboard with a system ID
+//initialize 
 window.initializeKillboard = function(initialSystemID) {
   systemID = initialSystemID;
   loadedKills = 0;
