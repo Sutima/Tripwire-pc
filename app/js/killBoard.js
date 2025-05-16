@@ -26,32 +26,9 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 
   for (const kill of killsToShow) {
     try {
+      
       const row = document.createElement('tr');
-
-      // Process time and value
-      const killTime = new Date(kill.killmail_time);
-      const formattedTime = killTime.toLocaleString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false, 
-        timeZone: 'UTC'
-      });
-      const formattedDate = killTime.toLocaleString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        timeZone: 'UTC'
-      });
-
-      const timeValueCell = document.createElement('td');
-      timeValueCell.innerHTML = `
-        <div id="killTime">${formattedTime} UTC</div>
-        <div id="killDate">${formattedDate}</div>
-        <div id="killValue">${Number(kill.total_value).toLocaleString()} ISK</div>
-      `;
-      timeValueCell.style.textAlign = 'center'; 
-      row.appendChild(timeValueCell);
-
+    
       // Victim corporation and alliance
       const victimImageUrls = [{
         url: `https://images.evetech.net/corporations/${kill.victim_corp}/logo?tenant=tranquility&size=32`,
@@ -83,12 +60,22 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
         'victim-image' 
       ));
 
-      // Attacker ship
-      row.appendChild(createImageCell(
+        // Attacker ship
+      const attackerShipCell = createImageCell(
         `https://images.evetech.net/types/${kill.attacker_ship}/render?size=64`,
         `https://zkillboard.com/kill/${kill.killmail_id}`,
-        'attacker-image' 
-      ));
+        `attacker-image`
+      );
+
+      // Add a label for total attackers
+
+        const label = document.createElement('div');
+        label.className = 'attacker-count';
+        label.textContent = kill.total_attackers;
+        attackerShipCell.querySelector('.image-container').appendChild(label);
+      
+
+      row.appendChild(attackerShipCell);
 
       // Attacker portrait
       row.appendChild(createImageCell(
@@ -116,6 +103,33 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
       row.appendChild(createStackedImageCell(attackerImageUrls));
 
       tableBody.appendChild(row);
+
+
+      
+      // Process time and value
+      const killTime = new Date(kill.killmail_time);
+      const formattedTime = killTime.toLocaleString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false, 
+        timeZone: 'UTC'
+      });
+      const formattedDate = killTime.toLocaleString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: 'UTC'
+      });
+
+      const timeValueCell = document.createElement('td');
+      timeValueCell.innerHTML = `<div id='timeValue'>
+        <div id="killTime">${formattedTime} UTC</div>
+        <div id="killDate">${formattedDate}</div>
+        <div id="killValue">${Number(kill.total_value).toLocaleString()} ISK</div></div>
+      `;
+      timeValueCell.style.textAlign = 'center'; 
+      row.appendChild(timeValueCell);
+
     } catch (err) {
       console.warn(`Failed to process killmail:`, err);
     }
@@ -147,19 +161,20 @@ async function getZkillData(systemID) {
   }
 }
 
-function createImageCell(url, link = null, className = null) {
+function createImageCell(url, link = null, classNames = null) {
   const td = document.createElement('td');
   const container = document.createElement('div');
   container.classList.add('image-container');
 
-  if (className) {
-    container.classList.add(className);
+  if (classNames) {
+    classNames.split(' ').forEach(className => {
+      container.classList.add(className);
+    });
   }
 
   const img = document.createElement('img');
   img.src = url;
 
- 
   if (link) {
     const a = document.createElement('a');
     a.href = link;
