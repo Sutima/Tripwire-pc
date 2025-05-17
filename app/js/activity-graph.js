@@ -47,13 +47,7 @@ var activity = new function() {
 				// $('#graphBoard').css('display', 'block');
           	 	// $('#killBoard').css('display', 'none');
 		} else {
-			return $.ajax({
-				url: "activity_graph2.php",
-				data: {systemID: viewingSystemID, time: span},
-				type: "GET",
-				dataType: "JSON",
-				cache: cache
-			}).done(function(json){
+			
 				// Show graph based on saved kills
 				json.rows.reverse();
 				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
@@ -61,8 +55,7 @@ var activity = new function() {
 				activity.graph.draw(activity.view, activity.options);
 				// $('#graphBoard').css('display', 'none');
 				// $('#killBoard').css('display', 'block');
-			});
-		}
+	}
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		console.error("AJAX request failed: " + textStatus, errorThrown);
 
