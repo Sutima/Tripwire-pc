@@ -443,9 +443,11 @@ var chain = new function() {
 		for (var x in chainLinks) {
 			var node = chainLinks[x];
 			var row = {c: []};
-			
-			const sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :
-					(node.child.type || "(?)");
+			 sigText='';
+			if (node.child.type == "GATE" || node.child.type == "BRDG") {
+			sigText =(node.child.type || "(?)");	}else{
+			sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :
+					(node.child.type || "(?)");}
 			const nodeTypeMarkup = node.child.path ? 
 				systemRendering.renderPath(node.child.path) :
 				(node.child.sigIndex ? "<a href='#' onclick='sigDialog.openSignatureDialog({data: { signature: " + node.child.sigIndex + ", mode: \"update\" }}); return false;'>" : '') + _.escape(

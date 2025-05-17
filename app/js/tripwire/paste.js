@@ -39,6 +39,7 @@ tripwire.pasteSignatures = function() {
             "Ore Site": "Ore",
             "Relic Site": "Relic",
             "Wormhole": "Wormhole",
+            "Homefront Operations": "Combat",
 
             // French (fr)
             "Site de combat": "Combat",
@@ -275,7 +276,7 @@ tripwire.pasteSignatures = function() {
                     if (signature.type == "wormhole") {
                         var wormhole = $.map(tripwire.client.wormholes, function(wormhole) { if (wormhole.initialID == signature.id || wormhole.secondaryID == signature.id) return wormhole; })[0] || {};
                         var otherSignature = wormhole.id ? (signature.id == wormhole.initialID ? tripwire.client.signatures[wormhole.secondaryID] : tripwire.client.signatures[wormhole.initialID]) : {};
-                        if (wormhole.type !== "GATE") {
+                        if (wormhole.type !== "GATE" && wormhole.type !== "BRDG") {
                             removes.push(wormhole);
                             undo.push({"wormhole": wormhole, "signatures": [signature, otherSignature]});
                         }
