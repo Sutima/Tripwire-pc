@@ -427,8 +427,8 @@ var chain = new function() {
 			var node = chainLinks[x];
 			var row = {c: []};
 			 sigText='';
-			if (options.chain['show-gates-bridges'] == true && node.child.type == "GATE" || node.parent.type == "GATE") {sigText =("GATE" || "(?)");	}else if 
-				(options.chain['show-gates-bridges'] == true && node.child.type == "BRDG" || node.parent.type == "BRDG") {sigText =("BRIDGE" || "(?)");}
+			if (options.chain['showGatesBridges'] == true && node.child.type == "GATE" || node.parent.type == "GATE") {sigText =("GATE" || "(?)");	}else if 
+				(options.chain['showGatesBridges'] == true && node.child.type == "BRDG" || node.parent.type == "BRDG") {sigText =("BRIDGE" || "(?)");}
 				else{
 			sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :(node.child.type || "(?)");}
 			const nodeTypeMarkup = node.child.path ? 

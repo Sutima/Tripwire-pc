@@ -251,7 +251,7 @@ $system = $_REQUEST['system'];
 					</div>
 				</div>
 			</li>
-			<li id="notesWidget" class="gridWidget" data-row="1" data-col="15" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
+			<li id="notesWidget" class="gridWidget" data-row="1" data-col="15" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 290px; height: 350px;">
 				<div class="controls">
 					<i id="add-comment" data-icon="plus" data-tooltip="Add a new comment"></i>
 					<i id="comment-sort" data-icon="sort" data-tooltip="Sort comments by creation date"></i>
@@ -734,8 +734,8 @@ $system = $_REQUEST['system'];
 					<tr>
 						<th>Show Gates and Bridges as sig name</th>
 						<td>
-							<input type="radio" name="show-gates-bridges" id="show-gates-bridges-yes" value="true" /><label for="show-gates-bridges-yes"> Yes</label>
-							<input type="radio" name="show-gates-bridges" id="show-gates-bridges-no" value="false" /><label for="show-gates-bridges-no"> No</label>
+							<input type="radio" name="showGatesBridges" id="showGatesBridges-yes" value="true" /><label for="showGatesBridges-yes"> Yes</label>
+							<input type="radio" name="showGatesBridges" id="showGatesBridges-no" value="false" /><label for="showGatesBridges-no"> No</label>
 						</td>
 					</tr>
 					<tr>

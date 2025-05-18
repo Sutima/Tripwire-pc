@@ -32,7 +32,7 @@ $(".options").click(function(e) {
 				options.chain.lineWeight = $("#dialog-options #node-spacing-line-weight-slider").slider("value");
 				
 				options.chain["node-reference"] = $("#dialog-options input[name=node-reference]:checked").val();
-				options.chain["show-gates-bridges"] =$("#dialog-options input[name=show-gate-bridges]:checked").val();
+				options.chain.showGatesBridges='true' ==$("#dialog-options input[name=showGatesBridges]:checked").val();
 				
 				options.chain.renderer = $("#dialog-options #renderer").val();
 
@@ -103,7 +103,7 @@ $(".options").click(function(e) {
 			$("#dialog-options #route-ignore").val(options.chain.routeIgnore.systems.join(','));
 			$("#dialog-options #renderer").val(options.chain.renderer);
 			$("#dialog-options input[name='node-reference'][value='"+options.chain["node-reference"]+"']").prop("checked", true);
-			$("#dialog-options input[name='show-gates-bridges'][value='"+options.chain["show-gates-bridges"]+"']").prop("checked", true);
+			$("#dialog-options input[name='showGatesBridges'][value='"+options.chain.showGatesBridges+"']").prop("checked", true);
 			$("#dialog-options input[name='commentFlare'][value='"+options.chain.commentFlare+"']").prop("checked", true);
 			$("#dialog-options input[name='gridlines'][value='"+options.chain.gridlines+"']").prop("checked", true);
 			$("#dialog-options input[name='aura'][value='"+options.chain.aura+"']").prop("checked", true);
