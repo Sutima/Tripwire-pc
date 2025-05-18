@@ -1,7 +1,7 @@
 var chain = new function() {
 	var chain = this;
 	this.map, this.view, this.drawing, this.data = {};
-	
+
 	// Third party suppliers should have:
 	//  findLinks(systemId, ids) - Find links from the given system coming from the third party. ids contain a parent and a child ID; the child ID should be incremented for every new connection
 	
@@ -107,23 +107,6 @@ var chain = new function() {
 		return data;
 	}
 
-	this.commentlist = function(data) {
-		/* Function for coloring chain map nodes with comments */
-		// Remove all current comment node coloring
-		$("#chainMap div.node").removeClass("commentNode");
-
-		// Loop through passed data and add the comment class by system.
-		if (data) {
-			for (var x in data.commentlist) {
-				var systemID = data.commentlist[x].systemID;
-				
-				// Add the commentNode class to the node, Hoplefully -.-
-				$("#chainMap [data-nodeid=" + systemID + "]").addClass("commentNode");
-			}
-		}
-
-		return data;
-	}
 
 	this.flares = function(data) {
 		/*	function for coloring chain map nodes via flares  */
@@ -615,9 +598,6 @@ var chain = new function() {
 		} else if (data.map) {
 			chain.activity(this.data.activity);
 		}
-		if (data.commentlist) { // Call the comments function
-        this.data.commentlist = this.commentlist(data.commentlist);
-    	}
 
 		if (data.occupied) { // 3ms
 			this.data.occupied = this.occupied(data.occupied);
@@ -626,6 +606,11 @@ var chain = new function() {
 		if (data.flares) { // 20ms
 			this.data.flares = this.flares(data.flares);
 		}
+			commentData().then(function(matchingComments) {
+			}).catch(function(error) {
+				console.error("Error fetching or processing comments:", error);
+			});
+
 	}
 
 	this.updateCollapsed = function(collapsedSystems) {
@@ -643,7 +628,10 @@ var chain = new function() {
 
 		chain.activity(chain.data.activity);
 
-		chain.commentlist(chain.data.commentlist);
+		commentData().then(function(matchingComments) {
+		}).catch(function(error) {
+			console.error("Error fetching or processing comments:", error);
+		});
 		
 		chain.occupied(chain.data.occupied);
 

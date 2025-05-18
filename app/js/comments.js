@@ -51,6 +51,7 @@ $("body").on("click", ".commentSave, .commentCancel", function(e) {
 				$comment.find(".commentToolbar").show();
 				$comment.find(".commentFooter").hide();
 				$this.removeAttr("disabled");
+				bustCommentCache();
 			}
 		});
 	} else {
@@ -99,6 +100,7 @@ $("body").on("click", ".commentDelete", function(e) {
 						if (data && data.result == true) {
 							$("#dialog-deleteComment").dialog("close");
 							$comment.remove();
+							bustCommentCache();
 						}
 					}).always(function() {
 						$("#dialog-deleteComment").parent().find(":button:contains('Delete')").button("enable");

@@ -16,8 +16,8 @@ var jsFiles = [
         nameMin: 'app.min.js',
         src: [
             'app/js/helpers.js',
-			'app/js/data-mutators/*.js',
-			'app/js/map-data-suppliers/*.js',
+            'app/js/data-mutators/*.js',
+            'app/js/map-data-suppliers/*.js',
             'app/js/init.js',
             'app/js/options.js',
             'app/js/layout.js',
@@ -26,7 +26,7 @@ var jsFiles = [
             'app/js/wormholeRendering.js',
             'app/js/widget-*.js',
             'app/js/systemAnalysis.js',
-			'app/js/system-mutators/*.js',
+            'app/js/system-mutators/*.js',
             'app/js/guidance.js',
             'app/js/systemRendering.js',
             'app/js/chain-map-renderer*.js',
@@ -34,6 +34,8 @@ var jsFiles = [
             'app/js/guidance_profiles.js',
             'app/js/systemPanel.js',
             'app/js/tripwire/*.js',
+            'app/js/add-gate-connections.js',
+            'app/js/commentlist.js',
             'app/js/*.js',
             'app/js/**/*.js'
         ],
