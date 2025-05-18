@@ -168,11 +168,10 @@ $system = $_REQUEST['system'];
 				</div>
 			</li>
 			
-			
+
 
 			<li id="infoWidget" class="gridWidget" data-row="1" data-col="1" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="4" style="width: 410px; height: 350px;">
 				<div class="controls">
-					<!-- <button style="color: #fff;" id="toggleButton">Toggle Killboard/Graph</button> -->
 					<div style="float: right;">
 						<span id="favorite-control-wrapper"><!-- for tutorial -->
 							<i id="system-favorite" data-icon="star-empty" data-tooltip="Add/Remove favorite"></i>

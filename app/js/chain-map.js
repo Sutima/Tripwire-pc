@@ -444,10 +444,10 @@ var chain = new function() {
 			var node = chainLinks[x];
 			var row = {c: []};
 			 sigText='';
-			if (node.child.type == "GATE" || node.child.type == "BRDG") {
-			sigText =(node.child.type || "(?)");	}else{
-			sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :
-					(node.child.type || "(?)");}
+			if (node.child.type == "GATE" || node.parent.type == "GATE") {sigText =("GATE" || "(?)");	}else if 
+				(node.child.type == "BRDG" || node.parent.type == "BRDG") {sigText =("BRIDGE" || "(?)");}
+				else{
+			sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :(node.child.type || "(?)");}
 			const nodeTypeMarkup = node.child.path ? 
 				systemRendering.renderPath(node.child.path) :
 				(node.child.sigIndex ? "<a href='#' onclick='sigDialog.openSignatureDialog({data: { signature: " + node.child.sigIndex + ", mode: \"update\" }}); return false;'>" : '') + _.escape(
@@ -617,7 +617,7 @@ var chain = new function() {
 		} else if (data.map) {
 			chain.activity(this.data.activity);
 		}
-		if (data.commentlist) { // Call the comments function
+		if (data.commentlist) { 
         this.data.commentlist = this.commentlist(data.commentlist);
     	}
 

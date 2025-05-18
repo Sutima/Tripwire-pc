@@ -98,7 +98,7 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
             }
             //Added in the commentlist, works so far
 
-            if (data.wormholes || data.occupied || data.flares) {
+            if (data.wormholes || data.occupied || data.flares || data.commentlist) {
                 tripwire.chainMap.parse({"map": data.wormholes || null, "occupied": data.occupied || null, "flares": data.flares || null, "commentlist": data.commentlist || null});
             } else if (chain.data.occupied && chain.data.occupied.length && !data.occupied && !data.wormholes) {
                 // send update to remove all occupied system indicators
