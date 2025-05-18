@@ -519,6 +519,7 @@ $(document).on("click", "#overwrite", function() {
 	}); 
 
 });
+// Add new event listeners for wormhole type fields
 $("#dialog-signature [name='wormholeType'], #dialog-signature [name='wormholeType2']").on("change", function() {
     if ($("#dialog-signature [name='signatureType']").val() === "wormhole") {
         if  (this.value.toUpperCase() === "BRDG") {

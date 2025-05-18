@@ -5,6 +5,7 @@ services:
   traefik:
     image: traefik:v3.2.3
     container_name: traefik
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -31,6 +32,7 @@ services:
   nginx:
     build: .docker/nginx
     container_name: nginx
+    restart: always
     networks:
       - web
       - tripwire
@@ -60,6 +62,7 @@ services:
   php-fpm:
     build: .docker/php-fpm
     container_name: php-fpm
+    restart: always
     networks:
       - tripwire
     volumes:
@@ -71,6 +74,7 @@ services:
   mysql:
     image: mysql:8.0.40
     container_name: mysql
+    restart: always
     networks:
       - tripwire
     environment:
@@ -87,10 +91,34 @@ services:
   adminer:
     container_name: adminer
     image: adminer
+    restart: always
     networks:
       - tripwire
     ports:
       - 9000:8080
+
+  #################################################################
+  # Killboard SERVICE
+  #################################################################
+  killboard:
+    build:
+      context: ./docker/python
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - tripwire
+    depends_on:
+      - mysql  # Assuming you have a MySQL service
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=tripwire_database
+      - DB_USER=$MYSQL_USER
+      - DB_PASSWORD=$MYSQL_PASSWORD
+      - REDISQ_QUEUE_ID=$REDIS_QUEUE_ID
+    volumes:
+      - .docker/python:/app
+
+
 
   #################################################################
   # DB-SEED SERVICE

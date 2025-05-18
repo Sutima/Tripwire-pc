@@ -34,6 +34,7 @@ var jsFiles = [
             'app/js/guidance_profiles.js',
             'app/js/systemPanel.js',
             'app/js/tripwire/*.js',
+            'app/js/killBoard.js',
             'app/js/add-gate-connections.js',
             'app/js/commentlist.js',
             'app/js/*.js',

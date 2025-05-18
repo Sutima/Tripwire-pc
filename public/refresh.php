@@ -401,8 +401,6 @@ $output['flares']['last_modified'] = date('m/d/Y H:i:s e', $result ? strtotime($
 
 
 
-
-
 $output['proccessTime'] = sprintf('%.4f', microtime(true) - $startTime);
 
 require_once('../ping.inc.php');

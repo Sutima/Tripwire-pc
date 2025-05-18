@@ -6,6 +6,7 @@ var tripwire = new function() {
 	this.signatures = {list: {}, undo: JSON.parse(sessionStorage.getItem("tripwire_undo")) || {}, redo: JSON.parse(sessionStorage.getItem("tripwire_redo")) || {}};
 	this.serverSignatureCount = 0;
 	this.activity = {};
+	this.loadKillboard = {};
 	this.data = {tracking: {}, esi: {}};
 	this.refreshRate = 5000;
 	this.connected = true;
