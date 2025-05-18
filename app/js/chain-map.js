@@ -426,9 +426,11 @@ var chain = new function() {
 		for (var x in chainLinks) {
 			var node = chainLinks[x];
 			var row = {c: []};
-			
-			const sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :
-					(node.child.type || "(?)");
+			 sigText='';
+			if (options.chain['show-gates-bridges'] == true && node.child.type == "GATE" || node.parent.type == "GATE") {sigText =("GATE" || "(?)");	}else if 
+				(options.chain['show-gates-bridges'] == true && node.child.type == "BRDG" || node.parent.type == "BRDG") {sigText =("BRIDGE" || "(?)");}
+				else{
+			sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :(node.child.type || "(?)");}
 			const nodeTypeMarkup = node.child.path ? 
 				systemRendering.renderPath(node.child.path) :
 				(node.child.sigIndex ? "<a href='#' onclick='sigDialog.openSignatureDialog({data: { signature: " + node.child.sigIndex + ", mode: \"update\" }}); return false;'>" : '') + _.escape(
@@ -606,10 +608,11 @@ var chain = new function() {
 		if (data.flares) { // 20ms
 			this.data.flares = this.flares(data.flares);
 		}
-			commentData().then(function(matchingComments) {
-			}).catch(function(error) {
-				console.error("Error fetching or processing comments:", error);
-			});
+		if (options.chain.commentFlare == true) {
+		commentData().then(function(matchingComments) {
+		}).catch(function(error) {
+			console.error("Error fetching or processing comments:", error);
+		});};
 
 	}
 
@@ -627,11 +630,11 @@ var chain = new function() {
 		WormholeTypeToolTips.attach($("#chainMap .whEffect[data-icon]"));
 
 		chain.activity(chain.data.activity);
-
+		if (options.chain.commentFlare == true) {
 		commentData().then(function(matchingComments) {
 		}).catch(function(error) {
 			console.error("Error fetching or processing comments:", error);
-		});
+		});};
 		
 		chain.occupied(chain.data.occupied);
 
@@ -643,4 +646,3 @@ var chain = new function() {
 	}
 
 }
-

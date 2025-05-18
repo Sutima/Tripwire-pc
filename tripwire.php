@@ -693,6 +693,13 @@ $system = $_REQUEST['system'];
 						</td>
 					</tr>
 					<tr>
+						<th>Show Gates and Bridges as sig name</th>
+						<td>
+							<input type="radio" name="show-gates-bridges" id="show-gates-bridges-yes" value="true" /><label for="show-gates-bridges-yes"> Yes</label>
+							<input type="radio" name="show-gates-bridges" id="show-gates-bridges-no" value="false" /><label for="show-gates-bridges-no"> No</label>
+						</td>
+					</tr>
+					<tr>
 						<th>Show sig name on map:</th>
 						<td>
 							<select id="chainSigNameLocation">
@@ -711,6 +718,14 @@ $system = $_REQUEST['system'];
 							Y: <label for="node-spacing-y-slider"></label><div id="node-spacing-y-slider" class="spacing-slider"></div>
 						</td>
 					</tr>
+					<tr>
+						<th>Commented systems gets flared:</th>
+						<td>
+							<input type="radio" name="commentFlare" id="commentFlare-yes" value="true" /><label for="commentFlare-yes"> Yes</label>
+							<input type="radio" name="commentFlare" id="commentFlare-no" value="false" /><label for="commentFlare-no"> No</label>
+						</td>
+					</tr>
+					
 					<tr><td colspan=2 style="font-size: 80%; text-align: left">*: No effect in old org chart renderer</td></tr>
 				</table>
 			</div>

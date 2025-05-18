@@ -517,4 +517,12 @@ $(document).on("click", "#overwrite", function() {
 	sigDialog.overwriteSignature($(this).data("id"), sigDialog.delegateSave, function() {
 		$("#overwrite").removeAttr("disable");
 	}); 
+
+});
+$("#dialog-signature [name='wormholeType'], #dialog-signature [name='wormholeType2']").on("change", function() {
+    if ($("#dialog-signature [name='signatureType']").val() === "wormhole") {
+        if  (this.value.toUpperCase() === "BRDG") {
+			$("#dialog-signature [name='signatureID_Alpha'], #dialog-signature [name='signatureID2_Alpha']").val("brd");
+		}
+    }
 });
