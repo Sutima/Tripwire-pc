@@ -48,10 +48,10 @@ SSO_SECRET_ESCAPED=$(printf '%s\n' "$SSO_SECRET" | sed 's/[&/\]/\\&/g')
 sed -i -e "s/usernamefromdockercompose/$MYSQL_USER_ESCAPED/g; s/userpasswordfromdockercompose/$MYSQL_PASSWORD_ESCAPED/g" ./db.inc.php
 
 # Replace placeholders in config.php
-sed -i -e "s/\(your domain\|yourdomain\)/$TRDOMAIN/g; s/adminEmail@example.com/$ADM_EMAIL/g; s/client/$SSO_CLIENT/g; s/secret/$SSO_SECRET/g; s/yourdomain.com/$TRDOMAIN/g" ./config.php
+sed -i -e "s/\(your domain\|yourdomain\)/$TRDOMAIN/g; s/adminEmail@example.com/$ADM_EMAIL/g; s/client/$SSO_CLIENT/g; s/secret/$SSO_SECRET/g; s/yourdomain/$TRDOMAIN/g" ./config.php
 
 # sort perms
-chmod +x .docker/python/entrypoint.sh
+chmod +x ./.docker/python/entrypoint.sh
 
 # Update crontab
 (crontab -l | grep -Fxvf crontab-tw.txt; cat crontab-tw.txt) | crontab -

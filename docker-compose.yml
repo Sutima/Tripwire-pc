@@ -114,7 +114,7 @@ services:
       - DB_NAME=tripwire_database
       - DB_USER=$MYSQL_USER
       - DB_PASSWORD=$MYSQL_PASSWORD
-      - REDISQ_QUEUE_ID=$REDIS_QUEUE_ID
+      - REDISQ_QUEUE_ID=$REDISQ_QUEUE_ID
     volumes:
       - .docker/python:/app
 
