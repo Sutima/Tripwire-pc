@@ -11,3 +11,4 @@ RUN mkdir -m 700 -p /var/lib/php/session \
 # Customize PHP and PHP-FPM through configuration files
 COPY php.ini /usr/local/etc/php/php.ini
 COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+

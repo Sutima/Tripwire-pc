@@ -1,7 +1,7 @@
 var chain = new function() {
 	var chain = this;
 	this.map, this.view, this.drawing, this.data = {};
-	
+
 	// Third party suppliers should have:
 	//  findLinks(systemId, ids) - Find links from the given system coming from the third party. ids contain a parent and a child ID; the child ID should be incremented for every new connection
 	
@@ -107,10 +107,10 @@ var chain = new function() {
 		return data;
 	}
 
+
 	this.flares = function(data) {
 		/*	function for coloring chain map nodes via flares  */
-		//var data = typeof(data) !== "undefined" ? data : this.data.flares;
-
+		//var data = typeof(data) !== "undefined" ? data : this.data.flare
 		// Remove all current node coloring instead of checking each one
 		$("#chainMap div.node").removeClass("redNode yellowNode greenNode");
 
@@ -122,9 +122,7 @@ var chain = new function() {
 			for (var x in data.flares) {
 				var systemID = data.flares[x].systemID;
 				var flare = data.flares[x].flare;
-
 				var row = ($("#chainMap [data-nodeid="+systemID+"]").addClass(flare+"Node").parent().index() - 1) / 3 * 2;
-
 				if (row > 0) {
 					$("#chainGrid tr:eq("+row+")").addClass(flare).next().addClass(flare);
 				}
@@ -428,9 +426,11 @@ var chain = new function() {
 		for (var x in chainLinks) {
 			var node = chainLinks[x];
 			var row = {c: []};
-			
-			const sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :
-					(node.child.type || "(?)");
+			 sigText='';
+			if (options.chain['showGatesBridges'] == true && node.child.type == "GATE" || node.parent.type == "GATE") {sigText =("GATE" || "(?)");	}else if 
+				(options.chain['showGatesBridges'] == true && node.child.type == "BRDG" || node.parent.type == "BRDG") {sigText =("BRIDGE" || "(?)");}
+				else{
+			sigText = options.chain["node-reference"] == "id" ? (node.child.signatureID ? node.child.signatureID.substring(0, 3) : "???") :(node.child.type || "(?)");}
 			const nodeTypeMarkup = node.child.path ? 
 				systemRendering.renderPath(node.child.path) :
 				(node.child.sigIndex ? "<a href='#' onclick='sigDialog.openSignatureDialog({data: { signature: " + node.child.sigIndex + ", mode: \"update\" }}); return false;'>" : '') + _.escape(
@@ -608,6 +608,12 @@ var chain = new function() {
 		if (data.flares) { // 20ms
 			this.data.flares = this.flares(data.flares);
 		}
+		if (options.chain.commentFlare == true) {
+		commentData().then(function(matchingComments) {
+		}).catch(function(error) {
+			console.error("Error fetching or processing comments:", error);
+		});};
+
 	}
 
 	this.updateCollapsed = function(collapsedSystems) {
@@ -624,7 +630,12 @@ var chain = new function() {
 		WormholeTypeToolTips.attach($("#chainMap .whEffect[data-icon]"));
 
 		chain.activity(chain.data.activity);
-
+		if (options.chain.commentFlare == true) {
+		commentData().then(function(matchingComments) {
+		}).catch(function(error) {
+			console.error("Error fetching or processing comments:", error);
+		});};
+		
 		chain.occupied(chain.data.occupied);
 
 		chain.flares(chain.data.flares);
@@ -635,4 +646,3 @@ var chain = new function() {
 	}
 
 }
-

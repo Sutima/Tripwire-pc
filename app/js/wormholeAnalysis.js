@@ -58,6 +58,8 @@ const wormholeAnalysis = new function() {
 	/** Placeholder wormholes which don't have an exact known type, but still provide some information */
 	this.dummyWormholes = {
 		"GATE": { from: [ "Null-Sec", "Low-Sec", "High-Sec", "Triglavian"], leadsTo: [ "Null-Sec", "Low-Sec", "High-Sec", "Triglavian"] },
+		"BRDG": {key: "BRIDGE", name: "BRDG", from: [ "Null-Sec"], leadsTo: [ "Null-Sec"] },
+		// "BRDG": { from: [ "Null-Sec"], leadsTo: [ "Null-Sec"] },
 		"SML": { "key": "SML", "jump": 5000000, "dummy": true },
 		"MED": { "key": "MED", "jump": 62000000, "mass": 500000000, "dummy": true },
 		"LRG": { "key": "LRG", "jump": 375000000, "mass": 2000000000, "dummy": true },

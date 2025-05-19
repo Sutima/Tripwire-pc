@@ -399,10 +399,13 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS);
 $output['flares']['flares'] = $result;
 $output['flares']['last_modified'] = date('m/d/Y H:i:s e', $result ? strtotime($result[0]->time) : time());
 
+
+
 $output['proccessTime'] = sprintf('%.4f', microtime(true) - $startTime);
 
 require_once('../ping.inc.php');
 $hook = discord_webhook_for_current_mask();
 $output['discord_integration'] = !!$hook;
+
 
 echo json_encode($output);

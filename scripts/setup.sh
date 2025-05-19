@@ -21,7 +21,8 @@ function getvars {
     echo ""
     read -p "What is the EVE SSE clientID?: " SSO_CLIENT
     read -p "What is the EVE SSE secretID?: " SSO_SECRET
-
+    echo ""
+    read -p "What is the RedisQ queue ID, IE your corpname with a number after?: " REDISQ_QUEUE_ID
     echo -e "\n\nHere is what you have entered:"
     echo "Traefik email   : $ADM_EMAIL"
     echo "Tripwire domain : $TRDOMAIN"
@@ -30,8 +31,18 @@ function getvars {
     echo "mysql user pass : $MYSQL_PASSWORD"
     echo "EVE SSO clientID: $SSO_CLIENT"
     echo "EVE SSO secretID: $SSO_SECRET"
+    echo "RedisQ queue ID : $REDISQ_QUEUE_ID"
     echo ""
-
+    read -p "Do you want to use Traek bundled with Tripwire? (yes/no) " yno
+    case $yno in
+      [Yy]*) cp ./docker-compose-traefik.yaml ./docker-compose.yml && echo "Using Traefik";;
+      [Nn]*) cp ./docker-compose-nginx.yml ./docker-compose.yml && echo "Using My own proxy";;
+          *) echo "Try again";;
+    esac
+    echo ""
+    echo "Please check this information carefully." 
+    echo ""
+    echo "Please check this information carefully." 
     read -p "Is this all correct? (yes/no/abort) " yno
     case $yno in
       [Yy]*) dosetup;;
@@ -44,7 +55,7 @@ function getvars {
 
 function dosetup {
 
-  #set up php files
+  #set up php files.
   cp db.inc.docker.example.php db.inc.php
   cp config.example.php config.php
 
@@ -56,6 +67,7 @@ function dosetup {
   echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
   echo "SSO_CLIENT=$SSO_CLIENT" >> .env
   echo "SSO_SECRET=$SSO_SECRET" >> .env
+  echo "REDISQ_QUEUE_ID=$REDISQ_QUEUE_ID" >> .env
 
   #set up config
   sed -i -e "s/usernamefromdockercompose/$MYSQL_USER/g; s/userpasswordfromdockercompose/$MYSQL_PASSWORD/g" ./db.inc.php
@@ -63,11 +75,19 @@ function dosetup {
 
   #setup traefik
   mkdir -p traefik-data
+
+  if [ -d traefik-data/acme.json ]; then
+  echo "Error: traefik-data/acme.json exists as a directory. Removing it."
+  rm -rf traefik-data/acme.json
+fi
+
   touch traefik-data/acme.json
   chmod 600 traefik-data/acme.json
+  # sort perms
+  chmod +x .docker/python/entrypoint.sh
 
   #add crontab entries
-  crontab -l | cat - crontab-tw.txt >/tmp/crontab.txt && crontab /tmp/crontab.txt
+  (crontab -l | grep -Fxvf crontab-tw.txt; cat crontab-tw.txt) | crontab -
 
   while true;do
       read -p "Would you like to build now? (yes/no) " yno

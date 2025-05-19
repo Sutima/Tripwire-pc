@@ -13,7 +13,7 @@ require_once('settings.php');
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta name="description" content="Tripwire is an open source wormhole mapping tool, hosted for free to the public, built for use with EVE Online. Using the latest in internet security standards it is the most secure tool in New Eden." />
 	<meta property="og:type" content="article"/>
-	<meta property="og:url" content="https://tripwire.phoenix-connection.space"/>
+	<meta property="og:url" content="https://<?= CDN_DOMAIN ?>"/>
 	<meta property="og:title" content="The greatest wormhole mapper ever."/>
 	<meta property="og:image" content="//<?= CDN_DOMAIN ?>/images/landing/thumbnail.jpg" />
 	<meta property="og:locale" content="en_US"/>

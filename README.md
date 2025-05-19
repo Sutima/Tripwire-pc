@@ -1,15 +1,16 @@
-# README  
+# README
+
 Some things have changed, read carefully
 The landing page twitter feed won't work since the one I used requires a private token, I will have to find a new way to do it later.
 
+### Tripwire - EVE Online wormhole mapping web tool
 
-### Tripwire - EVE Online wormhole mapping web tool  
 - MIT license
 - [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### Setup guide for Linux  
+### Setup guide for Linux
 
-Requirements:  
+Requirements:
 
 - PHP7+ (older requires polyfill for public/login.php as documented in that file)
 - php-mbstring must be installed
@@ -18,7 +19,7 @@ Requirements:
 - The `sql_mode` and `event_scheduler` my.cnf lines are important, make sure you have them in your my.cnf file & reboot MySQL
 - CRON or some other scheduler to execute PHP scripts
 
-Setup:  
+Setup:
 
 - Create a `tripwire` database using the export located in `.docker/mysql/tripwire.sql`
 - For development: create an EVE dump database, define it's name later in `config.php`. Download from: https://www.fuzzwork.co.uk/dump/ To download the latest use the following link: https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2. You do not need a copy of the SDE to run Tripwire (since 1.21).
@@ -42,9 +43,9 @@ Setup:
 - Setup a CRON or schedule for `account_update.cron.php` to run every 3 minutes or however often you want to check for corporation changes. CRON: `*/3 * * * * php /dir/to/account_update.cron.php`
 - If you are using SELinux: Tripwire needs access to the 'cache' directory inside the deployment directory, usually /var/www/tripwire. You need to make this a write-access directory via SELinux labelling: `semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tripwire/cache(/.*)?"` - then relabel the directory `restorecon -R -v /var/www/tripwire`
 
+### Setup guide for Docker
 
-
-### Setup guide for Docker  
+There are 2 docker compose files one that has traefik included if and one that does not incase you're already have proxies setup, simply copy over the one you prefer. For traefik: `cp docker-compose-traefik.yaml docker-compose.yml` or for NGINX: `cp docker-compose-nginx.yml docker-compose.yml`
 
 - Install Docker for your environment: https://www.docker.com/
 - Setup Developer application on Eve developers
@@ -52,6 +53,7 @@ Setup:
 - Clone repo and change directory into it
 
 **EVE SSO**
+
 ```
   - Create an EVE developer application via https://developers.eveonline.com/applications
   - EVE SSO `Callback URL` should be: `https://your-domain.com/index.php?mode=sso`
@@ -65,12 +67,18 @@ Setup:
     - esi-characters.read_titles.v1
     - esi-search.search_structures.v1
 ```
- 
-**QUICK SETUP**  
 
-A setup script is provided `./scripts/setup.sh`  
-This script will request all needed information and modify settings, then offer the option to start the build  
+**QUICK SETUP**
+Either use the `./scripts/gen.sh` script, it will do the setup based off your .env file if you have one, or make an .env file for you to fill in if there isn't one already. Then build build `docker compose build`and run`docker compose --env-file=.env up -d`.
+
+You need to change perms for the cache so that TW can pull data from eve-scout `docker compose run php-fpm chown -R www-data:www-data /opt/app/cache` and
+
+A setup script is provided `./scripts/setup.sh`
+This script will request all needed information and modify settings, then offer the option to start the build
 Once complete, your tripwire instance will be up and running.
+Don't forget to give perms to the cache and for the entrypoint.
+
+`docker compose run php-fpm chown -R www-data:www-data /opt/app/cache`
 
 **Manual Setup**
 
@@ -78,11 +86,38 @@ Once complete, your tripwire instance will be up and running.
 - Copy config.example.php to config.php
 - Modify the constants with your own settings in both files
 - Prep traefik acme file
-
+- ```
+  chmod +x .docker/python/entrypoint.sh
+  ```
+- To get the thera chain you need to chown the cache folder in the container
+  ```
+  docker compose run php-fpm chown -R www-data:www-data /opt/app/cache"
+  ```
 
 Required changes for setup:
 
+**.env**
+
+```
+# A Mail adress for cert's and headers
+ADM_EMAIL=
+# Your domain name for tripwire
+TRDOMAIN=
+# Mysql root pass word
+MYSQL_ROOT_PASSWORD=
+# A non-root mysql user
+MYSQL_USER=
+# Password for the non-root user
+MYSQL_PASSWORD=
+# EVE SSO Client and Secret's
+SSO_CLIENT=
+SSO_SECRET=
+# zkill RedisQueue ID
+REDISQ_QUEUE_ID=
+```
+
 **docker-compose.yml**
+
 ```
 under Traefik:
   - "--certificatesresolvers.myresolver.acme.email=your@email.com"
@@ -101,6 +136,7 @@ under db-seed:
 ```
 
 **db.inc.php**
+
 ```
   - `host=` should be `mysql`
   - `dbname=` should be `tripwire_database`
@@ -108,6 +144,7 @@ under db-seed:
 ```
 
 **config.php**
+
 ```
   - `EVE_DUMP` matches SDE_DB in docker-compose
   - `CDN_DOMAIN` this should match the domain name in your docker-compose
@@ -115,6 +152,7 @@ under db-seed:
 ```
 
 **Traefik Acme**
+
 ```
 mkdir -p traefik-data
 touch traefik-data/acme.json
@@ -122,22 +160,34 @@ chmod 600 traefik-data/acme.json
 ```
 
 **CRON**
+
 ```
 crontab -l | cat - crontab-tw.txt >/tmp/crontab.txt && crontab /tmp/crontab.txt
 ```
 
+**KillBoard**
+
+````
+- DB_HOST=mysql
+- DB_NAME=tripwire_database
+- DB_USER=same non-root user as mysql
+- DB_PASSWORD=same non root password as mysql
+- REDISQ_QUEUE_ID=$REDIS_QUEUE_ID
+````
+
 **DOCKER BUILD**
 
-To start the stack run `docker compose up -d --build`
-To view logs in real time run `docker compose logs -f`
-
+If you're not using the .env file then just start the stack with `docker compose up -d --build`
+To view logs in real time run`docker compose logs -f`
 
 ### Contribution guidelines
+
 - Base off of production or development
 - Create PRs into development
 - Look over issues, branches or get with me to ensure it isn't already being worked on
 
 ### Who do I talk to?
+
 - Astriania / Kariyo Astrien (Main contributor/maintainer)
 - Tripwire Public in-game channel
 - Discord: https://discord.gg/xjFkJAx

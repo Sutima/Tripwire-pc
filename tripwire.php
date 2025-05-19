@@ -20,6 +20,7 @@ $system = $_REQUEST['system'];
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="system" content="<?= $system ?>">
+	<meta name="systemID" content="">
 	<meta name="server" content="<?= CDN_DOMAIN ?>">
 	<meta name="app_name" content="<?= APP_NAME ?>">
 	<meta name="version" content="<?= VERSION ?>">
@@ -143,6 +144,32 @@ $system = $_REQUEST['system'];
 
 	<div class="gridster">
 		<ul>
+			 
+			<li id="killboardWidget" class="gridWidget" data-row="1" data-col="22" data-sizex="10" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
+				<div class="controls"><button  style="color: #ccc; width:25%; border-color: grey; " id="loadMoreKills">Load More</button>
+				 <span style="text-align: center; color: #CCC;"> System kills in the past 24h</span>
+  <label id="killboardOptions">
+    <input type="checkbox" id="ignoreNPCKills" style="color: #CCC;"> Ignore NPC Kills
+  </label>
+					<div style="float: right;">
+						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
+					</div>
+				</div>
+				<div class="content">
+					<div id="killBoard" style="display: block;" width="100%" height="50%">
+								<div class="content">
+								<!-- Killboard content -->
+								<table id="killTable">
+								<tbody></tbody>
+								</table>
+								
+						</div>
+						</div>
+				</div>
+			</li>
+			
+
+
 			<li id="infoWidget" class="gridWidget" data-row="1" data-col="1" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="4" style="width: 410px; height: 350px;">
 				<div class="controls">
 					<div style="float: right;">
@@ -155,14 +182,15 @@ $system = $_REQUEST['system'];
 							<div id='favorite-panel-wrapper'>
 								<p>Favorites loading ...</p>
 							</div>
-						</div>
+						</div><div class="controls"></div>
 						<span>|</span>
 						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
 					</div>
 				</div>
 				<div class="content">
 					<div id="infoGeneral" style="float: left; width: 50%; text-align: left;">
-						<h1 class="pointer" style="color: #CCC;"><span id="infoSystem"><?=$system?></span><a class="copy" href="#" title="Copy system name"></a></h1>
+					
+						<h1 class="pointer" style="color: #CCC;"><span id="infoSystem"><?=$system?></span><a class="copy" href="#" title="Copy system name"></a> </h1>
 						<h4 id="infoSecurity" class="pointer">&nbsp;</h4>
 						<h4 id="infoRegion" class="pointer">&nbsp;</h4>
 						<h4 id="infoFaction" class="pointer">&nbsp;</h4>
@@ -170,14 +198,25 @@ $system = $_REQUEST['system'];
 					<div id="infoExtra" style="float: right; width: 50%; text-align: right;">
 					</div>
 					<br clear="all"/>
-					<div id="activityGraph"></div>
-					<div id="activityGraphControls" style="text-align: center;"><a href="javascript: activity.time(168);">Week</a> - <a href="javascript: activity.time(48);">48Hour</a> - <a href="javascript: activity.time(24);">24Hour</a></div>
-					<div id="infoLinks" style="text-align: center;">
+					<div style="margin-bottom: 1em;">
+
+									<div id="graphBoard" style="display: block;">
+										<div id="activityGraph"></div>
+										<div id="activityGraphControls" style="text-align: center;">
+											<a href="javascript: activity.time(168);">Week</a> - 
+											<a href="javascript: activity.time(48);">48Hour</a> - 
+											<a href="javascript: activity.time(24);">24Hour</a>
+										</div>
+									</div>
+					<div id="infoLinks"  style="text-align: center;">
 						<a class="infoLink" data-href="http://anoik.is/systems/$systemName" href="" target="_blank">Anoik.is</a> - 
 						<a class="infoLink" data-href="https://evemaps.dotlan.net/search?q=$systemName" href="" target="_blank">dotlan</a> - 
 						<a class="infoLink" data-href='https://zkillboard.com/system/$systemID/' href="" target="_blank">zKillboard</a>
 					</div>
+					
 					<div id="infoStatics" class="pointer"></div>
+
+					</div>
 				</div>
 			</li>
 			<li id="signaturesWidget" class="gridWidget" data-row="1" data-col="8" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
@@ -212,7 +251,7 @@ $system = $_REQUEST['system'];
 					</div>
 				</div>
 			</li>
-			<li id="notesWidget" class="gridWidget" data-row="1" data-col="15" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
+			<li id="notesWidget" class="gridWidget" data-row="1" data-col="15" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 290px; height: 350px;">
 				<div class="controls">
 					<i id="add-comment" data-icon="plus" data-tooltip="Add a new comment"></i>
 					<i id="comment-sort" data-icon="sort" data-tooltip="Sort comments by creation date"></i>
@@ -693,6 +732,13 @@ $system = $_REQUEST['system'];
 						</td>
 					</tr>
 					<tr>
+						<th>Show Gates and Bridges as sig name</th>
+						<td>
+							<input type="radio" name="showGatesBridges" id="showGatesBridges-yes" value="true" /><label for="showGatesBridges-yes"> Yes</label>
+							<input type="radio" name="showGatesBridges" id="showGatesBridges-no" value="false" /><label for="showGatesBridges-no"> No</label>
+						</td>
+					</tr>
+					<tr>
 						<th>Show sig name on map:</th>
 						<td>
 							<select id="chainSigNameLocation">
@@ -711,6 +757,14 @@ $system = $_REQUEST['system'];
 							Y: <label for="node-spacing-y-slider"></label><div id="node-spacing-y-slider" class="spacing-slider"></div>
 						</td>
 					</tr>
+					<tr>
+						<th>Commented systems gets flared:</th>
+						<td>
+							<input type="radio" name="commentFlare" id="commentFlare-yes" value="true" /><label for="commentFlare-yes"> Yes</label>
+							<input type="radio" name="commentFlare" id="commentFlare-no" value="false" /><label for="commentFlare-no"> No</label>
+						</td>
+					</tr>
+					
 					<tr><td colspan=2 style="font-size: 80%; text-align: left">*: No effect in old org chart renderer</td></tr>
 				</table>
 			</div>

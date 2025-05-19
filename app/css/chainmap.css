@@ -70,7 +70,7 @@ div.loop .nodeIcons, div.loop .nodeType, div.loop .statics, div.loop .nodeActivi
 }
 	
 #chainMap .currentNode > div.node {
-	border-color: #00286E;
+	border-color: #00286E !important;
 	background: #001B47;
 
 	background: -moz-linear-gradient(top, #001B47 0%, #00286E 100%);
@@ -95,10 +95,18 @@ div.loop .nodeIcons, div.loop .nodeType, div.loop .statics, div.loop .nodeActivi
 
 #chainMap div.greenNode.node {
 	border-color: #040;
-	background: #030;
+	background: #4f4e55;
 
 	background: -moz-linear-gradient(top, #030 0%, #040 100%);
 	background: -webkit-gradient(linear, left top, left bottom, from(#030), to(#040));
+}
+
+#chainMap div.commentNode.node {
+    border-color: 2px solid #3c035e; 
+	background: #162a4e;
+
+	background: -moz-linear-gradient(top, #162a4e 0%, #354055 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#162a4e), to(#354055));
 }
 
 #chainMap div.node.frig-chain {
@@ -272,6 +280,7 @@ td.google-visualization-orgchart-linenode[data-signatureid] {
 .red { color: #FF4747;}
 .yellow { color: #F5B544;}
 .green { color: #50D25A;}
+.comment { color: #00f000;}
 
 #chainGrid {
 	position: absolute;

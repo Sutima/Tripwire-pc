@@ -22,7 +22,7 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
 
         data.commentCount = Object.keys(this.comments.data||{}).length;
         data.commentTime = maxTimeByProperty(this.comments.data, "modified");
-
+        data.loadKillboard = this.loadKillboard;
         data.activity = this.activity;
     } else {
         // Expand Tripwire with JSON data from EVE Data Dump and other static data
@@ -104,6 +104,7 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
 			tripwire.updateReturnStatus();
 
             tripwire.active(data.activity);
+            tripwire.active(data.loadKillboard);
 
             if (data.notify && !$("#serverNotification")[0]) Notify.trigger(data.notify, "yellow", false, "serverNotification");
 			
@@ -149,3 +150,4 @@ function maxTimeByProperty(obj, prop) {
 }
 
 tripwire.sync("init");
+
