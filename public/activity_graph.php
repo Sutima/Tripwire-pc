@@ -24,7 +24,7 @@ if(!isset($_SESSION['userID'])) {
 require_once('../config.php');
 require_once('../db.inc.php');
 
-$cache = 360;
+$cache = 600;
 
 header('Cache-Control: max-age='.$cache);
 header('Expires: '.gmdate('r', time() + $cache));
@@ -44,7 +44,7 @@ $stmt->execute();
 $rowCount = $stmt->rowCount();
 
 if ($rowCount === 0) {
-    // No data found, return an appropriate response
+    // No data found in ESI pulls, use killmails table
     $output['systemData'] = False;
 	$query = '
     SELECT 

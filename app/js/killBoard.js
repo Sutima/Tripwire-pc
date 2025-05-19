@@ -1,6 +1,9 @@
 let loadedKills = 0;
 let allKills = [];
 let systemID;
+const zkillCache = new Map();
+const zkillCACHE_DURATION = 30 * 1000; 
+
 window.loadKillboard = async function(newSystemID, containerSelector = '#killTable tbody', killsToLoad = 10) {
   if (newSystemID) {
     systemID = newSystemID;
@@ -154,32 +157,6 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 
       tableBody.appendChild(row);
 
-
-      
-      // // Add kill tiem and value 
-      // const killTime = new Date(kill.killmail_time);
-      // const formattedTime = killTime.toLocaleString('en-GB', {
-      //   hour: '2-digit',
-      //   minute: '2-digit',
-      //   hour12: false, 
-      //   timeZone: 'UTC'
-      // });
-      // const formattedDate = killTime.toLocaleString('en-GB', {
-      //   day: '2-digit',
-      //   month: '2-digit',
-      //   year: 'numeric',
-      //   timeZone: 'UTC'
-      // });
-
-      // const timeValueCell = document.createElement('td');
-      // timeValueCell.innerHTML = `<div id='timeValue'>
-      //   <div id="killTime">${formattedTime} UTC</div>
-      //   <div id="killDate">${formattedDate}</div>
-      //   <div id="killValue">${Number(kill.total_value).toLocaleString()} ISK</div></div>
-      // `;
-      // timeValueCell.style.textAlign = 'center'; 
-      // row.appendChild(timeValueCell);
-
     } catch (err) {
       console.warn(`Failed to process killmail:`, err);
     }
@@ -200,6 +177,11 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 };
 
 async function getZkillData(systemID) {
+  const now = Date.now();
+  const cachedData = zkillCache.get(systemID);
+  if (cachedData && now - cachedData.timestamp < zkillCACHE_DURATION) {
+    return cachedData.data;
+  }
   try {
     const res = await fetch(`/killboard.php?systemID=${systemID}`);
     if (!res.ok) {
@@ -209,12 +191,14 @@ async function getZkillData(systemID) {
     if (data.error) {
       throw new Error(data.error);
     }
+    zkillCache.set(systemID, { data, timestamp: now });
     return data;
   } catch (error) {
     console.error('Error fetching killboard data:', error);
     return [];
   }
 }
+
 //single cell
 function createImageCell(url, link = null, classNames = null) {
   const td = document.createElement('td');

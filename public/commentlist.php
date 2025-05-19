@@ -1,15 +1,7 @@
 <?php
-//***********************************************************
-//	File: 		comments.php
-//	Author: 	Daimian
-//	Created: 	12/08/2014
-//	Modified: 	12/12/2014 - Daimian
-//
-//	Purpose:	Handles saving/editing/deleting comments.
-//
-//	ToDo:
-//
-//***********************************************************
+
+// Fetching comments for the comment flares.
+
 $startTime = microtime(true);
 
 if (!session_id()) session_start();
@@ -23,6 +15,7 @@ require_once('../config.php');
 require_once('../db.inc.php');
 
 
+
 header('Content-Type: application/json');
 
 $maskID = 		$_SESSION['mask'];
@@ -30,7 +23,7 @@ $characterID = 	$_SESSION['characterID'];
 $characterName = $_SESSION['characterName'];
 $output = 		null;
 
-// comment list 
+
 $query = 'SELECT systemID, modified from comments WHERE maskID = :maskID';
 $stmt = $mysql->prepare($query);
 $stmt->bindValue(':maskID', $maskID);

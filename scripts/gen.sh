@@ -1,16 +1,11 @@
 #!/usr/bin/bash
-# Ensure .env file exists
+# Ensure .env file exists.
 if [ ! -f .env ]; then
   echo ".env file not found. Spawning and Exiting."
   cp .env.example .env || { echo "Failed to copy .env.example to .env"; exit 1; }
   chmod 600 .env
   echo "Please fill in the required values in .env file."
   exit 1
-fi
-# Ensure docker-compose.yaml-base file exists
-if [ ! -f docker-compose.yml ]; then
-  echo "compose file not found. Spawning and Exiting."
-  cp docker-compose.yaml-base docker-compose.yml
 fi
 
 # Copy example files
@@ -54,6 +49,9 @@ sed -i -e "s/usernamefromdockercompose/$MYSQL_USER_ESCAPED/g; s/userpasswordfrom
 
 # Replace placeholders in config.php
 sed -i -e "s/\(your domain\|yourdomain\)/$TRDOMAIN/g; s/adminEmail@example.com/$ADM_EMAIL/g; s/client/$SSO_CLIENT/g; s/secret/$SSO_SECRET/g; s/yourdomain.com/$TRDOMAIN/g" ./config.php
+
+# sort perms
+chmod +x .docker/python/entrypoint.sh
 
 # Update crontab
 (crontab -l | grep -Fxvf crontab-tw.txt; cat crontab-tw.txt) | crontab -

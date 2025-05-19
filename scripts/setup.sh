@@ -55,7 +55,7 @@ function getvars {
 
 function dosetup {
 
-  #set up php files
+  #set up php files.
   cp db.inc.docker.example.php db.inc.php
   cp config.example.php config.php
 
@@ -83,6 +83,8 @@ fi
 
   touch traefik-data/acme.json
   chmod 600 traefik-data/acme.json
+  # sort perms
+  chmod +x .docker/python/entrypoint.sh
 
   #add crontab entries
   (crontab -l | grep -Fxvf crontab-tw.txt; cat crontab-tw.txt) | crontab -

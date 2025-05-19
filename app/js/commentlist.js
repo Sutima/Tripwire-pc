@@ -1,17 +1,13 @@
-let commentCache = {
-    data: null,
-    timestamp: 0,
-    ttl: 10000 // cache time-to-live in ms (30 seconds)
+const commentCache = new Map();
+const commentCACHE_DURATION = 5 * 60 * 1000; 
+bustCache = function (name) {
+    name.data = null;
+    name.timestamp = 0;
+    console.log("Cache busted");
 };
-
-function bustCommentCache() {
-    commentCache.data = null;
-    commentCache.timestamp = 0;
-}
-
 commentData = function() {
     const now = Date.now();
-    if (commentCache.data && (now - commentCache.timestamp < commentCache.ttl)) {
+    if (commentCache.data && (now - commentCache.timestamp < commentCACHE_DURATION)) {
         // Use cached data
         return Promise.resolve(filterComments(commentCache.data));
     }
@@ -28,6 +24,7 @@ commentData = function() {
         return [];
     });
 };
+
 
 function filterComments(data) {
     // Get the current chain system IDs
@@ -46,7 +43,7 @@ function filterComments(data) {
     });
 
     return matchingComments;
-}
+};
 
 collectSystemIDs = function() {
     const currentChain = [];
@@ -58,6 +55,6 @@ collectSystemIDs = function() {
             currentChain.push(systemID);
         }
     });
-    // console.log("Collected system IDs:", currentChain);
+
     return currentChain;
 };

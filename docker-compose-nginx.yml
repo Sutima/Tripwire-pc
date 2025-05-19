@@ -64,9 +64,11 @@ services:
   #################################################################
   killboard:
     build:
-      context: ./docker/python
+      context: .docker/python
       dockerfile: Dockerfile
     restart: always
+    networks:
+      - tripwire
     depends_on:
       - mysql  # Assuming you have a MySQL service
     environment:
@@ -77,7 +79,6 @@ services:
       - REDISQ_QUEUE_ID=$REDIS_QUEUE_ID
     volumes:
       - .docker/python:/app
-
 
 
   #################################################################

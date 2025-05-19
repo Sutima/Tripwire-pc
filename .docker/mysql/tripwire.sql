@@ -283,6 +283,45 @@ CREATE TABLE `jumps` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `killmails`
+--
+
+CREATE TABLE `killmails` (
+  `killmail_id` bigint unsigned NOT NULL,
+DROP TABLE IF EXISTS `killmails`;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = UTF8MB4 */;
+CREATE TABLE `killmails` (
+  `killmail_id` bigint unsigned NOT NULL,
+  `killmail_hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `killmail_time` datetime NOT NULL,
+  `solar_system_id` int unsigned NOT NULL,
+  `npc` tinyint unsigned NOT NULL,
+  `total_value` decimal(20,2) DEFAULT NULL,
+  `victim_id` bigint unsigned NOT NULL,
+  `victim_ship` int unsigned NOT NULL,
+  `victim_corp` bigint unsigned DEFAULT NULL,
+  `victim_alliance` bigint unsigned DEFAULT NULL,
+  `attacker_id` bigint unsigned DEFAULT NULL,
+  `attacker_corp` bigint unsigned DEFAULT NULL,
+  `attacker_alliance` bigint unsigned DEFAULT NULL,
+  `attacker_faction` bigint unsigned DEFAULT NULL,
+  `attacker_ship` int unsigned DEFAULT NULL,
+  `total_attackers` int unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`killmail_id`),
+  KEY `idx_solar_system` (`solar_system_id`),
+  KEY `idx_victim_id` (`victim_id`),
+  KEY `idx_attacker_id` (`attacker_id`),
+  KEY `idx_killmail_time` (`killmail_time`),
+  KEY `idx_npc` (`npc`),
+  KEY `killmail_hash` (`killmail_hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `masks`
 --
 
@@ -697,8 +736,29 @@ BEGIN
     s.lifeLeft = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 259200 SECOND),
     s.modifiedByName = 'Tripwire',
     s.modifiedTime = CURRENT_TIMESTAMP;
-END
-;;
+END;;
+DELIMITER ;
+DROP EVENT IF EXISTS `UpdateGateLife`;
+DELIMITER ;;
+CREATE EVENT `UpdateGateLife`
+ON SCHEDULE EVERY 1 HOUR
+STARTS '2017-01-27 04:24:28'
+ON COMPLETION NOT PRESERVE
+ENABLE
+DO
+BEGIN
+  UPDATE signatures s
+  JOIN (
+    SELECT initialID AS id FROM wormholes WHERE type = 'GATE'
+    UNION
+    SELECT secondaryID AS id FROM wormholes WHERE type = 'GATE'
+  ) w ON s.id = w.id
+  SET
+    s.lifeTime = CURRENT_TIMESTAMP,
+    s.lifeLeft = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 259200 SECOND),
+    s.modifiedByName = 'Tripwire',
+    s.modifiedTime = CURRENT_TIMESTAMP;
+END;;
 DELIMITER ;
 --
 -- Cleanup

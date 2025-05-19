@@ -102,7 +102,7 @@ services:
   #################################################################
   killboard:
     build:
-      context: ./docker/python
+      context: .docker/python
       dockerfile: Dockerfile
     restart: always
     networks:

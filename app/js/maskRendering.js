@@ -23,7 +23,7 @@ const maskRendering = new function() {
 			a.addEventListener('click', e => {
 				maskFunctions.updateActiveMask(m.mask, () => document.getElementById('mask-menu').style.display = 'none');
 			});
-			bustCommentCache();
+			bustCache(commentCache);
 			list.appendChild(a);
 		});
 	}

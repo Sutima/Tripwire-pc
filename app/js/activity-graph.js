@@ -39,13 +39,11 @@ var activity = new function() {
 			cache: cache
 		}).done(function(json) {
 			if (json && json.systemData === true) {
+				// Show graph based on ESI data
 				json.rows.reverse();
 				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
 				activity.view.setColumns(activity.columns);
 				activity.graph.draw(activity.view, activity.options);
-				// Hide Kill board, show Graph board
-				// $('#graphBoard').css('display', 'block');
-          	 	// $('#killBoard').css('display', 'none');
 		} else {
 			
 				// Show graph based on saved kills
@@ -53,8 +51,6 @@ var activity = new function() {
 				activity.view = new google.visualization.DataView(new google.visualization.DataTable(json));
 				activity.view.setColumns(activity.columns2);
 				activity.graph.draw(activity.view, activity.options);
-				// $('#graphBoard').css('display', 'none');
-				// $('#killBoard').css('display', 'block');
 	}
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		console.error("AJAX request failed: " + textStatus, errorThrown);
