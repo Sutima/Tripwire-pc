@@ -29,8 +29,44 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 
   for (const kill of killsToShow) {
     try {
-      
+    // Create a row for time and value
+    const timeValueRow = document.createElement('tr');
+    timeValueRow.className = 'time-value-row';
+    timeValueRow.setAttribute('data-killmail-id', kill.killmail_id);
+
+    // Create and populate the time and value cell
+    const timeValueCell = document.createElement('td');
+    timeValueCell.colSpan = 7; // Span across all columns
+
+    const killTime = new Date(kill.killmail_time);
+    const formattedTime = killTime.toLocaleString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, 
+      timeZone: 'UTC'
+    });
+    const formattedDate = killTime.toLocaleString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      timeZone: 'UTC'
+    });
+
+
+    timeValueCell.innerHTML = `
+      <div class="time-value-container">
+        <span class="kill-time">${formattedTime} UTC</span>
+        <span class="kill-date">${formattedDate}</span>
+        <span class="kill-value">${Number(kill.total_value).toLocaleString()} ISK</span>
+      </div>
+    `;
+    timeValueRow.appendChild(timeValueCell);
+
+    // Add the time-value row to the table
+    tableBody.appendChild(timeValueRow);
       const row = document.createElement('tr');
+      row.className = 'kill-row';
+      row.setAttribute('data-killmail-id', kill.killmail_id);
     
       // Victim corporation and alliance
       const victimImageUrls = [{
@@ -120,29 +156,29 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
 
 
       
-      // Add kill tiem and value 
-      const killTime = new Date(kill.killmail_time);
-      const formattedTime = killTime.toLocaleString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false, 
-        timeZone: 'UTC'
-      });
-      const formattedDate = killTime.toLocaleString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        timeZone: 'UTC'
-      });
+      // // Add kill tiem and value 
+      // const killTime = new Date(kill.killmail_time);
+      // const formattedTime = killTime.toLocaleString('en-GB', {
+      //   hour: '2-digit',
+      //   minute: '2-digit',
+      //   hour12: false, 
+      //   timeZone: 'UTC'
+      // });
+      // const formattedDate = killTime.toLocaleString('en-GB', {
+      //   day: '2-digit',
+      //   month: '2-digit',
+      //   year: 'numeric',
+      //   timeZone: 'UTC'
+      // });
 
-      const timeValueCell = document.createElement('td');
-      timeValueCell.innerHTML = `<div id='timeValue'>
-        <div id="killTime">${formattedTime} UTC</div>
-        <div id="killDate">${formattedDate}</div>
-        <div id="killValue">${Number(kill.total_value).toLocaleString()} ISK</div></div>
-      `;
-      timeValueCell.style.textAlign = 'center'; 
-      row.appendChild(timeValueCell);
+      // const timeValueCell = document.createElement('td');
+      // timeValueCell.innerHTML = `<div id='timeValue'>
+      //   <div id="killTime">${formattedTime} UTC</div>
+      //   <div id="killDate">${formattedDate}</div>
+      //   <div id="killValue">${Number(kill.total_value).toLocaleString()} ISK</div></div>
+      // `;
+      // timeValueCell.style.textAlign = 'center'; 
+      // row.appendChild(timeValueCell);
 
     } catch (err) {
       console.warn(`Failed to process killmail:`, err);

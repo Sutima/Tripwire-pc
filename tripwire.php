@@ -147,7 +147,7 @@ $system = $_REQUEST['system'];
 			 
 			<li id="killboardWidget" class="gridWidget" data-row="1" data-col="22" data-sizex="10" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
 				<div class="controls"><button  style="color: #ccc; width:25%; border-color: grey; " id="loadMoreKills">Load More</button>
-				 <span></span> <span style="text-align: center; color: #CCC;"> All kills in system for the past 24 hours</span>
+				 <span style="text-align: center; color: #CCC;"> System kills in the past 24h</span>
   <label id="killboardOptions">
     <input type="checkbox" id="ignoreNPCKills" style="color: #CCC;"> Ignore NPC Kills
   </label>

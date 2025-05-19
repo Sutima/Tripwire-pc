@@ -15,7 +15,20 @@
         background-color:rgba(70, 69, 69, 0.25);
         font-weight: bold;
     }
+	#killTable tr.kill-row {
 
+		border-bottom: 1px solid #ddd;
+	}
+	#killTable tr.kill-row:hover {
+		background-color:rgba(172, 102, 102, 0.25);
+	}
+	#killTable .attacker-name {
+		background-color:rgba(240, 182, 182, 0.33);
+		color: #900;
+		font-size: 1.1em;
+		border-right: 2px solid #ddd;
+
+	}
     #killTable .attacker-header {
         background-color:rgba(240, 182, 182, 0.33);
         color: #900;
@@ -151,3 +164,27 @@
 		overflow: hide;		
 	}	
 
+	.time-value-row {
+	background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	.time-value-container {
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 10px;
+	font-size: 0.9em;
+	color: #888;
+	}
+	.kill-time {
+	font-weight: bold;
+	color: #aaa;
+	}
+	.kill-time, .kill-date, .kill-value {
+	flex: 1;
+	text-align: center;
+	}
+
+	.kill-value {
+	font-weight: bold;
+	color: #aaa;
+	}
