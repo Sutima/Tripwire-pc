@@ -20,7 +20,20 @@ var options = new function() {
 
 		saveTimer = setTimeout("options.save()", delay);
 	};
+	 // Remove grid settings
+    this.resetUI = function() {
+       
+        this.grid = {};
 
+
+        this.save();
+
+
+        this.apply();
+		console.log("Resetting UI");
+
+        location.reload();
+    };
 	// Saves options in both cookie and database
 	this.save = function() {
 		var options = JSON.stringify(window.options.get());

@@ -1,3 +1,5 @@
+global.bustCache = function() {};
+global.commentCache = {};
 const assert = require('assert');
 const { include, loadJSON } = require('./helpers/helpers');
 const { document } = require('./helpers/fakeDOM');
