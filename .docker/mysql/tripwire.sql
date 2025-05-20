@@ -286,8 +286,6 @@ CREATE TABLE `jumps` (
 -- Table structure for table `killmails`
 --
 
-CREATE TABLE `killmails` (
-  `killmail_id` bigint unsigned NOT NULL,
 DROP TABLE IF EXISTS `killmails`;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
