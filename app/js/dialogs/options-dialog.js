@@ -10,6 +10,24 @@ $(".options").click(function(e) {
 		minHeight: 400,
 		modal: true,
 		buttons: {
+			
+        "Reset UI": function() {
+            $("#dialog-confirm #msg").html("This will reset the UI layout to default. Are you sure you want to proceed?<br/><br/><p><em>Note: This will not reset any other settings.</em></p>");
+            $("#dialog-confirm").dialog("option", {
+                buttons: {
+                    "Reset UI": function() {
+                        options.resetUI();
+                        $("#dialog-options").dialog("close");
+                        $(this).dialog("close");
+                    },
+                    Cancel: function() {
+                        $(this).dialog("close");
+                    }
+                }
+            }).dialog("open");
+        },
+                
+
 			Save: function() {
 				// Options
 				var data = {mode: "set", options: JSON.stringify(options)};
@@ -238,6 +256,8 @@ $(".options").click(function(e) {
 
 
 		}
+		
+		
 	});
 
 	$("#dialog-options").dialog("open");
