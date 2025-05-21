@@ -1,5 +1,5 @@
 const commentCache = new Map();
-const commentCACHE_DURATION = 5 * 60 * 1000; 
+const commentCACHE_DURATION = 60 * 1000; 
 bustCache = function (name) {
     name.data = null;
     name.timestamp = 0;
