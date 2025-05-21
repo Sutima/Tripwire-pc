@@ -26,7 +26,9 @@ $system = $_REQUEST['system'];
 	<meta name="app_name" content="<?= APP_NAME ?>">
 	<meta name="version" content="<?= VERSION ?>">
 	<link rel="shortcut icon" href="//<?= CDN_DOMAIN ?>/images/favicon.png" />
-	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.0.3-alpha/dist/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox-notice.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/gridster.min.css">
@@ -35,10 +37,8 @@ $system = $_REQUEST['system'];
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/introjs.min.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/app.min.css?v=<?= VERSION ?>">
 		<!-- JP BASE  -->
+    <script src="wasm_exec.js"></script>
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.0.3-alpha/dist/js/materialize.min.js"></script>
- <script src="wasm_exec.js"></script>
 	<script>
 		const go = new Go();
 	WebAssembly.instantiateStreaming(fetch("journey.wasm"), go.importObject).then((result) => {
@@ -46,8 +46,23 @@ $system = $_REQUEST['system'];
 	});
 	
 	var startup = async function() {
-		var elems = document.querySelectorAll('select');
-		var instances = M.FormSelect.init(elems, {});
+		document.addEventListener('DOMContentLoaded', function() {
+    
+    var defaultElems = document.querySelectorAll('select');
+    M.FormSelect.init(defaultElems, {}); 
+
+    
+    var shipSizeSelect = document.getElementById('shipsize');
+    if (shipSizeSelect) {
+        M.FormSelect.init(shipSizeSelect, {
+            dropdownOptions: {
+                container: document.body
+            }
+        });
+    }
+
+    
+});
 		
 		try {
 			await go_refresh();
@@ -680,10 +695,10 @@ $system = $_REQUEST['system'];
 			</div>
 			</li>
 			<li id="journeyWidget" class="gridWidget" data-row="15" data-col="1" data-sizex="24" data-sizey="8" data-min-sizex="5" data-min-sizey="4" style="width: 1250px; height: 470px;">
-						<div class="controls">>
+						<div class="controls">
 							<span style="text-align: center; color: #CCC;"> Journeyplanner integration</span>
 						<div>
-							span
+							
 						</div>
 
 							<div style="float: right;">
