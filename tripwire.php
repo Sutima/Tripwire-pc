@@ -26,8 +26,8 @@ $system = $_REQUEST['system'];
 	<meta name="app_name" content="<?= APP_NAME ?>">
 	<meta name="version" content="<?= VERSION ?>">
 	<link rel="shortcut icon" href="//<?= CDN_DOMAIN ?>/images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="/css/jp.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.0.3-alpha/dist/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox-notice.css">
@@ -36,202 +36,13 @@ $system = $_REQUEST['system'];
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery-ui-custom.css?v=<?= VERSION ?>">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/introjs.min.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/app.min.css?v=<?= VERSION ?>">
+
 		<!-- JP BASE  -->
-    <script src="wasm_exec.js"></script>
 
-	<script>
-		const go = new Go();
-	WebAssembly.instantiateStreaming(fetch("journey.wasm"), go.importObject).then((result) => {
-		go.run(result.instance);
-	});
-	
-	var startup = async function() {
-		document.addEventListener('DOMContentLoaded', function() {
+
+
+   
     
-    var defaultElems = document.querySelectorAll('select');
-    M.FormSelect.init(defaultElems, {}); 
-
-    
-    var shipSizeSelect = document.getElementById('shipsize');
-    if (shipSizeSelect) {
-        M.FormSelect.init(shipSizeSelect, {
-            dropdownOptions: {
-                container: document.body
-            }
-        });
-    }
-
-    
-});
-		
-		try {
-			await go_refresh();
-			systems = JSON.parse(await go_systems());
-		} catch (error) {
-			alert(error);
-			return;
-		}
-		
-		
-		const zarzakhSystem = systems.find(s => s.text === "Zarzakh");
-		
-		var autocompleteoptions = {
-			minLength: 1,
-			onSearch: function(text, autocomplete) {
-				setTimeout(() => {
-					const filteredData = systems.filter(system => {
-						return system['text'] != 'No System Name' && system['text'].toLowerCase().indexOf(text.toLowerCase()) >= 0;
-					}).splice(0, 5);
-					autocomplete.setMenuItems(filteredData);
-				}, 500);
-			},
-			data: systems
-		};
-		
-		M.Autocomplete.init(document.querySelectorAll('.systems'), autocompleteoptions);
-		M.Chips.init(document.getElementById('avoidsystems'), {
-			autocompleteOptions: autocompleteoptions,
-			autocompleteOnly: true
-		});
-		
-		const urlParams = new URLSearchParams(window.location.search);
-		systems.forEach(function(system) {
-			if (system['text'] == urlParams.get('from')) {
-				M.Autocomplete.getInstance(document.getElementById('fromsystem')).setValues([system]);
-			}
-			if (system['text'] == urlParams.get('to')) {
-				M.Autocomplete.getInstance(document.getElementById('tosystem')).setValues([system]);
-			}
-		});
-		
-		$('#loading').css('display', 'none');
-		$('#loaded').css('display', 'block');
-		
-		$("#calculate").click(async function(){
-			fromsystem = M.Autocomplete.getInstance(document.getElementById('fromsystem'));
-			tosystem = M.Autocomplete.getInstance(document.getElementById('tosystem'));
-			avoidsystems = M.Chips.getInstance(document.getElementById('avoidsystems'));
-		
-			if (fromsystem.selectedValues.length == 0) {
-				alert('You must select a from system');
-				return;
-			}
-
-			if (tosystem.selectedValues.length == 0) {
-				alert('You must select a to system');
-				return;
-			}
-
-			// Get chips data from the UI
-			let avoidList = avoidsystems.chipsData.slice(); // clone the array
-
-			// Toggle Zarzakh avoidance based on the checkbox
-			if ($('#avoidzarzakh').prop('checked') && zarzakhSystem && !avoidList.some(s => s.text === "Zarzakh")) {
-				avoidList.push({ id: zarzakhSystem.id, text: zarzakhSystem.text });
-			}
-
-			var options = {
-				fromsystem: fromsystem.selectedValues[0],
-				tosystem: tosystem.selectedValues[0],
-				avoidsystems: avoidList,
-				shipsize: parseInt($('#shipsize').find(":selected").val()),
-				excludevoc: $('#excludevoc').prop('checked'),
-				excludeeol: $('#excludeeol').prop('checked'),
-				excludelowsec: $('#excludelowsec').prop('checked'),
-				excludenullsec: $('#excludenullsec').prop('checked'),
-				excludethera: $('#excludethera').prop('checked')
-			};
-			
-			try {
-				navigation = JSON.parse(await go_navigate(JSON.stringify(options)));
-			} catch (error) {
-				alert(error);
-				return;
-			}
-			
-			var systemlist = [];
-			var routestring = "";
-			var lastsignature = "";
-			var lastsystem = "";
-			
-			$('#result').empty();
-			navigation.forEach(function(entry) {
-				var securityclass = "red darken-4";
-				if (entry.node.security >= 0.45) {
-					securityclass = "green darken-4";
-				} else if (entry.node.security < 0.45 && entry.node.security > 0) {
-					securityclass = "amber darken-4";
-				}
-				var lifeclass = "";
-				if (entry.edge.lifestatus == "critical") {
-					lifeclass = "red darken-4"
-				}
-				var massclass = "";
-				if (entry.edge.massstatus == "critical") {
-					massclass = "red darken-4"
-				} else if (entry.edge.massstatus == "destab") {
-					massclass = "amber darken-4"
-				}
-				if (entry.node.name == "Thera") {
-					entry.node.class = "";
-				}
-				if (entry.edge.lifestatus == "critical") {
-					entry.edge.lifestatus = "end of life";
-				}
-				$('#result').append(
-					"<tr>" +
-					"<td><a href='https://zkillboard.com/system/"+entry.node.systemid+"/' target='_blank'>"+entry.node.name+"</a></td>" +
-					"<td class='"+securityclass+"'>"+entry.node.security+"</td>" +
-					"<td>"+entry.node.class+"</td>" +
-					"<td>"+entry.edge.signature+"</td>" +
-					"<td class='"+lifeclass+"'>"+entry.edge.lifestatus+"</td>" + 
-					"<td class='"+massclass+"'>"+entry.edge.massstatus+"</td>" +
-					"<td>"+entry.edge.jumpmass+"</td>" +
-					"<td id='kills-"+entry.node.systemid+"'></td>"+
-					"</tr>");
-				
-				systemlist.push(entry.node.systemid);
-				
-				if (entry.edge.signature != '') {
-					if (lastsystem != '' && lastsignature == '') {
-						routestring += ' > ' + lastsystem;
-					}
-					routestring += " > " + entry.edge.signature;
-					if (entry.node.name == 'Thera') {
-					 routestring += ' (Thera)';
-					}
-				}
-				lastsystem = entry.node.name;
-				lastsignature = entry.edge.signature;
-			});
-			
-			routestring += " > " + lastsystem;
-			$('#pastable').val(routestring);
-			
-			$('#jumps').html(systemlist.length);
-			
-			const url = 'https://corsproxy.io/?' + encodeURIComponent('https://eve-gatecheck.space/eve/get_kills.php?systems=' + systemlist.join(','));
-			$.getJSON(url, function(data) {
-				systemlist.forEach(function(systemid) {
-					if (typeof(data[systemid]) !== "undefined") {
-						$('#kills-'+systemid).html(data[systemid].kills.killCount + " (" + data[systemid].kills.gateKillCount + " on gate)");
-						$('#kills-'+systemid).addClass('red').addClass('darken-4');
-					}
-				});
-			});
-		});
-		
-		$("#refresh").click(async function(){
-			$(".btn").addClass('disabled');
-			try {
-				await go_refresh();
-			} catch (error) {
-				alert(error);
-			}
-			$(".btn").removeClass('disabled');
-		});
-	};
-	</script>
 		<!-- JP BASE ABOVE -->
 	<title></title>
 </head>
@@ -706,94 +517,17 @@ $system = $_REQUEST['system'];
 							</div>
 						</div>
 						<div class="content">
-							<div>
-
-<p></p>
-<div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div>
-<div id="loaded" class="container" style="display: none;">
-	<h3>Eve Journey Planner</h3>
-	<div class="row">
-		<div class="input-field col s6"><i class="material-icons prefix">flight_takeoff</i><input type="text" id="fromsystem" class="systems"><label>From System:</label></div>
-		<div class="input-field col s6"><i class="material-icons prefix">flight_land</i><input type="text" id="tosystem" class="systems"><label>To System:</label></div>
-	</div>
-	<div><label>Avoid Systems: </label><div id="avoidsystems"></div></div>
-	<div class="input-field col s12">
-		<select id="shipsize">
-			<option value="1">Small (Destroyer and smaller)</option>
-			<option value="19" selected="selected">Medium (Battlecruiser and smaller)</option>
-			<option value="220">Large (Battleship and smaller)</option>
-			<option value="1000">Very Large (larger than Battleship)</option>
-		</select>
-		<label>Ship Size:</label>
-	</div>
-	<div style="height: 20px;"></div>
-	<div class="row">
-		<div class="col s4">
-			<div class="switch" style="margin-top: 10px;">
-				<label><input type="checkbox" id="excludevoc"><span class="lever"></span>Exclude VOC</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="switch" style="margin-top: 10px;">
-				<label><input type="checkbox" id="excludeeol"><span class="lever"></span>Exclude EOL</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="switch" style="margin-top: 10px;">
-				<label><input type="checkbox" id="excludelowsec"><span class="lever"></span>Exclude Low-sec</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="switch" style="margin-top: 10px;">
-				<label><input type="checkbox" id="excludenullsec"><span class="lever"></span>Exclude Null-sec</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="switch" style="margin-top: 10px;">
-				<label><input type="checkbox" id="excludethera"><span class="lever"></span>Exclude Thera/Eve-Scout</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="switch" style="margin-top: 10px;">
-				<label><input type="checkbox" id="avoidzarzakh" checked><span class="lever"></span>Exclude Zarzakh</label>
-			</div>
-		</div>
-	</div>
-	<div style="margin-top: 20px;">
-		<a class="waves-effect waves-light btn" id="calculate"><i class="material-icons left">route</i>Calculate Path</a>
-		<a class="waves-effect waves-light btn" id="refresh"><i class="material-icons left">sync</i>Refresh Data</a>
-	</div>
-	<div style="height: 15px;"></div>
-	<div class="input-field col s12"><b>Jumps:</b> <span id="jumps"></span></div>
-	<div style="height: 15px;"></div>
-	<div class="input-field col s12"><input type="text" id="pastable"><label>Pastable Route: </label></div>
-	<div style="height: 15px;"></div>
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>System</th>
-					<th>Security</th>
-					<th>Class</th>
-					<th>Signature</th>
-					<th>Life Status</th>
-					<th>Mass Status</th>
-					<th>Jumpable Mass</th>
-					<th>Kills (1 hr)</th>
-				</tr>
-			</thead>
-			<tbody id="result">
-			</tbody>
-		</table>
-	</div>
-	<div style="height: 80px;">&nbsp;</div>
+			
+					
+<div id="JP">
+ <div jp-include="jp.html"></div>  
 </div>
-
-							</div>
+							
 
 						</div>
 					</li>
 			</ul>
+
 		</div>
 
 		<div id="footer">
@@ -1699,6 +1433,7 @@ $system = $_REQUEST['system'];
 	</script>
 
 	<!-- JS Includes -->
+	 
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-ui-1.12.1.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery.tablesorter.combined.min.js"></script>
@@ -1721,13 +1456,46 @@ $system = $_REQUEST['system'];
 		});
 	</script>
 
-	
+
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/moment.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/intro.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/combine.js?v=<?= VERSION ?>"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/app.min.js?v=<?= VERSION ?>"></script>
-	
+	<script src="/wasm_exec.js"></script>
+	<script src="jp.js"></script>
 	<!-- JS Includes -->
+	  <script>
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+ 
+    file = elmnt.getAttribute("jp-include");
+    if (file) {
+
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+    
+          elmnt.removeAttribute("jp-include");
+          includeHTML();
+        }
+      }
+      xhttp.open("GET", file, true);
+      xhttp.send();
+
+      return;
+    }
+  }
+}
+</script> 
+ <script>
+includeHTML();
+</script> 
 </body>
 
 </html>
