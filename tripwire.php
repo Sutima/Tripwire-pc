@@ -40,9 +40,6 @@ $system = $_REQUEST['system'];
 		<!-- JP BASE  -->
 
 
-
-   
-    
 		<!-- JP BASE ABOVE -->
 	<title></title>
 </head>
@@ -507,7 +504,7 @@ $system = $_REQUEST['system'];
 			</li>
 			<li id="journeyWidget" class="gridWidget" data-row="15" data-col="1" data-sizex="24" data-sizey="8" data-min-sizex="5" data-min-sizey="4" style="width: 1250px; height: 470px;">
 						<div class="controls">
-							<span style="text-align: center; color: #CCC;"> Journeyplanner integration</span>
+							<span style="text-align: center; color: #CCC;"> JourneyPlanner settings goes here!</span>
 						<div>
 							
 						</div>
