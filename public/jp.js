@@ -1,7 +1,10 @@
+
+
+    
     const go = new Go();
     WebAssembly.instantiateStreaming(fetch("journey.wasm"), go.importObject).then((result) => {
         go.run(result.instance);
-        startup();
+       
     });
 
 var startup = async function () {
@@ -146,10 +149,10 @@ var startup = async function () {
         chipsContainer.appendChild(chip);
     }
     // When setting up the autocomplete for avoid systems
-const avoidSystemsAutocomplete = setupAutocomplete(chipsInput, systems);
+    const avoidSystemsAutocomplete = setupAutocomplete(chipsInput, systems);
 
-// Add click event listener to the autocomplete list
-avoidSystemsAutocomplete.autocompleteList.addEventListener('click', function(e) {
+    // Add click event listener to the autocomplete list
+    avoidSystemsAutocomplete.autocompleteList.addEventListener('click', function(e) {
     if (e.target && e.target.nodeName === 'DIV') {
         const systemName = e.target.getElementsByTagName('input')[0].value;
         const system = systems.find(s => s.text === systemName);
@@ -163,7 +166,7 @@ avoidSystemsAutocomplete.autocompleteList.addEventListener('click', function(e) 
     $('#loading').css('display', 'none');
     $('#loaded').css('display', 'block');
 
-    $("#calculate").click(async function () {
+    $("#JP_calculate").click(async function () {
         let fromsystem = document.getElementById("fromsystem");
         let tosystem = document.getElementById("tosystem");
         let avoidsystems = Array.from(chipsContainer.children).map(chip => chip.textContent);
@@ -293,9 +296,10 @@ avoidSystemsAutocomplete.autocompleteList.addEventListener('click', function(e) 
         });
     });
 
-    $("#refresh").click(async function () {
+    $("#JP_refresh").click(async function () {
         $(".btn").addClass('disabled');
         try {
+            console.log("Refreshing systems...");
             await go_refresh();
         } catch (error) {
             alert(error);

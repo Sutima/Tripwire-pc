@@ -473,7 +473,7 @@ $system = $_REQUEST['system'];
 						</div>
 						<div id="menuContainer" style="position:absolute">
 							<ul id="chainMenu" class="hidden">
-								<!-- <li data-command="showInfo"><a>Show Info</a> -->
+								<li data-command="showInfo"><a>Show Info</a>
 								<li><a>Navigation</a>
 									<ul style="width: 10em;">
 										<li data-command="setDest"><a>Set Destination</a></li>

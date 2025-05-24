@@ -1,4 +1,4 @@
-div#JP{
+
 
 
 .chips-container {
@@ -13,11 +13,11 @@ div#JP{
     margin-left: 5px;
     cursor: pointer;
 }
-.ui-button,
+/* .ui-button,
 .material-icons {
 
 font-size:15px; 
-}
+} */
 .autocomplete {
     position: relative;
     display: inline-block;
@@ -109,7 +109,7 @@ font-size: 11px;
 
 }
 
- }
+
 
 
 
