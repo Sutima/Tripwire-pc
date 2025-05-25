@@ -64,7 +64,7 @@ $system = $_REQUEST['system'];
 				</span>
 				
 				<span class="align-right">
-					<span style="margin-right: 60px; color:white;" >Use boarderless UI  <input id="alternativeCSS" class=""  type="checkbox"></span>
+					<span style="margin-right: 60px; color:white;" >Use Borderless UI  <input id="alternativeCSS" class=""  type="checkbox"></span>
 					<span id="login">
 						<h3><a id="user" href=""><span id="user-no-track"><?= $_SESSION['characterName'] ?></span><span id="user-track" style="display:none"><i data-icon="follow" data-tooltip="Tracking"></i><span id="user-track-name">...</span></span></a></h3>
 						<div id="panel">
