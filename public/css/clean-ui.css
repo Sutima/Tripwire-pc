@@ -1,0 +1,30 @@
+body,
+#wrapper,
+#container,
+#inner-wrapper,
+div.main,
+#gridster-container 
+{
+    background-color: rgba(0, 0, 0, 0.6) !important; 
+    background-image: none !important; 
+} 
+
+
+.gridster .gs-w {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important; 
+}
+
+
+#journeyWidget, 
+#chainMap       
+{
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#notesWidget {
+    background-color: rgba(0, 0, 0, 0.1) !important; 
+}

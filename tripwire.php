@@ -26,9 +26,9 @@ $system = $_REQUEST['system'];
 	<meta name="app_name" content="<?= APP_NAME ?>">
 	<meta name="version" content="<?= VERSION ?>">
 	<link rel="shortcut icon" href="//<?= CDN_DOMAIN ?>/images/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="/css/jp.css">
+	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jp.css?v=<?= VERSION ?>">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
+	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox-notice.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/gridster.min.css">
@@ -36,11 +36,12 @@ $system = $_REQUEST['system'];
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery-ui-custom.css?v=<?= VERSION ?>">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/introjs.min.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/app.min.css?v=<?= VERSION ?>">
+	<link rel="stylesheet" type="text/css" href="/css/empty.css">
 
-		<!-- JP BASE  -->
+	<!-- JP BASE  -->
 
 
-		<!-- JP BASE ABOVE -->
+	<!-- JP BASE ABOVE -->
 	<title></title>
 </head>
 <?php flush(); ?>
@@ -66,7 +67,9 @@ $system = $_REQUEST['system'];
 						<span id="APItimer" class="hidden"></span>
 					</h3>
 				</span>
+				
 				<span class="align-right">
+					<span style="margin-right: 60px; color:white;" >Use boarderless UI  <input id="alternativeCSS" class=""  type="checkbox"></span>
 					<span id="login">
 						<h3><a id="user" href=""><span id="user-no-track"><?= $_SESSION['characterName'] ?></span><span id="user-track" style="display:none"><i data-icon="follow" data-tooltip="Tracking"></i><span id="user-track-name">...</span></span></a></h3>
 						<div id="panel">
@@ -147,7 +150,7 @@ $system = $_REQUEST['system'];
 						<div class="triangle"></div>
 						<div id="mask-menu-mask-list"></div>
 						<hr class="bar" />
-					<a href="#" id="mask-link">Manage masks</a>
+						<a href="#" id="mask-link">Manage masks</a>
 						<a href="#" id="admin" <?= checkAdmin($_SESSION['mask']) || checkOwner($_SESSION['mask']) ? '' : 'style="display: none"' ?>>Mask Admin</a>
 					</div>
 					<h3> | </h3>
@@ -329,151 +332,14 @@ $system = $_REQUEST['system'];
 						<div id="chainParent" class="content dragscroll">
 							<div style="position: relative; display: table; width: 100%;">
 								<table id="chainGrid">
-									<tr class="top">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td></td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>1</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>2</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>3</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>4</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>5</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>6</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>7</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>8</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>9</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>10</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>11</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>12</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>13</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>14</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>15</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>16</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>17</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>18</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>19</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>20</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>21</td>
-									</tr>
-									<tr class="line hidden">
-										<td></td>
-									</tr>
-									<tr class="space hidden">
-										<td>22</td>
-									</tr>
+									<tr class="top">	<td></td></tr><tr class="space hidden">	<td></td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>1</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>2</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>3</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>4</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>5</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>6</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>7</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>8</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>9</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>10</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>11</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>12</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>13</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>14</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>15</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>16</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>17</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>18</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>19</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>20</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>21</td></tr><tr class="line hidden">	<td></td></tr><tr class="space hidden">	<td>22</td></tr>
 								</table>
 								<div id="chainMap"></div>
 							</div>
 						</div>
 						<div id="menuContainer" style="position:absolute">
 							<ul id="chainMenu" class="hidden">
-								<li data-command="showInfo"><a>Show Info</a>
+								<!-- <li data-command="showInfo"><a>Show Info</a> -->
 								<li><a>Navigation</a>
 									<ul style="width: 10em;">
 										<li data-command="setDest"><a>Set Destination</a></li>
@@ -497,32 +363,147 @@ $system = $_REQUEST['system'];
 								<li data-command="copySystemName"><a id="copySystemNameMenuItem">[Copy system name]</a></li>
 								<li data-command="makeTab"><a id="makeTabMenuItem">[makeTab]</a></li>
 					</li>
-					
+
 
 				</ul>
 			</div>
 			</li>
-			<li id="journeyWidget" class="gridWidget" data-row="15" data-col="1" data-sizex="24" data-sizey="8" data-min-sizex="5" data-min-sizey="4" style="width: 1250px; height: 470px;">
-						<div class="controls">
-							<span style="text-align: center; color: #CCC;"> JourneyPlanner settings goes here!</span>
-						<div>
-							
+			<li id="journeyWidget" class="gridWidget" data-row="15" data-col="1" data-sizex="9" data-sizey="8" data-min-sizex="2" data-min-sizey="3" style="width: 530px; height: 470px;">
+				<div class="controls">
+					<div>
+
+					</div>
+
+					<div style="float: right;">
+						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
+					</div>
+				</div>
+				<div class="content">
+
+					<div id="JP-loader">
+
+						<!-- <div id="JP" jp-include="jp.html"></div> -->
+
+					<div id="JP" >
+
+						<div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div>
+						<div id="loaded" class="container" style="display: none;">
+						<h1>Eve Journey Planner</h1>
+						<p></p>
+						<br><br><br>
+						<h3></h3>
+						<div class="input-field">
+
+							<p>From System:</p>
+
+
+							<i class="material-icons prefix">flight_takeoff</i>
+							<input type="text" id="fromsystem" class="systemslist">
+
 						</div>
 
-							<div style="float: right;">
-								<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
+						<div class="input-field">
+							<p>To System:</p>
+							<i class="material-icons prefix">flight_land</i>
+							<input type="text" id="tosystem" class="systemslist">
+						</div>
+
+						<div class="input-field">
+							<p>Avoid Systems:</p>
+							<i class="material-icons prefix">block</i>
+							<input type="text" id="avoidsystems-input" class="label" placeholder="Add system to avoid">
+							<label for="avoidsystems-input"></label>
+							<div id="avoidsystems-chips" class="chips-container"></div>
+						</div>
+						<div class="input-field">
+							<select id="shipsize">
+								<option value="1">Small (Destroyer and smaller)</option>
+								<option value="19" selected="selected">Medium (Battlecruiser and smaller)</option>
+								<option value="220">Large (Battleship and smaller)</option>
+								<option value="1000">Very Large (larger than Battleship)</option>
+							</select>
+							<label>Ship Size:</label>
+						</div>
+									<div style="height: 20px;"></div>
+							<div class="row">
+								<div class="col s4">
+									<div class="excludeSelector"> Exclude VOC
+										<label class="switch"><input type="checkbox" id="excludevoc"><span
+												class="slider round"></span></label>
+									</div>
+								</div>
+
+
+
+											<div class="col s4">
+									<div class="excludeSelector"> Exclude EOL
+										<label class="switch"><input type="checkbox" id="excludeeol"><span
+												class="slider round"></span></label>
+									</div>
+								</div>
+												<div class="col s4">
+									<div class="excludeSelector"> Exclude Low-sec
+										<label class="switch"><input type="checkbox" id="excludelowsec"><span
+												class="slider round"></span></label>
+									</div>
+								</div>
+								<div class="col s4">
+									<div class="excludeSelector"> Exclude Null-sec
+										<label class="switch"><input type="checkbox" id="excludenullsec"><span
+												class="slider round"></span></label>
+									</div>
+								</div>
+							
+								<div class="col s4">
+									<div class="excludeSelector"> Exclude Thera/Eve-Scout
+										<label class="switch"><input type="checkbox" id="excludethera"><span
+												class="slider round"></span></label>
+									</div>
+								</div>
+								<div class="col s4">
+									<div class="excludeSelector"> Exclude Zarzakh
+										<label class="switch"><input type="checkbox" id="avoidzarzakh" checked><span class="slider round"
+												class="lever"></span></label>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="content">
-			
-					
-<div id="JP">
- <div jp-include="jp.html"></div>  
-</div>
-							
+							<div style="margin-top: 20px;">
+							<button id="JP_calculate" class="btn  ui-button ui-corner-all ui-widget"><i
+									class="material-icons left JP_btn">route</i>Calculate Path</button>
+							<button id="JP_refresh" class="btn ui-button ui-corner-all ui-widget"><i
+									class="material-icons left JP_btn">sync</i>Refresh Data</button>
 
 						</div>
-					</li>
+						<div style="height: 15px;"></div>
+						<div class="input-field col s12"><b>Jumps:</b> <span id="jumps"></span></div>
+						<div style="height: 15px;"></div>
+						<div class="input-field col s12"><input type="text" id="pastable"><label> Pastable Route:</label></div>
+						<div style="height: 15px;"></div>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th>System</th>
+										<th>Security</th>
+										<th>Class</th>
+										<th>Signature</th>
+										<th>Life Status</th>
+										<th>Mass Status</th>
+										<th>Jumpable Mass</th>
+										<th>Kills (1 hr)</th>
+									</tr>
+								</thead>
+								<tbody id="result">
+								</tbody>
+							</table>
+						</div>
+						<div style="height: 80px;">&nbsp;</div>
+						</div>
+					
+					</div><!-- end of jp -->
+
+				</div><!-- end of jp-loader -->
+			</li>
 			</ul>
 
 		</div>
@@ -1430,7 +1411,7 @@ $system = $_REQUEST['system'];
 	</script>
 
 	<!-- JS Includes -->
-	 
+
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery-ui-1.12.1.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jquery.tablesorter.combined.min.js"></script>
@@ -1446,6 +1427,7 @@ $system = $_REQUEST['system'];
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/dragscroll.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/lodash.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 	<!-- Google Charts -->
 	<script type="text/javascript">
 		google.charts.load('current', {
@@ -1458,41 +1440,12 @@ $system = $_REQUEST['system'];
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/intro.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/combine.js?v=<?= VERSION ?>"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/app.min.js?v=<?= VERSION ?>"></script>
-	<script src="/wasm_exec.js"></script>
-	<script src="jp.js"></script>
+	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/wasm_exec.js"></script>
+	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jp.js?v=<?= VERSION ?>"></script>
+	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/cssSwitcher.js"></script>
 	<!-- JS Includes -->
-	  <script>
-function includeHTML() {
-  var z, i, elmnt, file, xhttp;
 
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
- 
-    file = elmnt.getAttribute("jp-include");
-    if (file) {
-
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-    
-          elmnt.removeAttribute("jp-include");
-          includeHTML();
-        }
-      }
-      xhttp.open("GET", file, true);
-      xhttp.send();
-
-      return;
-    }
-  }
-}
-</script> 
- <script>
-includeHTML();
-</script> 
+	
 </body>
 
 </html>

@@ -1,104 +1,113 @@
-	<p></p>
-<div id="JP">
-    
-<div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div>
-<div id="loaded" class="container" style="display: none;">
-	<h1>Eve Journey Planner</h1>
-    <p></p>
-    <br><br><br>
-    <h3></h3>
-	<div class="input-field">
+	<div id="JP">
 
-        <p>From System:</p>
+		<div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div>
+		<div id="loaded" class="container" style="display: none;">
+		<h1>Eve Journey Planner</h1>
+		<p></p>
+		<br><br><br>
+		<h3></h3>
+		<div class="input-field">
 
-            
-            <i class="material-icons prefix">flight_takeoff</i>
-            <input type="text" id="fromsystem" class="systemslist">
+			<p>From System:</p>
 
-        </div>
-        
-		<div  class="input-field">
-           <p>To System:</p>
-            <i class="material-icons prefix">flight_land</i>
-            <input type="text" id="tosystem" class="systemslist">
-        </div>
 
-	<div class="input-field">
-        <p>Avoid Systems:</p>
-    <input type="text" id="avoidsystems-input" class="label" placeholder="Add system to avoid">
-    <label for="avoidsystems-input"></label>
-    <div id="avoidsystems-chips" class="chips-container"></div>
-</div>
-	<div class="input-field">
-		<select id="shipsize">
-			<option value="1">Small (Destroyer and smaller)</option>
-			<option value="19" selected="selected">Medium (Battlecruiser and smaller)</option>
-			<option value="220">Large (Battleship and smaller)</option>
-			<option value="1000">Very Large (larger than Battleship)</option>
-		</select>
-		<label>Ship Size:</label>
+			<i class="material-icons prefix">flight_takeoff</i>
+			<input type="text" id="fromsystem" class="systemslist">
+
+		</div>
+
+		<div class="input-field">
+			<p>To System:</p>
+			<i class="material-icons prefix">flight_land</i>
+			<input type="text" id="tosystem" class="systemslist">
+		</div>
+
+		<div class="input-field">
+			<p>Avoid Systems:</p>
+			<i class="material-icons prefix">block</i>
+			<input type="text" id="avoidsystems-input" class="label" placeholder="Add system to avoid">
+			<label for="avoidsystems-input"></label>
+			<div id="avoidsystems-chips" class="chips-container"></div>
+		</div>
+		<div class="input-field">
+			<select id="shipsize">
+				<option value="1">Small (Destroyer and smaller)</option>
+				<option value="19" selected="selected">Medium (Battlecruiser and smaller)</option>
+				<option value="220">Large (Battleship and smaller)</option>
+				<option value="1000">Very Large (larger than Battleship)</option>
+			</select>
+			<label>Ship Size:</label>
+		</div>
+		<div style="height: 20px;"></div>
+		<div class="row">
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude VOC
+					<label class="switch"><input type="checkbox" id="excludevoc"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Low-sec
+					<label class="switch"><input type="checkbox" id="excludelowsec"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Thera/Eve-Scout
+					<label class="switch"><input type="checkbox" id="excludethera"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+
+						<div class="col s4">
+				<div class="excludeSelector"> Exclude EOL
+					<label class="switch"><input type="checkbox" id="excludeeol"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Null-sec
+					<label class="switch"><input type="checkbox" id="excludenullsec"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Zarzakh
+					<label class="switch"><input type="checkbox" id="avoidzarzakh" checked><span class="slider round"
+							class="lever"></span></label>
+				</div>
+			</div>
+		</div>
+		<div style="margin-top: 20px;">
+			<button id="JP_calculate" class="btn  ui-button ui-corner-all ui-widget"><i
+					class="material-icons left JP_btn">route</i>Calculate Path</button>
+			<button id="JP_refresh" class="btn ui-button ui-corner-all ui-widget"><i
+					class="material-icons left JP_btn">sync</i>Refresh Data</button>
+
+		</div>
+		<div style="height: 15px;"></div>
+		<div class="input-field col s12"><b>Jumps:</b> <span id="jumps"></span></div>
+		<div style="height: 15px;"></div>
+		<div class="input-field col s12"><input type="text" id="pastable"><label> Pastable Route:</label></div>
+		<div style="height: 15px;"></div>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>System</th>
+						<th>Security</th>
+						<th>Class</th>
+						<th>Signature</th>
+						<th>Life Status</th>
+						<th>Mass Status</th>
+						<th>Jumpable Mass</th>
+						<th>Kills (1 hr)</th>
+					</tr>
+				</thead>
+				<tbody id="result">
+				</tbody>
+			</table>
+		</div>
+		<div style="height: 80px;">&nbsp;</div>
 	</div>
-	<div style="height: 20px;"></div>
-	<div class="row">
-		<div class="col s4">
-			<div class="excludeSelector">
-				<label><input type="checkbox" id="excludevoc"><span></span>Exclude VOC</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="excludeSelector">
-				<label><input type="checkbox" id="excludeeol"><span></span>Exclude EOL</label>
-			</div>
-		</div>
-
-		<div >
-			<div class="excludeSelector">
-				<label><input type="checkbox" id="excludelowsec"><span ></span>Exclude Low-sec</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="excludeSelector">
-				<label><input type="checkbox" id="excludenullsec"><span></span>Exclude Null-sec</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="excludeSelector">
-				<label><input type="checkbox" id="excludethera"><span></span>Exclude Thera/Eve-Scout</label>
-			</div>
-		</div>
-		<div class="col s4">
-			<div class="excludeSelector">
-				<label><input type="checkbox" id="avoidzarzakh" checked><span class="lever"></span>Exclude Zarzakh</label>
-			</div>
-		</div>
-	</div>
-	<div style="margin-top: 20px;">
-		<button id="calculate" class="btn ui-button ui-corner-all ui-widget"><i class="material-icons left">route</i>Calculate Path</button>
-		<button id="refresh" class="btn ui-button ui-corner-all ui-widget"><i class="material-icons left">sync</i>Refresh Data</button>
-
-	</div>
-	<div style="height: 15px;"></div>
-	<div class="input-field col s12"><b>Jumps:</b> <span id="jumps"></span></div>
-	<div style="height: 15px;"></div>
-	<div class="input-field col s12"><input type="text" id="pastable"><label>Pastable Route: </label></div>
-	<div style="height: 15px;"></div>
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>System</th>
-					<th>Security</th>
-					<th>Class</th>
-					<th>Signature</th>
-					<th>Life Status</th>
-					<th>Mass Status</th>
-					<th>Jumpable Mass</th>
-					<th>Kills (1 hr)</th>
-				</tr>
-			</thead>
-			<tbody id="result">
-			</tbody>
-		</table>
-	</div>
-	<div style="height: 80px;">&nbsp;</div>
-</div>

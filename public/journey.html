@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="systemID" content="">
+	<title>Eve Journey Planner</title>
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+	<style>
+		body {
+			background-color: #222;
+		}
+
+		:root[theme='dark'] {
+			--background-color: #121212;
+			--surface-color: #242424;
+
+			--font-color-main: rgba(255, 255, 255, 0.87);
+			--font-color-medium: rgba(255, 255, 255, 0.60);
+			--font-color-disabled: rgba(255, 255, 255, 0.38);
+
+			--font-on-primary-color-main: rgba(0, 0, 0, 0.87);
+			--font-on-primary-color-dark-main: rgba(255, 255, 255, 0.87);
+			--font-on-primary-color-dark-medium: rgba(255, 255, 255, 0.60);
+			--font-on-primary-color-medium: rgba(0, 0, 0, 0.56);
+			--font-on-primary-color-disabled: rgba(0, 0, 0, 0.38);
+
+			--hover-color: rgba(255, 255, 255, 0.04);
+			--focus-color: rgba(255, 255, 255, 0.12);
+			--focus-color-solid: #424242;
+
+			--background-color-disabled: rgba(255, 255, 255, 0.12);
+			--background-color-level-4dp: rgba(255, 255, 255, 0.09);
+			--background-color-level-16dp-solid: #262626;
+			--background-color-card: var(--surface-color);
+			--background-color-slight-emphasis: rgba(255, 255, 255, 0.05);
+
+			--separator-color: #424242;
+			/* borders between components */
+
+			--error-color: #CF6679;
+
+			--slider-track-color: rgba(255, 255, 255, 0.26);
+			--switch-thumb-off-color: #bababa;
+
+			--primary-color: #B39DDB;
+			--primary-color-dark: #9575CD;
+			--primary-color-numeric: 179, 157, 219;
+			--primary-color-raised-hover-solid: #C2ACEA;
+			--primary-color-raised-focus-solid: #DBC5FF;
+
+			--secondary-color: #CDDC39;
+			--secondary-color-hover-solid: #DCEB48;
+			--secondary-color-focus-solid: #F5FF61;
+			--secondary-container-color: #B39DDB;
+			--font-on-secondary-container-color: rgba(255, 255, 255, 0.87);
+
+			--md_sys_color_on-surface: 230, 225, 229;
+		}
+	</style>
+
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+	<link rel="stylesheet" type="text/css" href="css/jquery.duration-picker.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.jbox.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.jbox-notice.css">
+	<link rel="stylesheet" type="text/css" href="css/gridster.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.12.1.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui-custom.css">
+	<link rel="stylesheet" type="text/css" href="css/introjs.min.css">
+	<link rel="stylesheet" type="text/css" href="css/app.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jp.css">
+
+
+</head>
+
+<body>
+	<p></p>
+	<div id="JP">
+
+		<!-- <div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div> -->
+		<!-- <div id="loaded" class="container" style="display: none;"> -->
+		<h1>Eve Journey Planner</h1>
+		<p></p>
+		<br><br><br>
+		<h3></h3>
+		<div class="input-field">
+
+			<p>From System:</p>
+
+
+			<i class="material-icons prefix">flight_takeoff</i>
+			<input type="text" id="fromsystem" class="systemslist">
+
+		</div>
+
+		<div class="input-field">
+			<p>To System:</p>
+			<i class="material-icons prefix">flight_land</i>
+			<input type="text" id="tosystem" class="systemslist">
+		</div>
+
+		<div class="input-field">
+			<p>Avoid Systems:</p>
+			<i class="material-icons prefix">block</i>
+			<input type="text" id="avoidsystems-input" class="label" placeholder="Add system to avoid">
+			<label for="avoidsystems-input"></label>
+			<div id="avoidsystems-chips" class="chips-container"></div>
+		</div>
+		<div class="input-field">
+			<select id="shipsize">
+				<option value="1">Small (Destroyer and smaller)</option>
+				<option value="19" selected="selected">Medium (Battlecruiser and smaller)</option>
+				<option value="220">Large (Battleship and smaller)</option>
+				<option value="1000">Very Large (larger than Battleship)</option>
+			</select>
+			<label>Ship Size:</label>
+		</div>
+		<div style="height: 20px;"></div>
+		<div class="row">
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude VOC
+					<label class="switch"><input type="checkbox" id="excludevoc"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+
+
+
+						<div class="col s4">
+				<div class="excludeSelector"> Exclude EOL
+					<label class="switch"><input type="checkbox" id="excludeeol"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+							<div class="col s4">
+				<div class="excludeSelector"> Exclude Low-sec
+					<label class="switch"><input type="checkbox" id="excludelowsec"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Null-sec
+					<label class="switch"><input type="checkbox" id="excludenullsec"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+		
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Thera/Eve-Scout
+					<label class="switch"><input type="checkbox" id="excludethera"><span
+							class="slider round"></span></label>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="excludeSelector"> Exclude Zarzakh
+					<label class="switch"><input type="checkbox" id="avoidzarzakh" checked><span class="slider round"
+							class="lever"></span></label>
+				</div>
+			</div>
+		</div>
+		<div style="margin-top: 20px;">
+			<button id="JP_calculate" class="btn  ui-button ui-corner-all ui-widget"><i
+					class="material-icons left JP_btn">route</i>Calculate Path</button>
+			<button id="JP_refresh" class="btn ui-button ui-corner-all ui-widget"><i
+					class="material-icons left JP_btn">sync</i>Refresh Data</button>
+
+		</div>
+		<input type="checkbox" id="journeyShowAll"  />	
+		<div style="height: 15px;"></div>
+		<div class="input-field col s12"><b>Jumps:</b> <span id="jumps"></span></div>
+		<div style="height: 15px;"></div>
+		<div class="input-field col s12"><input type="text" id="pastable"><label> Pastable Route:</label></div>
+		<input type="text">
+
+<p>Write something in the input field, and then press enter or click outside the field.</p>
+		<div style="height: 15px;"></div>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>System</th>
+						<th>Security</th>
+						<th>Class</th>
+						<th>Signature</th>
+						<th>Life Status</th>
+						<th>Mass Status</th>
+						<th>Jumpable Mass</th>
+						<th>Kills (1 hr)</th>
+					</tr>
+				</thead>
+				<tbody id="result">
+				</tbody>
+			</table>
+		</div>
+		
+		<div style="height: 80px;">&nbsp;</div>
+	</div>
+
+
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<!-- <script type="text/javascript" src="js/jquery-ui-1.12.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.tablesorter.combined.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ui-contextmenu.min.js"></script>
+	<script type="text/javascript" src="js/jquery.plugin.min.js"></script>
+	<script type="text/javascript" src="js/jquery.countdown.js"></script>
+	<script type="text/javascript" src="js/jquery.gridster.min.js"></script>
+	<script type="text/javascript" src="js/jquery.knob.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jbox-0.4.9.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jbox-notice-0.4.9.min.js"></script>
+	<script type="text/javascript" src="js/jquery.duration-picker.js"></script>
+	<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="js/dragscroll.js"></script>
+	<script type="text/javascript" src="js/lodash.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+	<script type="text/javascript" src="js/intro.min.js"></script> -->
+	<!-- <script type="text/javascript" src="js/combine.js"></script> -->
+	<!-- <script type="text/javascript" src="js/app.min.js"></script> -->
+	<script src="wasm_exec.js"></script>
+	<script type="text/javascript" src="jp.js"></script>
+
+
+</body>
+
+</html>
