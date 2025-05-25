@@ -36,12 +36,7 @@ $system = $_REQUEST['system'];
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery-ui-custom.css?v=<?= VERSION ?>">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/introjs.min.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/app.min.css?v=<?= VERSION ?>">
-	<link rel="stylesheet" type="text/css" href="/css/empty.css">
-
-	<!-- JP BASE  -->
-
-
-	<!-- JP BASE ABOVE -->
+	<link rel="stylesheet" type="text/css" href="/css/empty.css?v=<?= VERSION ?>">
 	<title></title>
 </head>
 <?php flush(); ?>
@@ -381,9 +376,6 @@ $system = $_REQUEST['system'];
 				<div class="content">
 
 					<div id="JP-loader">
-
-						<!-- <div id="JP" jp-include="jp.html"></div> -->
-
 					<div id="JP" >
 
 						<div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div>
@@ -1440,9 +1432,9 @@ $system = $_REQUEST['system'];
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/intro.min.js"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/combine.js?v=<?= VERSION ?>"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/app.min.js?v=<?= VERSION ?>"></script>
-	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/wasm_exec.js"></script>
+	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/wasm_exec.js?v=<?= VERSION ?>"></script>
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/jp.js?v=<?= VERSION ?>"></script>
-	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/cssSwitcher.js"></script>
+	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/cssSwitcher.js?v=<?= VERSION ?>"></script>
 	<!-- JS Includes -->
 
 	

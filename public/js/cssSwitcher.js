@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    const defaultCSS = '/css/empty.css';
-    const alternativeCSS = '/css/clean-ui.css';
+    const defaultCSS = '/css/empty.css?v='+version;
+    const alternativeCSS = '/css/clean-ui.css?v='+version;
 
     // Load saved preference
     cssToggle.checked = options.buttons.alternativeCSS === 'true';
