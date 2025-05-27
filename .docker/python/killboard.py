@@ -73,9 +73,9 @@ def process_kill(kill):
             solar_system_id=killmail['solar_system_id'],
             npc=zkb['npc'],
             total_value=zkb['totalValue'],
-            victim_id=victim['character_id'],
-            victim_ship=victim['ship_type_id'],
-            victim_corp=victim['corporation_id'],
+            victim_id=victim.get('character_id'),
+            victim_ship=victim.get('ship_type_id'),
+            victim_corp=victim.get('corporation_id'),
             victim_alliance=victim.get('alliance_id'),
             attacker_id=final_blow_attacker.get('character_id') if final_blow_attacker else None,
             attacker_corp=final_blow_attacker.get('corporation_id') if final_blow_attacker else None,
@@ -97,10 +97,13 @@ def main():
     logging.info("Starting killboard processing")
     while True:
         kill = get_kill_from_redisq()
-        if kill and 'package' in kill:
-            process_kill(kill)
+        if kill:
+            if kill.get('package') is None:
+                time.sleep(5)
+            else:
+                process_kill(kill)
         else:
-            time.sleep(0.1)  
+            time.sleep(0.1) 
 
 if __name__ == '__main__':
     main()
