@@ -13,7 +13,7 @@ var options = new function() {
 	this.masks = {active: init.corporationID + ".2"};
 	this.chain = {gridlines: true, aura: true, lineWeight: 1.0, scrollWithoutCtrl: false, active: 0, tabs: [], "node-reference": "id", "showGatesBridges": true,  zoom: 1.0, sigNameLocation: 'name_prefix', routingLimit: 15, routeSecurity: 'shortest', routeIgnore: { enabled: false, systems: [ 'Tama', 'Rancer' ] }, renderer: 'orgChartTop', nodeSpacing: { x: 1.0, y: 1.0 }, commentFlare: true };
 	this.signatures = {editType: "unknown", copySeparator: ",", pasteLife: 72, alignment: {sigID: "centerAlign", sigType: "centerAlign", sigAge: "centerAlign", leadsTo: "centerAlign", sigLife: "centerAlign", sigMass: "centerAlign"}};
-	this.buttons = {follow: true, chainWidget: {viewing: false, favorites: false}, signaturesWidget: {autoMapper: true}};
+	this.buttons = {follow: true, alternativeCSS: false, chainWidget: {viewing: false, favorites: false}, signaturesWidget: {autoMapper: true}};
 
 	this.saveDelay = function(delay) {
 		if (saveTimer) clearTimeout(saveTimer);
@@ -124,6 +124,7 @@ var options = new function() {
 
 		// Buttons
 		if (this.buttons.follow) $("#follow").addClass("active");
+		if (this.buttons.alternativeCSS) $("#follow").addClass("active");
 		if (this.buttons.chainWidget.home) $("#home").addClass("active");
 		if (this.buttons.chainWidget.kspace) $("#k-space").addClass("active");
 		if (this.buttons.chainWidget.viewing) $("#show-viewing").addClass("active");
