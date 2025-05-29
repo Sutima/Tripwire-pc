@@ -87,7 +87,7 @@
     "Z006": {"life": "5 Hours", "from": [ "Class-1", "Class-2", "Class-3", "Class-4", "Class-5", "Class-6", "Thera" ], "leadsTo": "Class-3", "mass": 3000000000, "jump": 5000000},
     "L005": {"life": "5 Hours", "from": [ "Class-1", "Class-2", "Class-3", "Class-4", "Class-5", "Class-6", "Thera" ], "leadsTo": "Class-2", "mass": 3000000000, "jump": 5000000},
     "E004": {"life": "5 Hours", "from": [ "Class-1", "Class-2", "Class-3", "Class-4", "Class-5", "Class-6", "Thera" ], "leadsTo": "Class-1", "mass": 3000000000, "jump": 5000000},
-    "A009": {"life": "16 Hours", "from": [ "Class-1", "Class-2", "Class-3", "Class-4", "Class-5", "Class-6", "Thera", "Null-Sec" ], "leadsTo": "Class-13", "mass": 3000000000, "jump": 5000000},
+    "A009": {"life": "5 Hours", "from": [ "Class-1", "Class-2", "Class-3", "Class-4", "Class-5", "Class-6", "Thera", "Null-Sec" ], "leadsTo": "Class-13", "mass": 3000000000, "jump": 5000000},
     
     "L031": {"life": "16 Hours", "from": "Null-Sec", "leadsTo": "Thera", "mass": 3000000000, "jump": 1000000000},
     "M164": {"life": "16 Hours", "from": "Low-Sec", "leadsTo": "Thera", "mass": 2000000000, "jump": 1000000000},
