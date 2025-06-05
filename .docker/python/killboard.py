@@ -42,7 +42,7 @@ class Killmail(Base):
     total_attackers = Column(Integer)
 
 def get_kill_from_redisq():
-    url = f'https://redisq.zkillboard.com/listen.php?queueID={queue_id}'
+    url = f'https://zkillredisq.stream/listen.php?queueID={queue_id}'
     try:
         response = requests.get(url)
         response.raise_for_status()

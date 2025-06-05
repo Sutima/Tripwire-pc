@@ -67400,7 +67400,7 @@ var appData = {
             "jump": 5000000
         },
         "A009": {
-            "life": "16 Hours",
+            "life": "5 Hours",
             "from": [
                 "Class-1",
                 "Class-2",
