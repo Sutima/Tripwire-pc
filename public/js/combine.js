@@ -35210,6 +35210,7 @@ var appData = {
             "security": "-0.99",
             "constellationID": 21000334,
             "regionID": 11000033,
+            "factionID": 500027,
             "class": 14,
             "effect": "Red Giant",
             "statics": [
@@ -35226,6 +35227,7 @@ var appData = {
             "security": "-0.99",
             "constellationID": 21000334,
             "regionID": 11000033,
+            "factionID": 500002,
             "class": 15,
             "effect": "Cataclysmic Variable",
             "statics": [
@@ -35242,6 +35244,7 @@ var appData = {
             "security": "-0.99",
             "constellationID": 21000334,
             "regionID": 11000033,
+            "factionID": 500003,
             "class": 16,
             "effect": "Magnetar",
             "statics": [
@@ -35258,6 +35261,7 @@ var appData = {
             "security": "-0.99",
             "constellationID": 21000334,
             "regionID": 11000033,
+            "factionID": 500001,
             "class": 17,
             "effect": "Pulsar",
             "statics": [
@@ -35286,6 +35290,7 @@ var appData = {
             "security": "-0.99",
             "constellationID": 21000334,
             "regionID": 11000033,
+            "factionID": 500026,
             "class": 18,
             "effect": "Wolf-Rayet Star",
             "statics": [
@@ -66276,6 +66281,13 @@ var appData = {
             "constellationID": 24000025,
             "regionID": 14000005,
             "class": 19
+        },
+        "36000001": {
+            "name": "No System Name",
+            "security": "1",
+            "constellationID": 26000001,
+            "regionID": 19000001,
+            "class": 7
         }
     },
     "regions": {
@@ -66614,6 +66626,9 @@ var appData = {
         },
         "14000005": {
             "name": "VR-05"
+        },
+        "19000001": {
+            "name": "No Name"
         }
     },
     "factions": {
@@ -93508,6 +93523,10 @@ var appData = {
             "typeName": "Phoenix Navy Issue",
             "mass": 1270000000
         },
+        "87381": {
+            "typeName": "Sarathiel",
+            "mass": 1130000000
+        },
         "20183": {
             "typeName": "Providence",
             "mass": 900000000
@@ -93955,6 +93974,10 @@ var appData = {
         "47728": {
             "typeName": "GFX Test Vargur 2\/2",
             "mass": 96520000
+        },
+        "88001": {
+            "typeName": "Babaroga",
+            "mass": 143000000
         },
         "28844": {
             "typeName": "Rhea",
