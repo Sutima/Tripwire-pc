@@ -23,7 +23,7 @@ Session = sessionmaker(bind=engine)
 
 class Killmail(Base):
     __tablename__ = 'killmails'
-    
+
     killmail_id = Column(Integer, primary_key=True)
     killmail_hash = Column(String(255))
     killmail_time = Column(DateTime)
@@ -44,9 +44,20 @@ class Killmail(Base):
 def get_kill_from_redisq():
     url = f'https://zkillredisq.stream/listen.php?queueID={queue_id}'
     try:
-        response = requests.get(url)
+        response = requests.get(url, allow_redirects=True)
         response.raise_for_status()
-        return response.json()
+        if 'object.php' in response.url:
+            return response.json()
+        else:
+            logging.warning(f"Unexpected response URL: {response.url}")
+            return None
+    except requests.exceptions.HTTPError as e:
+        if response.status_code == 429:
+            logging.warning("Rate limit exceeded. Waiting before retrying...")
+            time.sleep(1)  # Wait a bit before retrying
+        else:
+            logging.error(f"HTTP Error fetching from RedisQ: {e}")
+        return None
     except requests.RequestException as e:
         logging.error(f"Error fetching from RedisQ: {e}")
         return None
@@ -58,18 +69,15 @@ def process_kill(kill):
         killmail = package['killmail']
         zkb = package['zkb']
         victim = killmail['victim']
-        
+
         # Find the attacker who dealt the final blow
         final_blow_attacker = next((a for a in killmail['attackers'] if a.get('final_blow') == True), None)
-
         # Parse the killmail_time
         killmail_time = datetime.strptime(killmail['killmail_time'], '%Y-%m-%dT%H:%M:%SZ')
-
-
         killmail_obj = Killmail(
             killmail_id=package['killID'],
             killmail_hash=zkb['hash'],
-            killmail_time=killmail_time,  
+            killmail_time=killmail_time,
             solar_system_id=killmail['solar_system_id'],
             npc=zkb['npc'],
             total_value=zkb['totalValue'],
@@ -86,9 +94,8 @@ def process_kill(kill):
         )
         session.merge(killmail_obj)
         session.commit()
-        # logging.info(f"Processed killmail {killmail_obj.killmail_id}")
     except Exception as e:
-        logging.error(f"Error processing kill: {e}") 
+        logging.error(f"Error processing kill: {e}")
         session.rollback()
     finally:
         session.close()
@@ -103,7 +110,7 @@ def main():
             else:
                 process_kill(kill)
         else:
-            time.sleep(0.1) 
+            time.sleep(0.5)  
 
 if __name__ == '__main__':
     main()
