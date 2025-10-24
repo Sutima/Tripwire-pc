@@ -9,9 +9,9 @@ const maskFunctions = {
 				if (response && response.masks) {
 					tripwire.masks = response.masks;
 					maskRendering.update(tripwire.masks);
-					$("#dialog-masks #masks #default").html("");
-					$("#dialog-masks #masks #owned").html("");
-					$("#dialog-masks #masks #invited").html("");
+					$("#dialog-masks #masks #default").text("");
+					$("#dialog-masks #masks #owned").text("");
+					$("#dialog-masks #masks #invited").text("");
 					
 					const iconBar = mask => 
 						'<span class="icon_bar">' +
@@ -71,7 +71,7 @@ const maskFunctions = {
 							// Reset signatures
 							$("#sigTable span[data-age]").countdown("destroy");
 							$("#sigTable tbody").empty()
-							$("#signature-count").html(0);
+							$("#signature-count").text(0);
 							tripwire.signatures.list = {};
 							tripwire.client.signatures = [];
 
@@ -462,7 +462,7 @@ const joinMask = maskID => {
 							return false;
 						}
 
-						$("#EVESearchResults, #searchCount").html("");
+						$("#EVESearchResults, #searchCount").text("");
 						$("#EVEsearch #searchSpinner").show();
 						$("#EVEsearch input[type='submit']").attr("disabled", "disabled");
 						$("#dialog-EVEsearch").parent().find(".ui-dialog-buttonpane button:contains('Add')").attr("disabled", true).addClass("ui-state-disabled");
@@ -508,7 +508,7 @@ const joinMask = maskID => {
 				},
 				close: function() {
 					$("#EVEsearch input[name='name']").val("");
-					$("#EVESearchResults, #searchCount").html("");
+					$("#EVESearchResults, #searchCount").text("");
 				}
 			});
 			

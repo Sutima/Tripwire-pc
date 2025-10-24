@@ -19,7 +19,7 @@ tripwire.active = function(data) {
         if (activity.editComment && $("#commentWrapper .comment[data-id='"+activity.editComment+"'] .cke").length > 0) {
             $("#commentWrapper .comment[data-id='"+activity.editComment+"']")
                 .addClass("editing")
-                .find(".commentStatus").html(data[x].characterName + " is editing").fadeIn();
+                .find(".commentStatus").text(data[x].characterName + " is editing").fadeIn();
         }
     }
 
@@ -38,7 +38,7 @@ tripwire.active = function(data) {
         if ($.inArray($(this).data("id"), editComments) == -1) {
             $("#commentWrapper .editing[data-id='"+$(this).data("id")+"']")
                 .removeClass("editing")
-                .find(".commentStatus").fadeOut(function() {$(this).html("")});
+                .find(".commentStatus").fadeOut(function() {$(this).text("")});
         }
     });
 }

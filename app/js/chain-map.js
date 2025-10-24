@@ -99,7 +99,7 @@ var chain = new function() {
 		// Loop through passed data and show icons
 		for (var x in data) {
 			$("#chainMap [data-nodeid='"+data[x].systemID+"'] [data-icon='user']").removeClass("invisible");
-			$("#chainMap [data-nodeid='"+data[x].systemID+"'] [data-icon='user'] + .badge").removeClass("invisible").html(data[x].count);
+			$("#chainMap [data-nodeid='"+data[x].systemID+"'] [data-icon='user'] + .badge").removeClass("invisible").text(data[x].count);
 		}
 
 		OccupiedToolTips.attach($("#chainMap [data-icon='user']:not(.invisible)"));

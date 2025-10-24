@@ -142,11 +142,11 @@ $(".options").click(function(e) {
 					value: value || 1.0,
 					change: change,
 					slide: function(e, ui) {
-						$("label[for='" + id + "']").html(ui.value);
+						$("label[for='" + id + "']").text(ui.value);
 					}
 				});
 
-				$("label[for='" + id + "']").html($("#" + id).slider("value"));
+				$("label[for='" + id + "']").text($("#" + id).slider("value"));
 			}
 			setUpSlider('uiscale-slider', options.uiscale, function(e, ui) {
 						$("body").css("zoom", ui.value);
@@ -243,7 +243,7 @@ $(".options").click(function(e) {
 						$("#dialog-msg #msg").text("Username changed");
 						$("#dialog-msg").dialog("open");
 
-						$("#dialog-options #username").html(response.result);
+						$("#dialog-options #username").text(response.result);
 
 						$("#dialog-usernameChange").dialog("close");
 					} else if (response && response.error) {
