@@ -62,12 +62,34 @@ def get_kill_from_redisq():
         logging.error(f"Error fetching from RedisQ: {e}")
         return None
 
+def get_killmail_from_esi(esi_url):
+    """Fetch killmail details from ESI API"""
+    try:
+        logging.info(f"Fetching from ESI: {esi_url}")
+        response = requests.get(esi_url)
+        response.raise_for_status()
+        data = response.json()
+        logging.debug(f"ESI Response keys: {data.keys()}")
+        return data
+    except requests.RequestException as e:
+        logging.error(f"Error fetching from ESI API: {e}")
+        return None
+
 def process_kill(kill):
     session = Session()
     try:
         package = kill['package']
-        killmail = package['killmail']
         zkb = package['zkb']
+        
+        # Get killmail details from ESI API
+        esi_url = zkb['href']
+        killmail_data = get_killmail_from_esi(esi_url)
+        
+        if not killmail_data:
+            logging.error("Failed to fetch killmail data from ESI API")
+            return
+        
+        killmail = killmail_data
         victim = killmail['victim']
 
         # Find the attacker who dealt the final blow
