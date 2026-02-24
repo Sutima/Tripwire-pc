@@ -1531,6 +1531,10 @@
         "typeName": "Phoenix Navy Issue",
         "mass": 1270000000
     },
+    "87381": {
+        "typeName": "Sarathiel",
+        "mass": 1130000000
+    },
     "20183": {
         "typeName": "Providence",
         "mass": 900000000
@@ -1978,6 +1982,10 @@
     "47728": {
         "typeName": "GFX Test Vargur 2\/2",
         "mass": 96520000
+    },
+    "88001": {
+        "typeName": "Babaroga",
+        "mass": 143000000
     },
     "28844": {
         "typeName": "Rhea",

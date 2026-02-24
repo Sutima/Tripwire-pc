@@ -294,9 +294,10 @@ if ($mode == 'login') {
 		$userID = $cookie[0];
 		$token = $cookie[1];
 
-		$query = 'SELECT id, username, password, accounts.ban, characterID, characterName, corporationID, corporationName, admin, super, options, token FROM accounts LEFT JOIN tokens ON id = tokens.userID LEFT JOIN preferences ON id = preferences.userID LEFT JOIN characters ON id = characters.userID WHERE id = :userID';
+		$query = 'SELECT id, username, password, accounts.ban, characterID, characterName, corporationID, corporationName, admin, super, options, token FROM accounts INNER JOIN tokens ON id = tokens.userID LEFT JOIN preferences ON id = preferences.userID LEFT JOIN characters ON id = characters.userID WHERE id = :userID and token=:token';
 		$stmt = $mysql->prepare($query);
 		$stmt->bindValue(':userID', $userID);
+		$stmt->bindValue(':token', $token);
 		$stmt->execute();
 
 		if ($account = $stmt->fetchObject()) {

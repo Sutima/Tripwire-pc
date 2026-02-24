@@ -173,6 +173,6 @@ if ($mode == 'create') {
 	}
 }
 
-$output['proccessTime'] = sprintf('%.4f', microtime(true) - $startTime);
+$output['processTime'] = sprintf('%.4f', microtime(true) - $startTime);
 
 echo json_encode($output);

@@ -375,8 +375,8 @@ sigDialog.openSignatureDialog = function(e) {
 				$("#dialog-signature #wormhole").hide();
 
 				// Side labels
-				$("#dialog-signature .sideLabel:first").html(sigDialogVM.viewingSystem.name + " Side");
-				$("#dialog-signature .sideLabel:last").html("Other Side");
+				$("#dialog-signature .sideLabel:first").text(sigDialogVM.viewingSystem.name + " Side");
+				$("#dialog-signature .sideLabel:last").text("Other Side");
 
 				// Default signature life
 				$("#dialog-signature #durationPicker").val(options.signatures.pasteLife * 60 * 60).change();
