@@ -27,7 +27,9 @@ $system = $_REQUEST['system'];
 	<meta name="version" content="<?= VERSION ?>">
 	<link rel="shortcut icon" href="//<?= CDN_DOMAIN ?>/images/favicon.png" />
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jp.css?v=<?= VERSION ?>">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+	<link rel="preconnect" href="https://fonts.bunny.net">
+	<link href="https://fonts.bunny.net/css?family=material-symbols:400" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox-notice.css">
@@ -389,20 +391,20 @@ $system = $_REQUEST['system'];
 							<p>From System:</p>
 
 
-							<i class="material-icons prefix">flight_takeoff</i>
+							<i class="material-symbols material-icons prefix">flight_takeoff</i>
 							<input type="text" id="fromsystem" class="systemslist">
 
 						</div>
 
 						<div class="input-field">
 							<p>To System:</p>
-							<i class="material-icons prefix">flight_land</i>
+							<i class="material-symbols material-icons prefix">flight_land</i>
 							<input type="text" id="tosystem" class="systemslist">
 						</div>
 
 						<div class="input-field">
 							<p>Avoid Systems:</p>
-							<i class="material-icons prefix">block</i>
+							<i class="material-symbols material-icons prefix">block</i>
 							<input type="text" id="avoidsystems-input" class="label" placeholder="Add system to avoid">
 							<label for="avoidsystems-input"></label>
 							<div id="avoidsystems-chips" class="chips-container"></div>
@@ -461,9 +463,9 @@ $system = $_REQUEST['system'];
 							</div>
 							<div style="margin-top: 20px;">
 							<button id="JP_calculate" class="btn  ui-button ui-corner-all ui-widget"><i
-									class="material-icons left JP_btn">route</i>Calculate Path</button>
+									class="material-symbols material-icons left JP_btn">route</i>Calculate Path</button>
 							<button id="JP_refresh" class="btn ui-button ui-corner-all ui-widget"><i
-									class="material-icons left JP_btn">sync</i>Refresh Data</button>
+									class="material-symbols material-icons left JP_btn">sync</i>Refresh Data</button>
 
 						</div>
 						<div style="height: 15px;"></div>
