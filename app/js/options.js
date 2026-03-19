@@ -158,12 +158,12 @@ var options = new function() {
 		$("#dialog-options input[name='mask']").filter("[value='"+this.masks.active+"']").attr("checked", true);
 
 		// Chain tabs
-		$("#chainTabs").html("");
+		$("#chainTabs").text("");
 		for (var x in this.chain.tabs) {
 			if (this.chain.tabs[x]) {
 				var $tab = $("#chainTab .tab").clone();
 
-				$tab.attr("id", x).find(".name").data("tab", this.chain.tabs[x].systemID).html(this.chain.tabs[x].name);
+				$tab.attr("id", x).find(".name").data("tab", this.chain.tabs[x].systemID).text(this.chain.tabs[x].name);
 				if (x == this.chain.active) { $tab.addClass("current"); }
 
 				$("#chainTabs").append($tab);

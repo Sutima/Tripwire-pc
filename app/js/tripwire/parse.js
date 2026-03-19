@@ -83,7 +83,7 @@ tripwire.parse = function(server, mode) {
     // set the sig count in the UI
     var signatureCount = 0;
     $.map(data.signatures, function(signature) {signature.systemID == viewingSystemID ? signatureCount++ : null;});
-    $("#signature-count").html(signatureCount);
+    $("#signature-count").text(signatureCount);
 }
 
 /** Find if there is an unknown return sig. The markup is always generated (in addSignature.js) */

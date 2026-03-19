@@ -15,7 +15,7 @@ $("body").on("click", ".commentEdit", function(e) {
 	$comment.find(".commentToolbar").hide();
 
 	CKEDITOR.replace($comment.find(".commentBody").attr("id"), CKConfig).on("instanceReady", function() {
-		$comment.find(".commentStatus").html("");
+		$comment.find(".commentStatus").text("");
 		$comment.find(".commentFooter").show();
 		$comment.find(".commentFooter .commentControls").show();
 	});
@@ -42,8 +42,8 @@ $("body").on("click", ".commentSave, .commentCancel", function(e) {
 			dataType: "JSON"
 		}).done(function(data) {
 			if (data && data.result == true) {
-				$comment.find(".commentModified").html("Edited by " + data.comment.modifiedByName + " at " + data.comment.modifiedDate);
-				$comment.find(".commentCreated").html("Posted by " + data.comment.createdByName + " at " + data.comment.createdDate);
+				$comment.find(".commentModified").text("Edited by " + data.comment.modifiedByName + " at " + data.comment.modifiedDate);
+				$comment.find(".commentCreated").text("Posted by " + data.comment.createdByName + " at " + data.comment.createdDate);
 				Tooltips.attach($comment.find("[data-tooltip]"));
 
 				CKEDITOR.instances[$comment.find(".commentBody").attr("id")].destroy(false);
@@ -66,7 +66,7 @@ $("body").on("click", ".commentSave, .commentCancel", function(e) {
 		}
 	}
 
-	$comment.find(".commentStatus").html("");
+	$comment.find(".commentStatus").text("");
 
 	delete tripwire.activity.editComment;
 	tripwire.refresh('refresh');

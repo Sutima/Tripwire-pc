@@ -2,6 +2,12 @@ tripwire.comments = function() {
     this.comments.data = {};
 
     this.comments.parse = function(data) {
+		function sanitise(html) {
+			const validTags = [ 'b', 'i', 'em', 'strong', 'font', 's', 'pre', 'span', 'p', 'br', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ];
+			return html.replaceAll(/<\s*(\/?)\s*(\w+)([^>]*)>/g, (match, p0, p1, p2) => validTags.indexOf(p1) >= 0 ? match : '') // remove bad tags (especially <script> but default to not allowing anything new we don't know
+				.replaceAll(/(on\w+)=/g, 'x_$1='); // remove JS event handlers
+		}
+		
         for (var x in data) {
             var id = data[x].id;
 
@@ -14,15 +20,15 @@ tripwire.comments = function() {
                 $comment.attr("data-id", id);
 
                 try {
-                    $comment.find(".commentBody").html(data[x].comment);
+                    $comment.find(".commentBody").html(sanitise(data[x].comment));
                 } catch (err) {
                     $comment.find(".commentFooter").show();
                     $comment.find(".commentStatus").html("<span class='critical'>" + err.constructor.name + ": " + err.message + "</span>");
                     $comment.find(".commentFooter .commentControls").hide();
                 }
 
-                $comment.find(".commentModified").html("Edited by " + data[x].modifiedByName + " at " + data[x].modified);
-                $comment.find(".commentCreated").html("Posted by " + data[x].createdByName + " at " + data[x].created);
+                $comment.find(".commentModified").text("Edited by " + data[x].modifiedByName + " at " + data[x].modified);
+                $comment.find(".commentCreated").text("Posted by " + data[x].createdByName + " at " + data[x].created);
                 $comment.find(".commentBody").attr("id", "comment" + commentID);
                 $comment.find(".commentSticky").addClass(data[x].sticky ? "active" : "");
                 $comment.removeClass("hidden");
@@ -33,14 +39,14 @@ tripwire.comments = function() {
                 var $comment = $(".comment[data-id='"+id+"']");
 
                 try {
-                    $comment.find(".commentBody").html(data[x].comment);
+                    $comment.find(".commentBody").html(sanitise(data[x].comment));
                 } catch (err) {
                     $comment.find(".commentFooter").show();
                     $comment.find(".commentStatus").html("<span class='critical'>" + err.constructor.name + ": " + err.message + "</span>");
                     $comment.find(".commentFooter .commentControls").hide();
                 }
 
-                $comment.find(".commentModified").html("Edited by " + data[x].modifiedByName + " at " + data[x].modified);
+                $comment.find(".commentModified").text("Edited by " + data[x].modifiedByName + " at " + data[x].modified);
                 $comment.find(".commentSticky").addClass(data[x].sticky ? "active" : "");
 
                 //tripwire.comments.data[id] = data[id];

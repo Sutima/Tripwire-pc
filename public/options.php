@@ -21,17 +21,16 @@ if(!isset($_SESSION['userID'])) {
 
 require_once('../config.php');
 require_once('../db.inc.php');
+require_once('../lib.inc.php');
 
 header('Content-Type: application/json');
 
 $userID = $_SESSION['userID'];
 $mode = isset($_REQUEST['mode'])?$_REQUEST['mode']:null;
-$options = isset($_REQUEST['options'])?$_REQUEST['options']:null;
 $password = isset($_REQUEST['password'])?$_REQUEST['password']:null;
 $confirm = isset($_REQUEST['confirm'])?$_REQUEST['confirm']:null;
 $username = isset($_REQUEST['username'])?$_REQUEST['username']:null;
 $old_username = isset($_REQUEST['username'])?$_SESSION['username']:null;
-$mask = isset($_REQUEST['mask'])?$_REQUEST['mask']:null;
 $output = null;
 
 if ($mode == 'get') {
@@ -45,15 +44,22 @@ if ($mode == 'get') {
 		$output['options'] = json_decode($row->options);
 
 } else if ($mode == 'set') {
+	$optionsJson = isset($_REQUEST['options'])?$_REQUEST['options']:null;
+	$options = @json_decode($optionsJson);
+	if(!$options) { http_response_code(400); die('Invalid options'); }
+	$attemptedNewMask = $options->masks->active ?? $_SESSION['corporationID'] .'.2';
+	$options->masks->active = verifyMask($attemptedNewMask);
+	$output['options'] = $options;
+	
 	$query = 'INSERT INTO preferences (userID, options) VALUES (:userID, :options) ON DUPLICATE KEY UPDATE options = :options';
 	$stmt = $mysql->prepare($query);
 	$stmt->bindValue(':userID', $userID);
-	$stmt->bindValue(':options', $options);
+	$stmt->bindValue(':options', json_encode($options));
 
 	if ($output['result'] = $stmt->execute()) {
-		$_SESSION['options'] = json_decode($options);
+		$_SESSION['options'] = $options;
 
-		$_SESSION['mask'] = @json_decode($options)->masks->active ? json_decode($options)->masks->active : $_SESSION['corporationID'] .'.2';
+		$_SESSION['mask'] = $options->masks->active;
 	}
 }
 
@@ -100,7 +106,7 @@ if ($username && $old_username) {
 	}
 }
 
-$output['proccessTime'] = sprintf('%.4f', microtime(true) - $startTime);
+$output['processTime'] = sprintf('%.4f', microtime(true) - $startTime);
 
 echo json_encode($output);
 
