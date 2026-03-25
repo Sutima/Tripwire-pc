@@ -292,6 +292,7 @@ DROP TABLE IF EXISTS `killmails`;
 /*!40101 SET character_set_client = UTF8MB4 */;
 CREATE TABLE `killmails` (
   `killmail_id` bigint unsigned NOT NULL,
+  `sequence_id` int unsigned NOT NULL,
   `killmail_hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `killmail_time` datetime NOT NULL,
   `solar_system_id` int unsigned NOT NULL,
@@ -309,13 +310,17 @@ CREATE TABLE `killmails` (
   `total_attackers` int unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `uploaded_at` int NULL,
+  `sequence_updated` int NULL,
+
   PRIMARY KEY (`killmail_id`),
   KEY `idx_solar_system` (`solar_system_id`),
+  KEY `idx_sequence_id` (`sequence_id`),
   KEY `idx_victim_id` (`victim_id`),
   KEY `idx_attacker_id` (`attacker_id`),
   KEY `idx_killmail_time` (`killmail_time`),
   KEY `idx_npc` (`npc`),
-  KEY `killmail_hash` (`killmail_hash`)
+  KEY `idx_killmail_hash` (`killmail_hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -714,26 +719,17 @@ BEGIN
 END;;
 DELIMITER ;
 
-DROP EVENT IF EXISTS `UpdateGateLife`;
+DROP EVENT IF EXISTS `deleteKillmails`;
 DELIMITER ;;
-CREATE EVENT `UpdateGateLife`
-ON SCHEDULE EVERY 1 HOUR
-STARTS '2017-01-27 04:24:28'
+CREATE EVENT `deleteKillmails`
+ON SCHEDULE EVERY 3 Day
+STARTS '2024-06-01 00:00:00'
 ON COMPLETION NOT PRESERVE
 ENABLE
 DO
 BEGIN
-  UPDATE signatures s
-  JOIN (
-    SELECT initialID AS id FROM wormholes WHERE type = 'GATE'
-    UNION
-    SELECT secondaryID AS id FROM wormholes WHERE type = 'GATE'
-  ) w ON s.id = w.id
-  SET
-    s.lifeTime = CURRENT_TIMESTAMP,
-    s.lifeLeft = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 259200 SECOND),
-    s.modifiedByName = 'Tripwire',
-    s.modifiedTime = CURRENT_TIMESTAMP;
+  DELETE FROM killmails
+  WHERE killmail_time < NOW() - INTERVAL 14 DAY;
 END;;
 DELIMITER ;
 DROP EVENT IF EXISTS `UpdateGateLife`;

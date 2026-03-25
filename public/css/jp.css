@@ -84,9 +84,14 @@ margin-left: 10px;
 
 }
 
-.material-icons {
+.material-symbols {
     /* font-size: 15px; */
     vertical-align: middle;
+    /* padding-top:10px; */
+    font-family: 'Material Symbols';
+    font-style:normal; 
+    font-weight:400; 
+    font-size: 30px;
 
 }
 
