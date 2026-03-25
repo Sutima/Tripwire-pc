@@ -292,6 +292,7 @@ DROP TABLE IF EXISTS `killmails`;
 /*!40101 SET character_set_client = UTF8MB4 */;
 CREATE TABLE `killmails` (
   `killmail_id` bigint unsigned NOT NULL,
+  `sequence_id` int unsigned NOT NULL,
   `killmail_hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `killmail_time` datetime NOT NULL,
   `solar_system_id` int unsigned NOT NULL,
@@ -309,13 +310,17 @@ CREATE TABLE `killmails` (
   `total_attackers` int unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `uploaded_at` int NULL,
+  `sequence_updated` int NULL,
+
   PRIMARY KEY (`killmail_id`),
   KEY `idx_solar_system` (`solar_system_id`),
+  KEY `idx_sequence_id` (`sequence_id`),
   KEY `idx_victim_id` (`victim_id`),
   KEY `idx_attacker_id` (`attacker_id`),
   KEY `idx_killmail_time` (`killmail_time`),
   KEY `idx_npc` (`npc`),
-  KEY `killmail_hash` (`killmail_hash`)
+  KEY `idx_killmail_hash` (`killmail_hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
