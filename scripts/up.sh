@@ -1,3 +1,3 @@
-docker compose --env-file .env up -d mysql traefik php-fpm
+docker compose --env-file .env up -d mysql traefik php-fpm nginx
 sleep 5
-docker compose --env-file .env up -d nginx adminer killboard
+docker compose --env-file .env up -d  killboard
