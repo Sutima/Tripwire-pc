@@ -9,7 +9,8 @@ var startup = async function () {
         await go_refresh();
         systems = JSON.parse(await go_systems());
     } catch (error) {
-        alert(error);
+        console.error(error);
+        document.querySelector('.JP_loading').innerHTML = "<h4>No systems in map, refresh after adding a connection</h4>";
         return;
     }
 

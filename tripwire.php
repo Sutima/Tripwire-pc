@@ -380,7 +380,7 @@ $system = $_REQUEST['system'];
 					<div id="JP-loader">
 					<div id="JP" >
 
-						<div id="loading" style="margin: 20px;"><h4>Loading ...</h4></div>
+						<div id="loading" class="JP_loading" style="margin: 20px;"><h4>Loading ...</h4></div>
 						<div id="loaded" class="container" style="display: none;">
 						<h1>Eve Journey Planner</h1>
 						<p></p>
