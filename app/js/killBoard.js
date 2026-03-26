@@ -74,7 +74,7 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
       // Victim corporation and alliance
       const victimImageUrls = [{
         url: `https://images.evetech.net/corporations/${kill.victim_corp}/logo?tenant=tranquility&size=32`,
-        link: `https://zkillboard.com/corporation/${kill.victim_corp}`,
+        link: `https://zkillboard.com/corporation/${kill.victim_corp}/`,
         className: 'corporation-logo'
       }];
 
@@ -91,21 +91,21 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
       // Victim portrait
       row.appendChild(createImageCell(
         `https://images.evetech.net/characters/${kill.victim_id}/portrait?tenant=tranquility&size=32`,
-        `https://zkillboard.com/character/${kill.victim_id}`,
+        `https://zkillboard.com/character/${kill.victim_id}/`,
         'victim-portrait' 
       ));
 
       // Victim ship
       row.appendChild(createImageCell(
         `https://images.evetech.net/types/${kill.victim_ship}/render?size=64`,
-        `https://zkillboard.com/kill/${kill.killmail_id}`,
+        `https://zkillboard.com/kill/${kill.killmail_id}/`,
         'victim-image' 
       ));
 
         // Attacker ship
       const attackerShipCell = createImageCell(
         `https://images.evetech.net/types/${kill.attacker_ship}/render?size=64`,
-        `https://zkillboard.com/kill/${kill.killmail_id}`,
+        `https://zkillboard.com/kill/${kill.killmail_id}/`,
         `attacker-image`
       );
 
@@ -133,7 +133,7 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
       // Attacker portrait
       row.appendChild(createImageCell(
         `https://images.evetech.net/characters/${kill.attacker_id}/portrait?tenant=tranquility&size=32`,
-        `https://zkillboard.com/character/${kill.attacker_id}`,
+        `https://zkillboard.com/character/${kill.attacker_id}/`,
         'attacker-portrait' 
       ));
 
@@ -141,7 +141,7 @@ window.loadKillboard = async function(newSystemID, containerSelector = '#killTab
       
       const attackerImageUrls = [{
         url: `https://images.evetech.net/corporations/${kill.attacker_corp}/logo?tenant=tranquility&size=32`,
-        link: `https://zkillboard.com/corporation/${kill.attacker_corp}`,
+        link: `https://zkillboard.com/corporation/${kill.attacker_corp}/`,
         className: 'corporation-logo'
       }];
 
