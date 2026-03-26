@@ -2,9 +2,9 @@
 
 try {
     $mysql = new PDO(
-        'mysql:host=localhost;dbname=tripwire_database;charset=utf8',
-        'username',
-        'password',
+        'mysql:host=mysql;dbname=tripwire_database;charset=utf8',
+        'usernamefromenv',
+        'userpasswordfromenv',
         Array(
             PDO::ATTR_PERSISTENT     => true
         )

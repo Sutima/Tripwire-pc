@@ -3,8 +3,8 @@
 try {
     $mysql = new PDO(
         'mysql:host=mysql;dbname=tripwire_database;charset=utf8',
-        'usernamefromdockercompose',
-        'userpasswordfromdockercompose',
+        'usernamefromenv',
+        'userpasswordfromenv',
         Array(
             PDO::ATTR_PERSISTENT     => true
         )

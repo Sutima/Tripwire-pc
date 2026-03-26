@@ -45,7 +45,7 @@ SSO_CLIENT_ESCAPED=$(printf '%s\n' "$SSO_CLIENT" | sed 's/[&/\]/\\&/g')
 SSO_SECRET_ESCAPED=$(printf '%s\n' "$SSO_SECRET" | sed 's/[&/\]/\\&/g')
 
 # Replace placeholders in db.inc.php
-sed -i -e "s/usernamefromdockercompose/$MYSQL_USER_ESCAPED/g; s/userpasswordfromdockercompose/$MYSQL_PASSWORD_ESCAPED/g" ./db.inc.php
+sed -i -e "s/usernamefromenv /$MYSQL_USER_ESCAPED/g; s/userpasswordfromenv/$MYSQL_PASSWORD_ESCAPED/g" ./db.inc.php
 
 # Replace placeholders in config.php
 sed -i -e "s/\(your domain\|yourdomain\)/$TRDOMAIN/g; s/adminEmail@example.com/$ADM_EMAIL/g; s/client/$SSO_CLIENT/g; s/secret/$SSO_SECRET/g; s/yourdomain/$TRDOMAIN/g" ./config.php
