@@ -110,7 +110,7 @@ var chain = new function() {
 
 	this.flares = function(data) {
 		/*	function for coloring chain map nodes via flares  */
-		//var data = typeof(data) !== "undefined" ? data : this.data.flare
+		//var data = typeof(data) !== "undefined" ? data : this.data.flares;
 		// Remove all current node coloring instead of checking each one
 		$("#chainMap div.node").removeClass("redNode yellowNode greenNode");
 
@@ -158,10 +158,10 @@ var chain = new function() {
 			if(!statics) { return ''; }
 			else if(statics.length > 4) { return '<span class="multi-static">+</span>'; }
 			
-			const shortCodeMap = { 'High-Sec': 'H', 'Low-Sec': 'L', 'Null-Sec': 'N', 'Triglavian':'â–¼',
+			const shortCodeMap = { 'High-Sec': 'H', 'Low-Sec': 'L', 'Null-Sec': 'N', 'Triglavian':'▼',
 				'Class-1': '1', 'Class-2': '2', 'Class-3': '3', 'Class-4': '4', 'Class-5' : 5, 'Class-6': 6
 			};
-			const classMap = { H: 'hisec', L: 'lowsec', N: 'nullsec', 'â–¼': 'triglavian' };
+			const classMap = { H: 'hisec', L: 'lowsec', N: 'nullsec', '▼': 'triglavian' };
 			return statics.map(function(s) {
 				const text = shortCodeMap[appData.wormholes[s].leadsTo];
 				const className = classMap[text] || 'class-' +  text;

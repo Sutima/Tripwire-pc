@@ -116,4 +116,3 @@ $("#admin").click(function(e) {
 		$("#dialog-admin").dialog("open");
 	}
 });
-
