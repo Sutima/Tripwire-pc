@@ -25,31 +25,31 @@ describe('Wormhole analysis', () => {
 		
 		it('Unknown at both sides', () => assert.deepEqual(wormholeAnalysis.eligibleWormholeTypes(undefined, undefined), null));
 		
-		it('Specific system at both sides', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, 30004137)), { from: ['U210'], to: ['X702'] }));	// C3 to LS
-		it('Specific system to type', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, lowsec)), { from: ['U210'], to: ['X702'] }));
+		it('Specific system at both sides', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, 30004137)), { from: ['U210', 'J492'], to: ['X702'] }));	// C3 to LS
+		it('Specific system to type', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, lowsec)), { from: ['U210', 'J492'], to: ['X702'] }));
 		it('Specific system to type (chain format)', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, '2|12354')), { from: ['D845'], to: ['X702'] }));	// C3 to HS
-		it('Type to specific system', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(lowsec, 31001031)), { from: ['X702'], to: ['U210'] }));
+		it('Type to specific system', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(lowsec, 31001031)), { from: ['X702'], to: ['U210', 'J492'] }));
 		it('Type to type', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(6, 4)), { from: ['N766', 'L005'], to: ['Y683', 'M001'] }));	// C4 to C2
 		it('Type to multi-class type', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(6, 13)), { from: ['H900', 'X877', 'C008', 'M001'], to: ['E175', 'X877', 'M001'] }));	// C4 to C4/5
 		it('Type to type - C1 doesn\'t show C13', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(6, 3)), { from: ['P060', 'E004'], to: ['M609', 'M001'] }));	// C4 to C1		
 		describe('Special systems', () => {
-			it('Type to Turnur', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(4, 30002086)), { from: ['A239', 'J377'], to: ['R943'] }));	// C2 to Turnur
+			it('Type to Turnur', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(4, 30002086)), { from: ['A239', 'J377', 'J492'], to: ['R943'] }));	// C2 to Turnur
 			it('Type to Vidette', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(4, 31000003)), { from: [], to: ['D382'] }));	// C2 to Vidette
 		});
 		
 		const c3_to_unknown = { 
-			from: ['K346', 'U210', 'D845', 'A982', 'N770', 'T405', 'N968', 'I182', 'V301', 'Q003', 'G008', 'C008', 'M001', 'Z006', 'L005', 'E004', 'A009', 'F135', 'F216', 'J377'],
+			from: ['K346', 'U210', 'D845', 'A982', 'N770', 'T405', 'N968', 'I182', 'V301', 'Q003', 'G008', 'C008', 'M001', 'Z006', 'L005', 'E004', 'A009', 'F135', 'F216', 'J377', 'J492'],
 			to: ['L477', 'M267', 'C247', 'N968', 'O477', 'O883', 'X702', 'Z006']
 		}
 		it('Specific system to unknown', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, undefined)), c3_to_unknown));
 		it('Type to unknown', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(5, undefined)), c3_to_unknown));
 		it('Unknown to specific system', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(undefined, 31001031)), { from: c3_to_unknown.to, to: c3_to_unknown.from }));
 		
-		it('Specific system to type, passing system objects', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(systemAnalysis.analyse(31001031), systemAnalysis.analyse(lowsec))), { from: ['U210'], to: ['X702'] }));
+		it('Specific system to type, passing system objects', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(systemAnalysis.analyse(31001031), systemAnalysis.analyse(lowsec))), { from: ['U210', 'J492'], to: ['X702'] }));
 		
 		it('Custom data source', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, 30004137, Object.assign({
 			"X987": {"life": "24 Hours", "from": "Class-3", "leadsTo": "Low-Sec", "mass": 3000000000, "jump": 375000000},			
-		}, appData.wormholes))), { from: ['X987', 'U210'], to: ['X702'] }));	// C3 to LS
+		}, appData.wormholes))), { from: ['X987', 'U210', 'J492'], to: ['X702'] }));	// C3 to LS
 		
 		it('Exclusion', () => assert.deepEqual(extractNames(wormholeAnalysis.eligibleWormholeTypes(31001031, 30004137, {
 			"X987": {"life": "24 Hours", "notFrom": "Class-4", "leadsTo": "Low-Sec", "mass": 3000000000, "jump": 375000000}, // check not all exclusions remove it - this should still appear
