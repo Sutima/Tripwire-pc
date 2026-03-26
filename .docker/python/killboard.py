@@ -61,7 +61,18 @@ def get_killmail(sequence_id):
         if response.status_code == 404:
             return None
         response.raise_for_status()
-        return response.json()
+        if 'object.php' in response.url:
+            return response.json()
+        else:
+            logging.warning(f"Unexpected response URL: {response.url}")
+            return None
+    except requests.exceptions.HTTPError as e:
+        if response.status_code == 429:
+            logging.warning("Rate limit exceeded. Waiting before retrying...")
+            time.sleep(1)  # Wait a bit before retrying
+        else:
+            logging.error(f"HTTP Error fetching from RedisQ: {e}")
+        return None
     except requests.RequestException as e:
         if response.status_code == 429:
             logging.warning("Rate limit exceeded. Waiting before retrying...")
