@@ -15,6 +15,12 @@ tripwire.deleteSig = function(key) {
             $(tr).find('span[data-age]').countdown("destroy");
 
             $(this).parent().parent().remove();
+            
+            // Apply sig filter
+            if (typeof signatureTypeFilter !== "undefined") {
+                signatureTypeFilter.update();
+            }
+            
             $("#sigTable").trigger("update");
         });
 }

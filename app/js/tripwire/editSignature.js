@@ -36,6 +36,11 @@ tripwire.editSig = function(edit, disabled) {
     // Destroy the pervious countdown to prevent errors on a non-existant DOM element
     $("#sigTable tr[data-id='"+edit.id+"']").find('span[data-age]').countdown("destroy");
     $("#sigTable tr[data-id='"+edit.id+"']").replaceWith(tr);
+    
+    // Apply signature  filter
+    if (typeof signatureTypeFilter !== "undefined") {
+        signatureTypeFilter.update();
+    }
 
     $("#sigTable").trigger("update");
     // Update counter

@@ -256,3 +256,9 @@ to { -o-transform: rotate(360deg); }
 	-o-filter: blur(1px);
 	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
 }
+.material-symbols {
+
+    font-family: 'Material Symbols';
+
+
+}

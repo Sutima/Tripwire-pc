@@ -917,6 +917,76 @@ function linkSig(sigName) {
 }
 
 // Initialize tablesorter plugin on signaturesWidget table
+// Signature type filter
+var signatureTypeFilter = {
+	hiddenTypes: [],
+	
+	toggle: function(e) {
+		e.preventDefault();
+		$("#signature-type-dropdown").toggle();
+	},
+	
+	update: function() {
+		// Get currently checked types (these are the ones to SHOW, not hide)
+		var showTypes = [];
+		$("#signature-type-options input[type='checkbox']:checked").each(function() {
+			showTypes.push($(this).val());
+		});
+		
+		// Store the types that are currently hidden (not checked)
+		var hiddenTypes = [];
+		$("#signature-type-options input[type='checkbox']").each(function() {
+			if (!$(this).is(":checked")) {
+				hiddenTypes.push($(this).val());
+			}
+		});
+		options.signatures.hiddenTypes = hiddenTypes;
+		options.saveDelay(2000);
+		
+		// Filter rows - hide rows whose type is NOT in the showTypes array
+		$("#sigTable tbody tr").each(function() {
+			var $tr = $(this);
+			var type = $tr.find("td:nth-child(2)").text().trim().toLowerCase();
+			
+			if (hiddenTypes.indexOf(type) === -1) {
+				$tr.show();
+			} else {
+				$tr.hide();
+			}
+		});
+		
+		// Update tablesorter
+		$("#sigTable").trigger("update");
+	},
+	
+	apply: function() {
+		// Load hidden types from options
+		if (options.signatures.hiddenTypes) {
+			signatureTypeFilter.hiddenTypes = options.signatures.hiddenTypes;
+			
+			// Update checkboxes to match stored state
+			$("#signature-type-options input[type='checkbox']").each(function() {
+				var type = $(this).val();
+				if (signatureTypeFilter.hiddenTypes.indexOf(type) > -1) {
+					$(this).prop("checked", false);
+				} else {
+					$(this).prop("checked", true);
+				}
+			});
+		}
+		
+		// Apply the filter
+		signatureTypeFilter.update();
+	}
+};
+
+// Initialize signature type filter
+$("#signature-type-filter").on("click", signatureTypeFilter.toggle);
+$("#signature-type-options input[type='checkbox']").on("change", signatureTypeFilter.update);
+
+// Apply filter on page load
+signatureTypeFilter.apply();
+
 $("#sigTable").tablesorter({
 	sortReset: true,
 	widgets: ['saveSort'],
@@ -1014,3 +1084,4 @@ $("#dialog-confirm").dialog({
 if (window.location.href.indexOf("galileo") != -1) {
 	Notify.trigger("This is the test version of Tripwire.<br/>Please use <a href='https://tripwire.cloud-things.com'>Tripwire</a>")
 }
+
