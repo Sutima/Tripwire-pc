@@ -77,6 +77,11 @@ tripwire.parse = function(server, mode) {
     if (updateSignatureTable) {
         $("#sigTable").trigger("update");
     }
+    
+    // Apply signature filter
+    if (typeof signatureTypeFilter !== "undefined") {
+        signatureTypeFilter.update();
+    }
     tripwire.signatures.list = data.signatures;
 	tripwire.signatures.currentSystem = newSigsInSystem;
 		

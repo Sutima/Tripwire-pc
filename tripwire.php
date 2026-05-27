@@ -66,6 +66,7 @@ $system = $_REQUEST['system'];
 				</span>
 				
 				<span class="align-right">
+
 					<span style="margin-right: 60px; color:white;" >Use Borderless UI  <input id="alternativeCSS" class=""  type="checkbox"></span>
 					<span id="login">
 						<h3><a id="user" href=""><span id="user-no-track"><?= $_SESSION['characterName'] ?></span><span id="user-track" style="display:none"><i data-icon="follow" data-tooltip="Tracking"></i><span id="user-track-name">...</span></span></a></h3>
@@ -209,6 +210,7 @@ $system = $_REQUEST['system'];
 								</div>
 
 								<div id="infoStatics" class="pointer"></div>
+								<div></div>
 
 							</div>
 						</div>
@@ -222,10 +224,25 @@ $system = $_REQUEST['system'];
 							<i id="signature-count" style="font-style: normal; cursor: default;" data-tooltip="Total signature count">0</i>
 							<i id="undo" data-icon="undo" class="disabled" data-tooltip="Undo last signature change"></i>
 							<i id="redo" data-icon="redo" class="disabled" data-tooltip="Redo what was undone"></i>
+							<span>|</span>
+								<span id="signature-type-filter" class="control" data-tooltip="Filter signatures by type"><i class="material-symbols" style="padding-left: 20px;">filter_alt</i>Filter</span>
+								<div id="signature-type-dropdown" class="toggle-panel" style="left: 40px; display: none">
+									<h4>Show/Hide Types</h4>
+									<div id="signature-type-options">
+										<label><input type="checkbox" value="unknown" checked> Unknown</label><br>
+										<label><input type="checkbox" value="combat" checked> Combat</label><br>
+										<label><input type="checkbox" value="ore" checked> Ore</label><br>
+										<label><input type="checkbox" value="data" checked> Data</label><br>
+										<label><input type="checkbox" value="relic" checked> Relic</label><br>
+										<label><input type="checkbox" value="gas" checked> Gas</label>
+
+									</div>
+								</div>
 							<div style="float: right;">
 								<i id="toggle-automapper" class="disabled" data-icon="auto" data-tooltip="Toggle Auto-Mapper"></i>
 								<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>
 							</div>
+
 						</div>
 						<div class="content">
 							<div id="sigTableWrapper">

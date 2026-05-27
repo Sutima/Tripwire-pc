@@ -77,6 +77,12 @@ tripwire.addSig = function(add, option, disabled) {
     Tooltips.attach($(tr).find("[data-tooltip]"));
 
     $("#sigTable").append(tr);
+    
+    // Apply signature  filter 
+
+    if (typeof signatureTypeFilter !== "undefined") {
+        signatureTypeFilter.update();
+    }
 
     // Add counter
     if (wormhole.life == "critical") {
